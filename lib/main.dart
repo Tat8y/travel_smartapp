@@ -1,3 +1,4 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/splash.dart';
 
@@ -17,7 +18,29 @@ class MyApp extends StatelessWidget {
         // This is the theme of your application.
         primarySwatch: Colors.red,
       ),
-      home: const Splash(),
+      home: AnimatedSplashScreen(
+        splash: Icons.home,
+        duration: 3000,
+      // Center(
+      //     child: Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       children: [
+      //         Container(
+      //           height: 100,
+      //           width: 100,
+      //           color: Colors.blue,
+      //         ),
+      //         Container(
+      //           child: const Text(
+      //           'Splash Screen', 
+      //           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold
+      //       ),
+      //      ),
+      //     ),
+      //   ],
+      //  ),
+      //), 
+      nextScreen: MyHomePage(title: 'GFG',)),
     );
   }
 }
