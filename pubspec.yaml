@@ -31,21 +31,39 @@ dependencies:
     sdk: flutter
 
   animated_splash_screen:
+  cached_network_image: ^3.2.1 
+  
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  firebase_auth:
+  google_sign_in:
+  font_awesome_flutter:
+  google_fonts:
+
+
 
 dev_dependencies:
+  flutter_lints: ^1.0.0
+  flutter_native_splash: ^2.2.2
   flutter_test:
     sdk: flutter
   
+
+flutter_native_splash:
+   image: assets/images/splashLogo.png
+   color: "#F6F6F6"
+   height: 1064 px
+   width: 1296 px
+
+
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^1.0.0
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -57,7 +75,8 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  assets:
+    - assets/images/
   # To add assets to your application, add an assets section, like this:
   # assets:
   # - assets/logo_lounchscr.png

@@ -1,47 +1,44 @@
-import 'package:flutter/material.dart';
-import 'package:travel_smartapp/main.dart';
+// import 'package:flutter/material.dart';
+// import 'package:travel_smartapp/main.dart';
 
-class Splash extends StatefulWidget {
-  const Splash ({ Key? key}):super(key: key);
+// import 'login.dart';
 
-  @override
-  State<Splash> createState() => _SplashState();
-}
+// class Splash extends StatefulWidget {
+//   const Splash ({ Key? key}):super(key: key);
 
-class _SplashState extends State<Splash> {
-@override
-void initState() {
-  super.initState();
-  _navigatetohome();
-}
+//   @override
+//   State <Splash> createState() => _SplashState();
+// }
 
-_navigatetohome()async{
-  await Future.delayed(const Duration(milliseconds: 1500), () {});
-  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const MyHomePage(title: 'GFG',)));
-}
+// class _SplashState extends State <Splash> {
+// @override
+// void initState() {
+//   super.initState();
+//   _navigatetohome();
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 100,
-                width: 100,
-                color: Colors.blue,
-              ),
-              Container(
-                child: const Text(
-                'Splash Screen', 
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold
-            ),
-           ),
-          ),
-        ],
-       ),
-      ),
-    );
-  }
-}
+// _navigatetohome()async{
+//   await Future.delayed(const Duration(milliseconds: 4000), () {});
+//   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage(title: 'Login Page',)));
+// }
+
+//   @override
+//   Widget build(BuildContext context) {
+    
+//     return Scaffold(
+//       body: Container(
+//           child: Column(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Image.asset('assets/images/logo_lounchscr.png',
+//               width: 200,
+//               height: 150),
+              
+//               // ignore: avoid_unnecessary_containers
+           
+//         ],
+//        ),
+//       ),
+//     );
+//   }
+// }
