@@ -35,11 +35,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.account_circle, color: Colors.blue),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: const Icon(Icons.account_circle, color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "First Name",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
+          
         ),
       ),
     );
@@ -58,7 +61,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.account_circle, color: Colors.blue),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: const Icon(Icons.account_circle, color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Second Name",
         border: OutlineInputBorder(
@@ -81,7 +86,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.mail, color: Colors.blue),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: const Icon(Icons.mail, color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Email",
         border: OutlineInputBorder(
@@ -104,7 +111,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.vpn_key, color: Colors.blue),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: const Icon(Icons.vpn_key, color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Password",
         border: OutlineInputBorder(
@@ -127,7 +136,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.vpn_key, color: Colors.blue),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: const Icon(Icons.vpn_key, color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
         hintText: "Confirm Password",
         border: OutlineInputBorder(
@@ -143,13 +154,14 @@ final signUpButton = Material(
       color: Colors.orange,
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: 180.0,
+        height: 50.0,
         onPressed: () {},
         child: const Text(
-          "SignUp", 
+          "Sign up", 
           textAlign: TextAlign.center,
           style: TextStyle(
-            fontSize: 20,color: Colors.black, fontWeight: FontWeight.bold),
+            fontSize: 17,color: Colors.black, fontWeight: FontWeight.bold),
          )
         ),
       );
@@ -172,7 +184,7 @@ final signUpButton = Material(
     body: Center(
       child: SingleChildScrollView(
         child: Container(
-          color: const Color.fromARGB(246, 246, 246, 246),
+          color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.all(36.0),
             child: Form(
@@ -183,23 +195,25 @@ final signUpButton = Material(
                 children: <Widget>[
 
                  SizedBox(
-                   height: 150,
-                   child: Image.asset("assets/images/login_logo.png",
+                   height: 125,
+                   child: Image.asset(
+                  "assets/images/login_logo.png",
                    fit: BoxFit.contain,
                  )),
-                 const SizedBox(height: 20),
+                 const SizedBox(height: 30),
+                 const SizedBox(height: 0),
                  firstNameField,
-                 const SizedBox(height: 20),
-                 secondNameField,
-                 const SizedBox(height: 20),
-                 emailField,
-                 const SizedBox(height: 20),
-                 passwordField,
-                 const SizedBox(height: 20),
-                 confirmPasswordField,
-                 const SizedBox(height: 20),
-                 signUpButton,
                  const SizedBox(height: 15),
+                 secondNameField,
+                 const SizedBox(height: 15),
+                 emailField,
+                 const SizedBox(height: 15),
+                 passwordField,
+                 const SizedBox(height: 15),
+                 confirmPasswordField,
+                 const SizedBox(height: 30),
+                 signUpButton,
+                 const SizedBox(height: 100),
 
                  
                 ],

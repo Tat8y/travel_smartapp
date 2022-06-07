@@ -24,7 +24,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    //EMAIL FIELDS
+
+//EMAIL FIELDS
     final emailField = TextFormField(
       autofocus: false,
       controller: emailController,
@@ -36,16 +37,20 @@ class _LoginPageState extends State<LoginPage> {
       },
       textInputAction: TextInputAction.next,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.mail, color: Colors.blue),
-        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: const Icon(Icons.mail, color: Color.fromARGB(255, 155, 157, 158)),
+        contentPadding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
         hintText: "Email",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
+          
         ),
       ),
     );
 
-    //PASSWORD FIELDS
+
+//PASSWORD FIELDS
     final passwordField = TextFormField(
       autofocus: false,
       controller: passwordController,
@@ -58,8 +63,10 @@ class _LoginPageState extends State<LoginPage> {
       },
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.vpn_key, color: Colors.blue),
-        contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+        filled: true,
+        fillColor: Colors.white,
+        prefixIcon: const Icon(Icons.vpn_key, color: Color.fromARGB(255, 155, 157, 158)),
+        contentPadding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
         hintText: "Password",
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
@@ -67,22 +74,29 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
+
+//LOGIN BUTTON
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
       color: Colors.orange,
       child: MaterialButton(
         padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: 180.0,
+        height: 50.0,
+     //   minWidth: MediaQuery.of(context).size.width,
         onPressed: () {
-          Navigator.push(context,MaterialPageRoute(builder: (context) =>
+          Navigator.pushReplacement(
+            context,MaterialPageRoute(builder: (context) =>
              const MyHomePage()));
           // Navigator.push(context, MaterialPageRoute(builder: (context) => 
           // const MyHomePage()));
         },
-        child: const Text("Login", textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: 20,color: Colors.black, fontWeight: FontWeight.bold),
+        child: const Text(
+         "Login",
+         textAlign: TextAlign.center,
+         style: TextStyle(
+          fontSize: 17,color: Colors.black, fontWeight: FontWeight.bold),
          )
         ),
       );
@@ -93,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
     body: Center(
       child: SingleChildScrollView(
         child: Container(
-          color: const Color.fromARGB(246, 246, 246, 246),
+          color: Colors.transparent,
           child: Padding(
             padding: const EdgeInsets.all(36.0),
             child: Form(
@@ -104,21 +118,23 @@ class _LoginPageState extends State<LoginPage> {
                 children: <Widget>[
 
                  SizedBox(
-                   height: 200,
-                   child: Image.asset("assets/images/login_logo.png",
+                   height: 125,
+                   child: Image.asset(
+                     "assets/images/login_logo.png",
                    fit: BoxFit.contain,
                  )),
-                 const SizedBox(height: 20),
-                 emailField,
                  const SizedBox(height: 30),
+                 emailField,
+                 const SizedBox(height: 25),
                  passwordField,
                  const SizedBox(height: 45),
                  loginButton,
-                 const SizedBox(height: 10),
+                 const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget> [
                   const Text("Don't have an account yet?"),
+                  
                   GestureDetector(
                     onTap: () {
                       Navigator.push(context,MaterialPageRoute(builder: (context) =>
@@ -129,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                      style: TextStyle(
                        color: Colors.orange,
                        fontWeight: FontWeight.bold,
-                       fontSize: 15
+                       fontSize: 14
                        ),
                       )
                     ),

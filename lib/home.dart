@@ -26,7 +26,9 @@ class _MyHomePageState extends State<MyHomePage> {
             children: <Widget> [
               SizedBox(
                 height: 150,
-                child: Image.asset("assets/images/login_logo.png", fit: BoxFit.contain),
+                child: Image.asset(
+                  "assets/images/login_logo.png", 
+                  fit: BoxFit.contain),
               ),
               const Text (
                 "Welcome",
