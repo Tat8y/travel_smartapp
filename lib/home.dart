@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:travel_smartapp/models/user_model.dart';
+import 'package:travel_smartapp/login.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key,}) : super(key: key);
@@ -9,6 +13,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+ User? user = FirebaseAuth.instance.currentUser;
+UserModel loggedInUser = UserModel();
+
+@override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+    .collection("users")
+    .doc(user!.uid)
+    .get()
+    .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,14 +55,27 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               const SizedBox(
                 height: 10,),
-                const Text("Name",
-                style: TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
-                )
+                Text("${loggedInUser.firstName} ${loggedInUser.secondName}",
+                style: const TextStyle(
+                  color: Colors.black, 
+                  fontWeight: FontWeight.normal)),
+              const SizedBox(
+                height: 15,
+              ),
+              ActionChip(label: const Text("Logout"), onPressed: () {
+                logout(context);
+              }),   
             ],
           ),
           ),
         ),
       );
+  }
+
+  Future <void> logout(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const LoginPage()));
   }
 }
   

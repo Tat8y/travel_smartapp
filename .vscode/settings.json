@@ -4,10 +4,14 @@
         "ARGB",
         "autofocus",
         "Cupertino",
+        "firestore",
+        "fluttertoast",
         "lounchscr",
         "LTRB",
         "navigatetohome",
         "Schyler",
+        "signup",
+        "singup",
         "smartapp"
     ]
 }

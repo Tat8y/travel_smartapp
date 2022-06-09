@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "847204151340",
+    "project_id": "railwayapp-fd895",
+    "storage_bucket": "railwayapp-fd895.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:847204151340:android:cdf076bbdf724564cae189",
+        "android_client_info": {
+          "package_name": "com.example.travel_smartapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "847204151340-kcga03es4fcti93ornsvpvq8ooqrplub.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.travel_smartapp",
+            "certificate_hash": "b8ca00066c0323f2aaa1ccd915264e9f673269b0"
+          }
+        },
+        {
+          "client_id": "847204151340-muj9jrkmt9lqar86j3mt0s5qclc69krh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY53Iii79y4yZ5XO0UVqyvi2w9PQXLlEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "847204151340-muj9jrkmt9lqar86j3mt0s5qclc69krh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
