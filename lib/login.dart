@@ -1,10 +1,12 @@
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:travel_smartapp/home.dart';
 import 'package:travel_smartapp/registration.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, required String title}) : super(key: key);
+  const LoginPage({Key? key, title}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -12,24 +14,37 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-   //FORM KEY
+//FORM KEY
    final _formKey = GlobalKey<FormState>();
 
 
-   // EDITING CONTROLLER
+// EDITING CONTROLLER
    final TextEditingController emailController = new TextEditingController();
    final TextEditingController passwordController = new TextEditingController();
 
 
+//FIREBASE
+final _auth = FirebaseAuth.instance;
+
 
   @override
   Widget build(BuildContext context) {
-
 //EMAIL FIELDS
     final emailField = TextFormField(
       autofocus: false,
       controller: emailController,
       keyboardType: TextInputType.emailAddress,
+      validator: (value) {
+        if(value!.isEmpty) {
+          return ("Please Enter Your Email");
+        }
+        //Reg expression for email validation
+        if(!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+        .hasMatch(value)) {
+          return ("Please Enter a valid email");
+        }
+        return null;
+      },
       //VALIDATOR: () {},
       onSaved: (value)
       {
@@ -55,10 +70,19 @@ class _LoginPageState extends State<LoginPage> {
       autofocus: false,
       controller: passwordController,
       obscureText: true,
-
-      //VALIDATOR: () {},
-      onSaved: (value)
-      {
+      validator: (value) {
+        RegExp regex = RegExp(r'^.{8,}$');
+        if (value!.isEmpty)
+        {
+          return ("Please enter password to login");
+        }
+        if (!regex.hasMatch(value))
+        {
+          return ("Please Enter Valid Password(Min. 8 Characters)");
+        }
+        return null;
+      },
+      onSaved: (value) {
         passwordController.text = value!;
       },
       textInputAction: TextInputAction.done,
@@ -86,11 +110,11 @@ class _LoginPageState extends State<LoginPage> {
         height: 50.0,
      //   minWidth: MediaQuery.of(context).size.width,
         onPressed: () {
-          Navigator.pushReplacement(
-            context,MaterialPageRoute(builder: (context) =>
-             const MyHomePage()));
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => 
-          // const MyHomePage()));
+          signIn(emailController.text, passwordController.text);
+          // Navigator.pushReplacement(
+          //   context,MaterialPageRoute(builder: (context) =>
+          //    const MyHomePage()));
+
         },
         child: const Text(
          "Login",
@@ -100,7 +124,6 @@ class _LoginPageState extends State<LoginPage> {
          )
         ),
       );
-
 
     return Scaffold(
     backgroundColor: const Color.fromARGB(246, 246, 246, 246),
@@ -160,7 +183,27 @@ class _LoginPageState extends State<LoginPage> {
      ),
     );
   }
+
+// login function
+    void signIn(String email, String password) async {
+      if(_formKey.currentState!.validate()){
+        await _auth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((uid) => {
+            Fluttertoast.showToast(msg: "Login Successful"),
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MyHomePage()))
+        
+      }).catchError((e)
+      {
+        Fluttertoast.showToast(msg: e!.message);
+      });
+  }
+ }
 }
+
+
+
+
 
 // class LoginPage extends StatefulWidget {
 //   const LoginPage({Key? key, required this.title}) : super(key: key);
