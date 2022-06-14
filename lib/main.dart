@@ -27,7 +27,10 @@ class MyApp extends StatelessWidget {
       ),
         
           home:const LoginPage(title:'LoginPage',),
-
+          
+     );
+  }
+}
 
       
       // home: AnimatedSplashScreen(
@@ -46,9 +49,7 @@ class MyApp extends StatelessWidget {
       // // nextScreen: const LoginPage(title: 'Login Page',)
       // nextScreen: const LoginPage(title: 'Home Page',)
       // ),
-    );
-  }
-}
+   
 
 
 

@@ -2,7 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:travel_smartapp/home.dart';
+import 'package:travel_smartapp/profile.dart';
 import 'package:travel_smartapp/registration.dart';
 
 class LoginPage extends StatefulWidget {
@@ -113,7 +113,7 @@ final _auth = FirebaseAuth.instance;
           signIn(emailController.text, passwordController.text);
           // Navigator.pushReplacement(
           //   context,MaterialPageRoute(builder: (context) =>
-          //    const MyHomePage()));
+          //    const ProfilePage()));
 
         },
         child: const Text(
@@ -191,7 +191,7 @@ final _auth = FirebaseAuth.instance;
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
             Fluttertoast.showToast(msg: "Login Successful"),
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const MyHomePage()))
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const ProfilePage()))
         
       }).catchError((e)
       {

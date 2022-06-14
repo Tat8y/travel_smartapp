@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:travel_smartapp/home.dart';
+import 'package:travel_smartapp/profile.dart';
 import 'package:travel_smartapp/models/user_model.dart';
 
 // import 'package:travel_smartapp/main.dart';
@@ -320,7 +320,7 @@ final signUpButton = Material(
 
      Navigator.pushAndRemoveUntil (
      (context),
-     MaterialPageRoute(builder: (context) => const MyHomePage()),
+     MaterialPageRoute(builder: (context) => const ProfilePage()),
      (route) => false);
   }
 }
