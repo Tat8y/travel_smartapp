@@ -31,14 +31,25 @@ dependencies:
   cached_network_image: ^3.2.1
   cloud_firestore: ^3.1.17
   cupertino_icons: ^1.0.2
+
+  faker: ^2.0.0
+  
   firebase_auth: null
   firebase_core: ^1.17.1
   flutter:
     sdk: flutter
+  flutter_google_places: ^0.3.0
+  flutter_typeahead: ^4.0.0
   fluttertoast: ^8.0.9
   font_awesome_flutter: null
+  geocoding: ^2.0.4
+  geolocator: ^8.2.1
+  get: ^4.6.5
   google_fonts: null
+  google_maps_flutter: ^2.1.8
   google_sign_in: null
+  http: any
+  image_gallery_saver: ^1.7.1
 
 dev_dependencies:
   flutter_lints: ^1.0.0

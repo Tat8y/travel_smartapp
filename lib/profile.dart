@@ -1,11 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:get/get.dart';
 import 'package:travel_smartapp/home.dart';
+import 'package:travel_smartapp/location/location_controller.dart';
 import 'package:travel_smartapp/models/user_model.dart';
 import 'package:travel_smartapp/login.dart';
-import 'package:travel_smartapp/train_location.dart';
+import 'package:travel_smartapp/location/train_location.dart';
 import 'package:travel_smartapp/user_profile.dart';
+import 'package:travel_smartapp/home/from_data.dart';
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key,}) : super(key: key);
@@ -14,11 +19,14 @@ class ProfilePage extends StatefulWidget {
   _ProfilePageState createState() => _ProfilePageState();
 }
 
+
 class _ProfilePageState extends State<ProfilePage> {
+  final controllerCity = TextEditingController();
+
   int currentIndex = 0;
   final screens = [
     const HomePage(),
-    const TrainLocationPage(),
+    const MapScreen(),
     const UserProfilePage(),
   ];
 
@@ -40,11 +48,13 @@ UserModel loggedInUser = UserModel();
 
   @override
   Widget build(BuildContext context) {
+    Get.put(LocationController());
     return Scaffold(
       // appBar: AppBar(
       //   title: const Text("Welcome Screen"),
       //   centerTitle: false,
       // ),
+
 
 // BOTTOM NAVIGATION BAR
       body: screens[currentIndex],
@@ -108,7 +118,35 @@ UserModel loggedInUser = UserModel();
       //     ),
       //     ),
       //   ),
+
+
       );
+  }
+
+  
+
+  Widget buildCity() => TypeAheadFormField<String?>(
+        textFieldConfiguration: TextFieldConfiguration(
+         controller: controllerCity,
+         decoration: const InputDecoration(
+          labelText: 'From',
+          border: OutlineInputBorder(),
+         ),
+        ),
+        suggestionsCallback: FromData.getSuggestions,
+        itemBuilder: (context, String? suggestion) => ListTile(
+          title: Text(suggestion!),
+        ),
+       onSuggestionSelected: (String? suggestion) =>
+          controllerCity.text = suggestion!, 
+     );
+
+
+
+  // Widget buildSubmit(BuildContext context) => ButtonWidget(
+  //      text: 'Submit',
+  //      onClicked: ()  {},
+  // );
   }
 
   Future <void> logout(BuildContext context) async {
@@ -118,6 +156,6 @@ UserModel loggedInUser = UserModel();
 
 
   }
-}
+
   
 

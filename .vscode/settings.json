@@ -6,12 +6,16 @@
         "Cupertino",
         "firestore",
         "fluttertoast",
+        "geolocator",
         "lounchscr",
         "LTRB",
         "navigatetohome",
+        "Placemark",
         "Schyler",
         "signup",
         "singup",
-        "smartapp"
+        "smartapp",
+        "typeahead",
+        "webservice"
     ]
 }
