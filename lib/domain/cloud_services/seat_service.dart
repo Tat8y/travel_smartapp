@@ -8,7 +8,7 @@ class SeatService implements CloudProvider<Seat, List<Seat>> {
   SeatService(this.provider);
 
   factory SeatService.firebase() => SeatService(
-        FirebaseCloudProvider(usersCollection),
+        FirebaseCloudProvider(seatsCollection),
       );
 
   @override
