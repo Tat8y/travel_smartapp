@@ -1,2 +1,3 @@
-const String userCollection = 'users';
-const String trainCollection = 'trains';
+const String usersCollection = 'users';
+const String trainsCollection = 'trains';
+const String stationsCollection = 'stations';

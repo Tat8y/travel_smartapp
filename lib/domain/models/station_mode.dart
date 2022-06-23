@@ -9,7 +9,7 @@ class TrainStation {
   TrainStation({this.id, this.name});
 
   /// TrainStation data from [FirebaseFirestore] Server
-  factory TrainStation.fromMap(QueryDocumentSnapshot map) => TrainStation(
+  factory TrainStation.fromMap(DocumentSnapshot map) => TrainStation(
         id: map.id,
         name: map[nameFeild],
       );

@@ -8,7 +8,7 @@ class UserService implements CloudProvider<UserModel, List<UserModel>> {
   UserService(this.provider);
 
   factory UserService.firebase() => UserService(
-        FirebaseCloudProvider(userCollection),
+        FirebaseCloudProvider(usersCollection),
       );
 
   @override

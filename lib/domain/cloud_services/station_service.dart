@@ -1,19 +1,20 @@
 import 'package:travel_smartapp/domain/cloud/cloud_constatnts.dart';
 import 'package:travel_smartapp/domain/cloud/cloud_provider.dart';
 import 'package:travel_smartapp/domain/cloud/firebase_service.dart';
-import 'package:travel_smartapp/domain/models/train_model.dart';
+import 'package:travel_smartapp/domain/models/station_mode.dart';
 
-class TrainService implements CloudProvider<Train, List<Train>> {
+class StationService
+    implements CloudProvider<TrainStation, List<TrainStation>> {
   final CloudProvider provider;
-  TrainService(this.provider);
+  StationService(this.provider);
 
-  factory TrainService.firebase() => TrainService(
-        FirebaseCloudProvider(trainsCollection),
+  factory StationService.firebase() => StationService(
+        FirebaseCloudProvider(stationsCollection),
       );
 
   @override
-  Future<Train> create(Map<String, dynamic> map) async {
-    return Train.fromMap(await provider.create(map));
+  Future<TrainStation> create(Map<String, dynamic> map) async {
+    return TrainStation.fromMap(await provider.create(map));
   }
 
   @override
@@ -28,14 +29,14 @@ class TrainService implements CloudProvider<Train, List<Train>> {
   }
 
   @override
-  Stream<List<Train>> readCollection() {
+  Stream<List<TrainStation>> readCollection() {
     final snapshots = provider.readCollection() as Stream<CollectionRef>;
 
     return snapshots.map((snapshot) {
-      List<Train> retVal = [];
+      List<TrainStation> retVal = [];
 
       for (var element in snapshot.docs) {
-        retVal.add(Train.fromMap(element));
+        retVal.add(TrainStation.fromMap(element));
       }
 
       return retVal;
@@ -43,7 +44,7 @@ class TrainService implements CloudProvider<Train, List<Train>> {
   }
 
   @override
-  Stream<List<Train>> readCollectionByFilter({
+  Stream<List<TrainStation>> readCollectionByFilter({
     required String field,
     required String isEqualTo,
   }) {
@@ -51,10 +52,10 @@ class TrainService implements CloudProvider<Train, List<Train>> {
         field: field, isEqualTo: isEqualTo) as Stream<CollectionRef>;
 
     return snapshots.map((snapshot) {
-      List<Train> retVal = [];
+      List<TrainStation> retVal = [];
 
       for (var element in snapshot.docs) {
-        retVal.add(Train.fromMap(element));
+        retVal.add(TrainStation.fromMap(element));
       }
 
       return retVal;
@@ -62,14 +63,14 @@ class TrainService implements CloudProvider<Train, List<Train>> {
   }
 
   @override
-  Stream<List<Train>> readCollectionByOrder(String field) {
+  Stream<List<TrainStation>> readCollectionByOrder(String field) {
     final snapshots =
         provider.readCollectionByOrder(field) as Stream<CollectionRef>;
     return snapshots.map((snapshot) {
-      List<Train> retVal = [];
+      List<TrainStation> retVal = [];
 
       for (var element in snapshot.docs) {
-        retVal.add(Train.fromMap(element));
+        retVal.add(TrainStation.fromMap(element));
       }
 
       return retVal;
@@ -77,14 +78,14 @@ class TrainService implements CloudProvider<Train, List<Train>> {
   }
 
   @override
-  Stream<Train> readDoc(String id) {
+  Stream<TrainStation> readDoc(String id) {
     final ref = provider.readDoc(id) as Stream<DocumentRef>;
-    return ref.map((value) => Train.fromMap(value));
+    return ref.map((value) => TrainStation.fromMap(value));
   }
 
   @override
-  Future<Train> readDocFuture(String id) async {
-    return Train.fromMap(await provider.readDocFuture(id));
+  Future<TrainStation> readDocFuture(String id) async {
+    return TrainStation.fromMap(await provider.readDocFuture(id));
   }
 
   @override
