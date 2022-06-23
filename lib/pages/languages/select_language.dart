@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
+import 'package:travel_smartapp/enums/languages/languages.dart';
 import 'package:travel_smartapp/pages/login/login.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
@@ -13,7 +14,8 @@ class LanguageSelectPage extends StatefulWidget {
 
 class _LanguageSelectPageState extends State<LanguageSelectPage> {
   int selectedLanguageIndex = 1;
-  List<String> languages = ["Tamil", "English", "Sinhala"];
+  List<AppLanguages> languages = AppLanguages.values;
+
   @override
   void initState() {
     super.initState();
@@ -41,7 +43,8 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
                   )),
               GFCarousel(
                   items: languages
-                      .map((e) => buildLanguageButton(title: e))
+                      .map((e) =>
+                          buildLanguageButton(title: appLanguagesToStr[e]!))
                       .toList(),
                   initialPage: 1,
                   aspectRatio: 16 / 9,
@@ -75,7 +78,8 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
   }
 
   Widget buildLanguageButton({required String title}) {
-    bool isSelected = languages.indexOf(title) == selectedLanguageIndex;
+    bool isSelected =
+        languages.indexOf(appLanguagesFromStr[title]!) == selectedLanguageIndex;
 
     return AnimatedContainer(
       margin: const EdgeInsets.symmetric(horizontal: kPadding * 0.5),

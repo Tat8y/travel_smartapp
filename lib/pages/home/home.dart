@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/api/suggestion_api.dart';
-import 'package:travel_smartapp/pages/booking/select_sheet/sheet_sheet.dart';
+import 'package:travel_smartapp/pages/booking/select_sheet/select_sheet.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 import 'package:travel_smartapp/widgets/text_feild/auto_complete_text_feild.dart';
@@ -81,7 +81,8 @@ class _HomePageState extends State<HomePage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (builder) => SelectSheetPage()));
+                                    builder: (builder) =>
+                                        const SelectSheetPage()));
                           })
                     ],
                   ),
