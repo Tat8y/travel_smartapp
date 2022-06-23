@@ -11,7 +11,7 @@ class Seat {
 
   Seat({this.id, this.seatType, this.bookingID});
 
-  factory Seat.fromMap(QueryDocumentSnapshot map) => Seat(
+  factory Seat.fromMap(DocumentSnapshot map) => Seat(
         id: map.id,
         seatType: seatTypeFromStr[map[seatTypeFeild]] ?? SeatType.unavailable,
         bookingID: map[bookingIDFeild],
