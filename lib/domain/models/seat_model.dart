@@ -22,3 +22,22 @@ class Seat {
         bookingIDFeild: bookingID,
       };
 }
+
+// Support Model
+class SeatBox {
+  final String column;
+  final int row;
+  final SeatType type;
+
+  SeatBox({
+    required this.column,
+    required this.row,
+    required this.type,
+  });
+
+  SeatBox update({SeatType? type}) => SeatBox(
+        column: column,
+        row: row,
+        type: type ?? this.type,
+      );
+}

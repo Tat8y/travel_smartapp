@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/api/seat_generator.dart';
+import 'package:travel_smartapp/enums/train/seat.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/executive_container.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 
@@ -15,8 +16,10 @@ class SelectSheetPage extends StatefulWidget {
 
 class _SelectSheetPageState extends State<SelectSheetPage> {
   final PageController pageController = PageController();
-  int totalExecutves = 5;
+  int totalExecutves = 1;
   int currentExecutive = 0;
+  int selectedSheets = 0;
+  final data = kGenerateSeats();
 
   void currentExecutivePageChanged(int index) {
     setState(() {
@@ -43,8 +46,15 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                 Expanded(
                   child: PageView.builder(
                     controller: pageController,
-                    itemBuilder: (context, index) =>
-                        ExectiveWidget(data: generateSheets()),
+                    itemBuilder: (context, index) => ExectiveWidget(
+                        data: data,
+                        onTap: (seats) {
+                          setState(() {
+                            selectedSheets = seats
+                                .where((seat) => seat.type == SeatType.selected)
+                                .length;
+                          });
+                        }),
                     itemCount: totalExecutves,
                     scrollDirection: Axis.vertical,
                     onPageChanged: currentExecutivePageChanged,
@@ -54,6 +64,7 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
               ],
             ),
           ),
+          Text("Selected Seats : $selectedSheets")
         ],
       ),
     );

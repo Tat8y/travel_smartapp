@@ -24,7 +24,7 @@ class _RootPageState extends State<RootPage> {
 
   int currentIndex = 2;
   final screens = [
-    HomePage(),
+    const HomePage(),
     const MapScreen(),
     const UserProfilePage(),
   ];
