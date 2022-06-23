@@ -20,7 +20,7 @@ class TrainBooking {
     this.route,
   });
 
-  factory TrainBooking.fromMap(QueryDocumentSnapshot map) => TrainBooking(
+  factory TrainBooking.fromMap(DocumentSnapshot map) => TrainBooking(
         id: map.id,
         date: DateTime.fromMillisecondsSinceEpoch(map[dateFeild]),
         arrivalTime: DateTime.fromMillisecondsSinceEpoch(map[arrivalTimeFeild]),
