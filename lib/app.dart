@@ -13,7 +13,7 @@ class MainApp extends StatelessWidget {
     final authService = Provider.of<AuthService>(context);
 
     return StreamBuilder<User?>(
-      stream: authService.user,
+      stream: authService.currentUser,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final User? user = snapshot.data;

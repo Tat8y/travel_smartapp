@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/pages/root/root.dart';
 import 'package:travel_smartapp/pages/register/registration.dart';
 
@@ -15,16 +17,13 @@ class _LoginPageState extends State<LoginPage> {
 //FORM KEY
   final _formKey = GlobalKey<FormState>();
 
-// EDITING CONTROLLER
+  // EDITING CONTROLLER
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-//FIREBASE
-  final _auth = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
-//EMAIL FIELDS
+    //EMAIL FIELDS
     final emailField = TextFormField(
       autofocus: false,
       controller: emailController,
@@ -57,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-//PASSWORD FIELDS
+    //PASSWORD FIELDS
     final passwordField = TextFormField(
       autofocus: false,
       controller: passwordController,
@@ -89,7 +88,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
 
-//LOGIN BUTTON
+    //LOGIN BUTTON
     final loginButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -98,12 +97,8 @@ class _LoginPageState extends State<LoginPage> {
           padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
           minWidth: 180.0,
           height: 50.0,
-          //   minWidth: MediaQuery.of(context).size.width,
           onPressed: () {
             signIn(emailController.text, passwordController.text);
-            // Navigator.pushReplacement(
-            //   context,MaterialPageRoute(builder: (context) =>
-            //    const ProfilePage()));
           },
           child: const Text(
             "Login",
@@ -173,8 +168,10 @@ class _LoginPageState extends State<LoginPage> {
 
 // login function
   void signIn(String email, String password) async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     if (_formKey.currentState!.validate()) {
-      await _auth
+      await authService
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
                 Fluttertoast.showToast(msg: "Login Successful"),
@@ -187,69 +184,3 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 }
-
-
-
-
-
-// class LoginPage extends StatefulWidget {
-//   const LoginPage({Key? key, required this.title}) : super(key: key);
-
-//   // This widget is the home page of your application. It is stateful, meaning
-//   // that it has a State object (defined below) that contains fields that affect
-//   // how it looks.
-
-//   // This class is the configuration for the state. It holds the values (in this
-//   // case the title) provided by the parent (in this case the App widget) and
-//   // used by the build method of the State. Fields in a Widget subclass are
-//   // always marked "final".
-
-//   final String title;
-
-//   @override
-//   State<LoginPage> createState() => _LoginPageState();
-// }
-
-// class _LoginPageState extends State<LoginPage> {
-//   int _counter = 0;
-
-//   void _incrementCounter() {
-//     setState(() {
-
-//       _counter++;
-//     });
-//   }
-
-// //Login Page same code in splash.dart
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text(widget.title),
-//       ),
-//       body: Center(
-//         child: Column(
-          
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: <Widget>[
-//             const Text(
-//               'Im here',
-//             ),
-//             Text(
-//               '$_counter',
-//               style: Theme.of(context).textTheme.headline4,
-//             ),
-//           ],
-//         ),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: _incrementCounter,
-//         tooltip: 'Increment',
-//         child: const Icon(Icons.add),
-//       ), // This trailing comma makes auto-formatting nicer for build methods.
-//     );
-
-// //END of LoginPage
-
-//   }
-// }

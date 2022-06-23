@@ -2,11 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
+import 'package:travel_smartapp/domain/authentication/auth_service.dart';
+import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/pages/root/root.dart';
-
-// import 'package:travel_smartapp/main.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -29,12 +30,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   @override
   Widget build(BuildContext context) {
-//FIRST NAME FIELDS
+    //FIRST NAME FIELDS
     final firstNameField = TextFormField(
       autofocus: false,
       controller: firstNameEditingController,
       keyboardType: TextInputType.name,
-//VALIDATOR: () {},
+
+      //VALIDATOR: () {},
       validator: (value) {
         RegExp regex = RegExp(r'^.{3,}$');
         if (value!.isEmpty) {
@@ -62,7 +64,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
     );
 
-//SECOND NAME FIELDS
+    //SECOND NAME FIELDS
     final secondNameField = TextFormField(
       autofocus: false,
       controller: secondNameEditingController,
@@ -90,12 +92,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
     );
 
-//EMAIL FIELDS
+    //EMAIL FIELDS
     final emailField = TextFormField(
       autofocus: false,
       controller: emailEditingController,
       keyboardType: TextInputType.name,
-//VALIDATOR: () {},
+      //VALIDATOR: () {},
       validator: (value) {
         if (value!.isEmpty) {
           return ("Please Enter Your Email");
@@ -123,12 +125,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
     );
 
-//PASSWORD FIELDS
+    //PASSWORD FIELDS
     final passwordField = TextFormField(
       autofocus: false,
       controller: passwordEditingController,
       obscureText: true,
-//VALIDATOR: () {},
+      //VALIDATOR: () {},
       validator: (value) {
         RegExp regex = RegExp(r'^.{8,}$');
         if (value!.isEmpty) {
@@ -156,7 +158,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
     );
 
-// CONFORM PASSWORD FIELDS
+    // CONFORM PASSWORD FIELDS
     final confirmPasswordField = TextFormField(
       autofocus: false,
       controller: confirmPasswordEditingController,
@@ -185,7 +187,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
     );
 
-//signup button
+    //signup button
     final signUpButton = Material(
       elevation: 5,
       borderRadius: BorderRadius.circular(30),
@@ -261,9 +263,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   void signUp(String email, String password) async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
     if (_formKey.currentState!.validate()) {
-      await _auth
-          .createUserWithEmailAndPassword(email: email, password: password)
+      await authService
+          .signUpWithEmailAndPassword(email: email, password: password)
           .then((value) => {postDetailsToFirestore()})
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
@@ -272,25 +276,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
   }
 
   postDetailsToFirestore() async {
-    // calling firestore
-    // calling user model
-    // sending these values
-
-    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     User? user = _auth.currentUser;
 
-    UserModel userModel = UserModel();
+    UserModel userModel = UserModel(
+        uid: user!.uid,
+        email: user.email,
+        firstName: firstNameEditingController.text,
+        secondName: secondNameEditingController.text);
 
-    // VALUES
-    userModel.email = user!.email;
-    userModel.uid = user.uid;
-    userModel.firstName = firstNameEditingController.text;
-    userModel.secondName = secondNameEditingController.text;
+    await UserService.firebase().create(userModel.toMap());
 
-    await firebaseFirestore
-        .collection("users")
-        .doc(user.uid)
-        .set(userModel.toMap());
     Fluttertoast.showToast(msg: "Your account has been created successfully!");
 
     Navigator.pushAndRemoveUntil(

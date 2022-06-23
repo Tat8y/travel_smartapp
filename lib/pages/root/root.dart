@@ -3,11 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
+import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/pages/home/home.dart';
 import 'package:travel_smartapp/pages/location/location_controller.dart';
 import 'package:travel_smartapp/pages/location/train_location.dart';
-import 'package:travel_smartapp/pages/login/login.dart';
 import 'package:travel_smartapp/pages/user/profile/user_profile.dart';
 import 'package:travel_smartapp/home/from_data.dart';
 
@@ -36,25 +36,15 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     super.initState();
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
-    });
+    UserService.firebase()
+        .readDocFuture(user!.uid)
+        .then((value) => loggedInUser = value);
   }
 
   @override
   Widget build(BuildContext context) {
     Get.put(LocationController());
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("Welcome Screen"),
-      //   centerTitle: false,
-      // ),
-
 // BOTTOM NAVIGATION BAR
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -80,40 +70,6 @@ class _RootPageState extends State<RootPage> {
               backgroundColor: Colors.orange),
         ],
       ),
-      // body: Center(
-      //   child: Padding(
-      //     padding: const EdgeInsets.all(20),
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       crossAxisAlignment: CrossAxisAlignment.center,
-      //       children: <Widget> [
-      //         SizedBox(
-      //           height: 150,
-      //           child: Image.asset(
-      //             "assets/images/login_logo.png",
-      //             fit: BoxFit.contain),
-      //         ),
-      //         const Text (
-      //           "Welcome",
-      //           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      //         ),
-      //         const SizedBox(
-      //           height: 10,),
-      //           Text("${loggedInUser.firstName} ${loggedInUser.secondName}",
-      //           style: const TextStyle(
-      //             color: Colors.black,
-      //             fontWeight: FontWeight.normal)),
-      //         const SizedBox(
-      //           height: 15,
-      //         ),
-      //         ActionChip(label: const Text("Logout"), onPressed: () {
-      //           logout(context);
-
-      //         }),
-      //       ],
-      //     ),
-      //     ),
-      //   ),
     );
   }
 
@@ -132,15 +88,4 @@ class _RootPageState extends State<RootPage> {
         onSuggestionSelected: (String? suggestion) =>
             controllerCity.text = suggestion!,
       );
-
-  // Widget buildSubmit(BuildContext context) => ButtonWidget(
-  //      text: 'Submit',
-  //      onClicked: ()  {},
-  // );
-}
-
-Future<void> logout(BuildContext context) async {
-  await FirebaseAuth.instance.signOut();
-  Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => const LoginPage()));
 }
