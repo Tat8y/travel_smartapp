@@ -1,15 +1,39 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
+import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
+import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
-class UserProfilePage extends StatelessWidget {
+class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
+
+  @override
+  State<UserProfilePage> createState() => _UserProfilePageState();
+}
+
+class _UserProfilePageState extends State<UserProfilePage> {
+  UserModel? user;
+
+  @override
+  void initState() {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    UserService.firebase().readDocFuture(uid).then((value) {
+      setState(() {
+        user = value;
+      });
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final AuthService authService = Provider.of<AuthService>(context);
+
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
@@ -50,52 +74,51 @@ class UserProfilePage extends StatelessWidget {
                     child: const CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.grey,
+                      foregroundImage:
+                          CachedNetworkImageProvider(kDefaultAvatar),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: kPadding * .5),
-                    child: Text("User Name",
-                        style: TextStyle(
+                  Padding(
+                    padding: const EdgeInsets.only(top: kPadding * .5),
+                    child: Text(
+                        "${user?.firstName ?? ""} ${user?.secondName ?? ""}",
+                        style: const TextStyle(
                           fontSize: kFontSize * .9,
                           fontWeight: FontWeight.w500,
                         )),
                   ),
-                  const Text("user@mail.com",
-                      style: TextStyle(
+                  Text(user?.email ?? "Wating ...",
+                      style: const TextStyle(
                         fontSize: kFontSize * .7,
                       )),
-                  SizedBox(height: kPadding),
+                  const SizedBox(height: kPadding),
                   CustomButton(
                     text: "Edit Profile",
                     onPressed: () {},
                     constraints: BoxConstraints(
                       minWidth:
                           MediaQuery.of(context).size.width - kPadding * 2,
+                      minHeight: 50,
                     ),
                   ),
-                  SizedBox(height: kPadding * .5),
+                  const SizedBox(height: kPadding * .5),
                   CustomButton(
                     text: "Points",
                     onPressed: () {},
                     constraints: BoxConstraints(
                       minWidth:
                           MediaQuery.of(context).size.width - kPadding * 2,
+                      minHeight: 50,
                     ),
                   ),
+                  const SizedBox(height: kPadding * .5),
                   CustomButton(
-                    text: "Points",
+                    text: "Past Travels",
                     onPressed: () {},
                     constraints: BoxConstraints(
                       minWidth:
                           MediaQuery.of(context).size.width - kPadding * 2,
-                    ),
-                  ),
-                  CustomButton(
-                    text: "Points",
-                    onPressed: () {},
-                    constraints: BoxConstraints(
-                      minWidth:
-                          MediaQuery.of(context).size.width - kPadding * 2,
+                      minHeight: 50,
                     ),
                   ),
                 ],
