@@ -1,1 +1,1 @@
-
+const String userCollection = 'users';

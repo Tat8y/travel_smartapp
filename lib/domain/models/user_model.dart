@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel {
   String? uid;
   String? email;
@@ -8,9 +10,9 @@ class UserModel {
   UserModel({this.uid, this.email, this.firstName, this.secondName});
 
 //UserModel DATA FROM SERVER
-  factory UserModel.fromMap(map) {
+  factory UserModel.fromMap(DocumentSnapshot map) {
     return UserModel(
-      uid: map['uid'],
+      uid: map.id,
       email: map['email'],
       firstName: map['firstName'],
       secondName: map['secondName'],
