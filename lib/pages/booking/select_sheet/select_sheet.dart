@@ -16,7 +16,7 @@ class SelectSheetPage extends StatefulWidget {
 
 class _SelectSheetPageState extends State<SelectSheetPage> {
   final PageController pageController = PageController();
-  int totalExecutves = 1;
+  int totalExecutves = 2;
   int currentExecutive = 0;
   int selectedSheets = 0;
   final data = kGenerateSeats();
@@ -81,11 +81,13 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             IconButton(
-                onPressed: () {
-                  pageController.previousPage(
-                      duration: const Duration(milliseconds: 100),
-                      curve: Curves.easeIn);
-                },
+                onPressed: currentExecutive != 0
+                    ? () {
+                        pageController.previousPage(
+                            duration: const Duration(milliseconds: 100),
+                            curve: Curves.easeIn);
+                      }
+                    : null,
                 icon: const Icon(
                   Icons.arrow_back_ios_new_rounded,
                   size: 18,
@@ -99,11 +101,13 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
               ),
             ),
             IconButton(
-                onPressed: () {
-                  pageController.nextPage(
-                      duration: const Duration(milliseconds: 100),
-                      curve: Curves.easeIn);
-                },
+                onPressed: currentExecutive + 1 != totalExecutves
+                    ? () {
+                        pageController.nextPage(
+                            duration: const Duration(milliseconds: 100),
+                            curve: Curves.easeIn);
+                      }
+                    : null,
                 icon: const Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 18,
