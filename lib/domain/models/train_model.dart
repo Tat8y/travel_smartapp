@@ -11,7 +11,7 @@ class Train {
   Train({this.id, this.name, this.type});
 
   /// TrainModel Data from [FirebaseFirestore] Server.
-  factory Train.fromMap(QueryDocumentSnapshot map) => Train(
+  factory Train.fromMap(DocumentSnapshot map) => Train(
         id: map.id,
         name: map[nameFeild],
         type: map[typeFeild],

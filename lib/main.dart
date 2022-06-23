@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:travel_smartapp/app.dart';
 import 'package:travel_smartapp/config/style/theme.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
-import 'package:travel_smartapp/pages/languages/select_language.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +27,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'TravelSmart',
         theme: lightTheme,
-        home: const LanguageSelectPage(),
+        home: const MainApp(),
       ),
     );
   }
