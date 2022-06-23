@@ -2,7 +2,8 @@ class UserModel {
   String? uid;
   String? email;
   String? firstName;
-  String?secondName;
+  String? secondName;
+  //String? points;
 
   UserModel({this.uid, this.email, this.firstName, this.secondName});
 
@@ -16,10 +17,9 @@ class UserModel {
     );
   }
 
-
 //SENDING DATA TO OUR SERVER
-  Map <String, dynamic> toMap() {
-    return{
+  Map<String, dynamic> toMap() {
+    return {
       'uid': uid,
       'email': email,
       'firstName': firstName,
