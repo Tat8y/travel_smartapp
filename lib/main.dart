@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/app.dart';
 import 'package:travel_smartapp/config/style/theme.dart';
+import 'package:travel_smartapp/demo/demo_data.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 
 Future<void> main() async {

@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
+import 'package:travel_smartapp/domain/api/suggestion_api.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/sheet_sheet.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
-import 'package:travel_smartapp/widgets/text_feild/material_text_feild.dart';
+import 'package:travel_smartapp/widgets/text_feild/auto_complete_text_feild.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final TextEditingController depatureController = TextEditingController();
+
   final TextEditingController destinationController = TextEditingController();
+
+  DateTime date = DateTime.now();
+
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: customAppBar(title: "Where Do You Want To Go?"),
@@ -24,11 +36,17 @@ class HomePage extends StatelessWidget {
                       color: Colors.grey.shade200),
                   child: Column(
                     children: [
-                      CustomTextFeild(
-                          controller: depatureController, hint: "From"),
+                      CustomAutoCompleteTextFeild(
+                        suggestionsApi: SuggestionApi.trainSuggestion,
+                        controller: depatureController,
+                        hint: "From",
+                      ),
                       const Divider(),
-                      CustomTextFeild(
-                          controller: destinationController, hint: "To"),
+                      CustomAutoCompleteTextFeild(
+                        suggestionsApi: SuggestionApi.trainSuggestion,
+                        controller: destinationController,
+                        hint: "To",
+                      ),
                     ],
                   ),
                 ),
@@ -41,15 +59,22 @@ class HomePage extends StatelessWidget {
                         shape: const CircleBorder(),
                         fillColor: Colors.black12,
                         elevation: 0,
-                        onPressed: () {
-                          showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime(2050));
+                        onPressed: () async {
+                          await showDatePicker(
+                                  context: context,
+                                  initialDate: date,
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(2050))
+                              .then((_date) {
+                            setState(() {
+                              if (_date != null) date = _date;
+                            });
+                          });
                         },
                         child: const Icon(Icons.date_range_outlined),
                       ),
+                      Text(DateFormat('yyyy-MM-dd').format(date)),
+                      const Spacer(),
                       CustomButton(
                           text: "Next",
                           onPressed: () {

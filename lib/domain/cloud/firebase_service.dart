@@ -65,6 +65,10 @@ class FirebaseCloudProvider
     return _firebaseFirestore.collection(collection).snapshots();
   }
 
+  Future<CollectionRef> readCollectionFuture() {
+    return _firebaseFirestore.collection(collection).get();
+  }
+
   @override
   Future<DocumentRef> readDocFuture(String id) {
     return _firebaseFirestore.collection(collection).doc(id).get();

@@ -5,7 +5,7 @@ import 'package:travel_smartapp/domain/models/station_mode.dart';
 
 class StationService
     implements CloudProvider<TrainStation, List<TrainStation>> {
-  final CloudProvider provider;
+  final FirebaseCloudProvider provider;
   StationService(this.provider);
 
   factory StationService.firebase() => StationService(
@@ -30,9 +30,23 @@ class StationService
 
   @override
   Stream<List<TrainStation>> readCollection() {
-    final snapshots = provider.readCollection() as Stream<CollectionRef>;
+    final snapshots = provider.readCollection();
 
     return snapshots.map((snapshot) {
+      List<TrainStation> retVal = [];
+
+      for (var element in snapshot.docs) {
+        retVal.add(TrainStation.fromMap(element));
+      }
+
+      return retVal;
+    });
+  }
+
+  Future<List<TrainStation>> readCollectionFuture() {
+    final snapshots = provider.readCollectionFuture();
+
+    return snapshots.then((snapshot) {
       List<TrainStation> retVal = [];
 
       for (var element in snapshot.docs) {
@@ -48,8 +62,8 @@ class StationService
     required String field,
     required String isEqualTo,
   }) {
-    final snapshots = provider.readCollectionByFilter(
-        field: field, isEqualTo: isEqualTo) as Stream<CollectionRef>;
+    final snapshots =
+        provider.readCollectionByFilter(field: field, isEqualTo: isEqualTo);
 
     return snapshots.map((snapshot) {
       List<TrainStation> retVal = [];
@@ -64,8 +78,7 @@ class StationService
 
   @override
   Stream<List<TrainStation>> readCollectionByOrder(String field) {
-    final snapshots =
-        provider.readCollectionByOrder(field) as Stream<CollectionRef>;
+    final snapshots = provider.readCollectionByOrder(field);
     return snapshots.map((snapshot) {
       List<TrainStation> retVal = [];
 
@@ -79,7 +92,7 @@ class StationService
 
   @override
   Stream<TrainStation> readDoc(String id) {
-    final ref = provider.readDoc(id) as Stream<DocumentRef>;
+    final ref = provider.readDoc(id);
     return ref.map((value) => TrainStation.fromMap(value));
   }
 
