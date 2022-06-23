@@ -1,4 +1,3 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
@@ -13,7 +12,6 @@ class LanguageSelectPage extends StatefulWidget {
 }
 
 class _LanguageSelectPageState extends State<LanguageSelectPage> {
-  final CarouselController carouselController = CarouselController();
   int selectedLanguageIndex = 1;
   List<String> languages = ["Tamil", "English", "Sinhala"];
   @override
