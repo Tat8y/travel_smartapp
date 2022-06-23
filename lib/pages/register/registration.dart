@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -275,7 +274,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     }
   }
 
-  postDetailsToFirestore() async {
+  void postDetailsToFirestore() async {
     User? user = _auth.currentUser;
 
     UserModel userModel = UserModel(
@@ -284,7 +283,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         firstName: firstNameEditingController.text,
         secondName: secondNameEditingController.text);
 
-    await UserService.firebase().create(userModel.toMap());
+    await UserService.firebase()
+        .createWithId(id: user.uid, map: userModel.toMap());
 
     Fluttertoast.showToast(msg: "Your account has been created successfully!");
 

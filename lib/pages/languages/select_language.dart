@@ -1,11 +1,25 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/getwidget.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/pages/login/login.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
-class LanguageSelectPage extends StatelessWidget {
+class LanguageSelectPage extends StatefulWidget {
   const LanguageSelectPage({Key? key}) : super(key: key);
+
+  @override
+  State<LanguageSelectPage> createState() => _LanguageSelectPageState();
+}
+
+class _LanguageSelectPageState extends State<LanguageSelectPage> {
+  final CarouselController carouselController = CarouselController();
+  int selectedLanguageIndex = 1;
+  List<String> languages = ["Tamil", "English", "Sinhala"];
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,22 +41,22 @@ class LanguageSelectPage extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                     fontSize: kFontSize * .8,
                   )),
-              CarouselSlider(
-                options: CarouselOptions(
+              GFCarousel(
+                  items: languages
+                      .map((e) => buildLanguageButton(title: e))
+                      .toList(),
+                  initialPage: 1,
+                  aspectRatio: 16 / 9,
                   height: 150.0,
                   scrollPhysics: const BouncingScrollPhysics(),
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 0.6,
-                  initialPage: 1,
-                  enlargeCenterPage: true,
+                  enlargeMainPage: true,
                   enableInfiniteScroll: false,
-                ),
-                items: [
-                  buildLanguageButton(title: "Tamil"),
-                  buildLanguageButton(title: "English"),
-                  buildLanguageButton(title: "Sinhala")
-                ],
-              ),
+                  viewportFraction: 0.6,
+                  onPageChanged: (index) {
+                    setState(() {
+                      selectedLanguageIndex = index;
+                    });
+                  }),
             ],
           ),
         ),
@@ -63,19 +77,22 @@ class LanguageSelectPage extends StatelessWidget {
   }
 
   Widget buildLanguageButton({required String title}) {
-    return Container(
-      //margin: const EdgeInsets.all(kPadding * 0.5),
+    bool isSelected = languages.indexOf(title) == selectedLanguageIndex;
+
+    return AnimatedContainer(
+      margin: const EdgeInsets.symmetric(horizontal: kPadding * 0.5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kBorderRadius),
-        color: Colors.yellow,
+        color: isSelected ? kPrimaryColor : kPrimaryColor.withOpacity(0.6),
       ),
+      duration: const Duration(milliseconds: 200),
       child: Center(
           child: Text(
         title,
         style: const TextStyle(
           fontSize: kFontSize,
           fontWeight: FontWeight.bold,
-          color: Colors.black,
+          color: kSecondaryColor,
         ),
       )),
     );

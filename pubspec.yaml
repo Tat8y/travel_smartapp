@@ -29,7 +29,6 @@ environment:
 dependencies:
   animated_splash_screen: null
   cached_network_image: ^3.2.1
-  carousel_slider: ^4.1.1
   cloud_firestore: ^3.1.17
   cupertino_icons: ^1.0.2
 
@@ -46,6 +45,7 @@ dependencies:
   geocoding: ^2.0.4
   geolocator: ^8.2.1
   get: ^4.6.5
+  getwidget: ^3.0.1
   google_fonts: null
   google_maps_flutter: ^2.1.8
   google_sign_in: null
