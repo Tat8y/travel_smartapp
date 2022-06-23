@@ -23,7 +23,7 @@ class TrainSchedule {
     this.destinationTime,
   });
 
-  factory TrainSchedule.fromMap(QueryDocumentSnapshot map) => TrainSchedule(
+  factory TrainSchedule.fromMap(DocumentSnapshot map) => TrainSchedule(
         id: map.id,
         trainID: map[trainIDFeild],
         depature: map[depatureFeild],
