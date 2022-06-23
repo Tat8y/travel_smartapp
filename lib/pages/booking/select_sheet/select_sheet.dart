@@ -50,7 +50,7 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                     onPageChanged: currentExecutivePageChanged,
                   ),
                 ),
-                // builExecutiveSwicher()
+                builExecutiveSwicher()
               ],
             ),
           ),
@@ -59,40 +59,46 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
     );
   }
 
-  Transform builExecutiveSwicher() {
-    return Transform.rotate(
-      angle: 90 * pi / 180,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-              onPressed: () {
-                pageController.previousPage(
-                    duration: const Duration(milliseconds: 100),
-                    curve: Curves.easeIn);
-              },
-              icon: const Icon(
-                Icons.arrow_back_ios_new_rounded,
-                size: 18,
-              )),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text("Executive ${currentExecutive + 1}"),
-            style: ElevatedButton.styleFrom(
-              shape: const StadiumBorder(),
+  Widget builExecutiveSwicher() {
+    return Padding(
+      padding: const EdgeInsets.only(right: kPadding),
+      child: RotatedBox(
+        quarterTurns: 1,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconButton(
+                onPressed: () {
+                  pageController.previousPage(
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeIn);
+                },
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  size: 18,
+                )),
+            ElevatedButton(
+              onPressed: () {},
+              child: Text("Executive ${currentExecutive + 1}"),
+              style: ElevatedButton.styleFrom(
+                shape: const StadiumBorder(),
+                primary: kPrimaryColor,
+              ),
             ),
-          ),
-          IconButton(
-              onPressed: () {
-                pageController.nextPage(
-                    duration: const Duration(milliseconds: 100),
-                    curve: Curves.easeIn);
-              },
-              icon: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                size: 18,
-              )),
-        ],
+            IconButton(
+                onPressed: () {
+                  pageController.nextPage(
+                      duration: const Duration(milliseconds: 100),
+                      curve: Curves.easeIn);
+                },
+                icon: const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 18,
+                )),
+          ],
+        ),
       ),
     );
   }
