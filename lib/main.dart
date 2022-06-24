@@ -1,16 +1,31 @@
-//import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_smartapp/app.dart';
 import 'package:travel_smartapp/config/style/theme.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
+import 'package:travel_smartapp/domain/providers/locale_provider.dart';
+import 'package:travel_smartapp/extentions/context/localization.dart';
+import 'package:travel_smartapp/l10n/l10n.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:travel_smartapp/pages/languages/select_language.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
-  runApp(const MyApp());
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  runApp(MultiProvider(
+      providers: [
+        Provider<AuthService>(create: (context) => AuthService()),
+        //Provider<BookingNotifire>(create: (context) => BookingNotifire())
+        ChangeNotifierProvider<LocaleProvider>(
+            create: (context) => LocaleProvider(sharedPreferences)),
+      ],
+      builder: (context, child) {
+        return const MyApp();
+      }));
 }
 
 class MyApp extends StatelessWidget {
@@ -19,17 +34,19 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        Provider<AuthService>(create: (context) => AuthService()),
-        //Provider<BookingNotifire>(create: (context) => BookingNotifire())
+    final provider = Provider.of<LocaleProvider>(context);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'TravelSmart',
+      theme: lightTheme,
+      locale: provider.locale,
+      supportedLocales: L10n.all,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'TravelSmart',
-        theme: lightTheme,
-        home: const MainApp(),
-      ),
+      home: const LanguageSelectPage(),
     );
   }
 }

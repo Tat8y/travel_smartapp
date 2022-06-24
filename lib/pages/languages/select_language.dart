@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
-import 'package:travel_smartapp/enums/languages/languages.dart';
+import 'package:travel_smartapp/domain/providers/locale_provider.dart';
+import 'package:travel_smartapp/extentions/context/localization.dart';
+import 'package:travel_smartapp/l10n/l10n.dart';
 import 'package:travel_smartapp/pages/login/login.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
@@ -14,7 +17,7 @@ class LanguageSelectPage extends StatefulWidget {
 
 class _LanguageSelectPageState extends State<LanguageSelectPage> {
   int selectedLanguageIndex = 1;
-  List<AppLanguages> languages = AppLanguages.values;
+  List<Locale> languages = L10n.all;
 
   @override
   void initState() {
@@ -36,15 +39,14 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const Text("Choose Your Preferred Language",
-                  style: TextStyle(
+              Text("Choose Your Preferred Langugage (${context.loc?.language})",
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: kFontSize * .8,
                   )),
               GFCarousel(
                   items: languages
-                      .map((e) =>
-                          buildLanguageButton(title: appLanguagesToStr[e]!))
+                      .map((e) => buildLanguageButton(locale: e))
                       .toList(),
                   initialPage: 1,
                   aspectRatio: 16 / 9,
@@ -56,6 +58,7 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
                   onPageChanged: (index) {
                     setState(() {
                       selectedLanguageIndex = index;
+                      context.read<LocaleProvider>().setLocale(L10n.all[index]);
                     });
                   }),
             ],
@@ -65,7 +68,7 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
           child: Center(
               child: CustomButton(
                   text: "Next",
-                  onPressed: () {
+                  onPressed: () async {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -77,9 +80,8 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
     ));
   }
 
-  Widget buildLanguageButton({required String title}) {
-    bool isSelected =
-        languages.indexOf(appLanguagesFromStr[title]!) == selectedLanguageIndex;
+  Widget buildLanguageButton({required Locale locale}) {
+    bool isSelected = languages.indexOf(locale) == selectedLanguageIndex;
 
     return AnimatedContainer(
       margin: const EdgeInsets.symmetric(horizontal: kPadding * 0.5),
@@ -90,7 +92,7 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
       duration: const Duration(milliseconds: 200),
       child: Center(
           child: Text(
-        title,
+        L10n.languages[locale.languageCode].toString(),
         style: const TextStyle(
           fontSize: kFontSize,
           fontWeight: FontWeight.bold,
