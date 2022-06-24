@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/api/seat_generator.dart';
+import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
+import 'package:travel_smartapp/domain/controllers.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
+import 'package:travel_smartapp/domain/providers/booking_provider.dart';
 import 'package:travel_smartapp/enums/train/seat.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/executive_container.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/sheet_confirmation.dart';
@@ -22,8 +27,15 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
   final PageController pageController = PageController();
   int totalExecutves = 2;
   int currentExecutive = 0;
-  List<SeatBox> selectedSheets = [];
-  final data = kGenerateSeats();
+  List<Seat> selectedSheets = [];
+  //final data = kGenerateSeats();
+  late SeatController seatController;
+
+  @override
+  void initState() {
+    seatController = Get.put(SeatController());
+    super.initState();
+  }
 
   void currentExecutivePageChanged(int index) {
     setState(() {
@@ -33,54 +45,65 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBar(
-        title: "Select Sheet",
-        leading: IconButton(
-            onPressed: Navigator.of(context).pop,
-            icon: const Icon(Icons.arrow_back_ios_new_rounded)),
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          buildSheetMapMenu(),
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
-                  child: PageView.builder(
-                    controller: pageController,
-                    itemBuilder: (context, index) => ExectiveWidget(
-                        data: data,
-                        onTap: (seats) {
-                          setState(() {
-                            selectedSheets = seats
-                                .where((seat) => seat.type == SeatType.selected)
-                                .toList();
-                          });
-                        }),
-                    itemCount: totalExecutves,
-                    scrollDirection: Axis.vertical,
-                    onPageChanged: currentExecutivePageChanged,
+    return ChangeNotifierProvider(
+        create: (context) => BookingProvider(),
+        builder: (context, child) {
+          return Scaffold(
+              appBar: customAppBar(
+                title: "Select Sheet",
+                leading: IconButton(
+                    onPressed: Navigator.of(context).pop,
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+              ),
+              body: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  buildSheetMapMenu(),
+                  buildExecutives(),
+                  Consumer(
+                    builder: (context, value, child) => Text(
+                        "Seat : ${Provider.of<BookingProvider>(context).selectedSeats.map((e) => e.column + e.row.toString())}"),
                   ),
-                ),
-                builExecutiveSwicher()
-              ],
-            ),
-          ),
-          Text("Seat : ${selectedSheets.length}"),
-          Padding(
-            padding: const EdgeInsets.all(kPadding),
-            child: CustomButton(
-                text: "Continue",
-                constraints: const BoxConstraints.expand(height: 50),
-                onPressed: () {
-                  openSheetConfirmation(context);
-                }),
-          )
-        ],
-      ),
-    );
+                  Padding(
+                    padding: const EdgeInsets.all(kPadding),
+                    child: CustomButton(
+                        text: "Continue",
+                        constraints: const BoxConstraints.expand(height: 50),
+                        onPressed: () {
+                          openSheetConfirmation(context);
+                        }),
+                  )
+                ],
+              ));
+        });
+  }
+
+  Widget buildExecutives() {
+    return StreamBuilder<List<Seat>>(
+        stream: SeatService.firebase().readCollection(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Expanded(
+              child: Row(
+                children: [
+                  Expanded(
+                    child: PageView.builder(
+                      controller: pageController,
+                      itemBuilder: (context, index) => ExectiveWidget(
+                          data: snapshot.data!, onTap: (seats) {}),
+                      itemCount: totalExecutves,
+                      scrollDirection: Axis.vertical,
+                      onPageChanged: currentExecutivePageChanged,
+                    ),
+                  ),
+                  builExecutiveSwicher()
+                ],
+              ),
+            );
+          } else {
+            return const SizedBox();
+          }
+        });
   }
 
   Widget builExecutiveSwicher() {

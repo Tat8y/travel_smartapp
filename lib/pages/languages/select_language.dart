@@ -6,8 +6,6 @@ import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
 import 'package:travel_smartapp/extentions/context/localization.dart';
 import 'package:travel_smartapp/l10n/l10n.dart';
-import 'package:travel_smartapp/pages/login/login.dart';
-import 'package:travel_smartapp/pages/root/root.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
 class LanguageSelectPage extends StatefulWidget {

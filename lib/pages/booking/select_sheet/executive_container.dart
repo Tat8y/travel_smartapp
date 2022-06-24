@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/api/seat_generator.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
-import 'package:travel_smartapp/enums/train/seat.dart';
+import 'package:travel_smartapp/domain/providers/booking_provider.dart';
+import 'package:travel_smartapp/extentions/list/filter.dart';
 
 class ExectiveWidget extends StatefulWidget {
-  final List<SeatBox> data;
-  final Function(List<SeatBox>) onTap;
+  final List<Seat> data;
+  final Function(List<Seat>) onTap;
   const ExectiveWidget({Key? key, required this.data, required this.onTap})
       : super(key: key);
 
@@ -15,15 +17,15 @@ class ExectiveWidget extends StatefulWidget {
 }
 
 class _ExectiveWidgetState extends State<ExectiveWidget> {
-  SeatType switchSheetType(SeatType? seat) {
+  switchSeat(Seat seat) {
+    final provider = context.read<BookingProvider>();
     setState(() {
-      if (seat == SeatType.selected) {
-        seat = SeatType.available;
+      if (!provider.selectedSeats.seatContains(seat)) {
+        provider.addSeat(seat);
       } else {
-        seat = SeatType.selected;
+        provider.removeSeat(seat);
       }
     });
-    return seat ?? SeatType.unavailable;
   }
 
   @override
@@ -70,20 +72,22 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
     );
   }
 
-  Widget _buildSeatButton({required String group, required SeatBox seatBox}) {
+  Widget _buildSeatButton({required String group, required Seat seatBox}) {
     IconData icon;
     Color color = kSecondaryColor;
-    switch (seatBox.type) {
-      case SeatType.available:
-        icon = Icons.check_box_outline_blank_outlined;
-        break;
-      case SeatType.selected:
+
+    if (seatBox.bookingID != null) {
+      //Unavailable
+      icon = Icons.disabled_by_default_rounded;
+      color = Colors.grey;
+    } else {
+      //Available
+      final selctedSeats = Provider.of<BookingProvider>(context).selectedSeats;
+      if (selctedSeats.seatContains(seatBox)) {
         icon = Icons.check_box;
-        break;
-      default:
-        icon = Icons.disabled_by_default_rounded;
-        color = Colors.grey;
-        break;
+      } else {
+        icon = Icons.check_box_outline_blank_outlined;
+      }
     }
     return Container(
       clipBehavior: Clip.antiAlias,
@@ -94,11 +98,7 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
         color: Colors.transparent,
         child: InkWell(
           onTap: () {
-            final index = widget.data.indexWhere((seat) =>
-                seat.column == seatBox.column && seat.row == seatBox.row);
-            widget.data[index] =
-                seatBox.update(type: switchSheetType(seatBox.type));
-            widget.onTap(widget.data);
+            switchSeat(seatBox);
           },
           child: SizedBox(
             width: 30,
