@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_smartapp/app.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
-import 'package:travel_smartapp/domain/providers/locale_provider.dart';
+import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
 import 'package:travel_smartapp/extentions/context/localization.dart';
 import 'package:travel_smartapp/l10n/l10n.dart';
 import 'package:travel_smartapp/pages/login/login.dart';
+import 'package:travel_smartapp/pages/root/root.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
 class LanguageSelectPage extends StatefulWidget {
@@ -58,7 +60,9 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
                   onPageChanged: (index) {
                     setState(() {
                       selectedLanguageIndex = index;
-                      context.read<LocaleProvider>().setLocale(L10n.all[index]);
+                      context
+                          .read<PrefernceProvider>()
+                          .setLocale(L10n.all[index]);
                     });
                   }),
             ],
@@ -69,10 +73,10 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
               child: CustomButton(
                   text: "Next",
                   onPressed: () async {
+                    context.read<PrefernceProvider>().firstTime = false;
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginPage()),
+                      MaterialPageRoute(builder: (context) => const MainApp()),
                     );
                   })),
         ),
