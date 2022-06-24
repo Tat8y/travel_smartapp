@@ -22,7 +22,10 @@ List<SeatBox> kGenerateSeats() {
   final columnItems = ['A', 'B', 'C', 'D'];
   for (String column in columnItems) {
     for (int row in rowItems) {
-      retVal.add(SeatBox(column: column, row: row, type: SeatType.available));
+      retVal.add(
+        SeatBox(
+            column: column, row: row, type: SeatType.unavailable, executive: 1),
+      );
     }
   }
   return retVal;

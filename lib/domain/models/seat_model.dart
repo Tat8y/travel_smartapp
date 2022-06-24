@@ -28,16 +28,18 @@ class SeatBox {
   final String column;
   final int row;
   final SeatType type;
+  final int executive;
 
-  SeatBox({
-    required this.column,
-    required this.row,
-    required this.type,
-  });
+  SeatBox(
+      {required this.column,
+      required this.row,
+      required this.type,
+      required this.executive});
 
-  SeatBox update({SeatType? type}) => SeatBox(
+  SeatBox update({SeatType? type, int? executive}) => SeatBox(
         column: column,
         row: row,
         type: type ?? this.type,
+        executive: executive ?? this.executive,
       );
 }

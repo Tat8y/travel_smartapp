@@ -1,14 +1,18 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/api/seat_generator.dart';
+import 'package:travel_smartapp/domain/models/seat_model.dart';
+import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/enums/train/seat.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/executive_container.dart';
+import 'package:travel_smartapp/pages/booking/select_sheet/sheet_confirmation.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
+import 'package:travel_smartapp/widgets/button/material_button.dart';
 
 class SelectSheetPage extends StatefulWidget {
-  const SelectSheetPage({Key? key}) : super(key: key);
+  final TravelRoute travelRoute;
+  const SelectSheetPage({Key? key, required this.travelRoute})
+      : super(key: key);
 
   @override
   State<SelectSheetPage> createState() => _SelectSheetPageState();
@@ -18,7 +22,7 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
   final PageController pageController = PageController();
   int totalExecutves = 2;
   int currentExecutive = 0;
-  int selectedSheets = 0;
+  List<SeatBox> selectedSheets = [];
   final data = kGenerateSeats();
 
   void currentExecutivePageChanged(int index) {
@@ -52,7 +56,7 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                           setState(() {
                             selectedSheets = seats
                                 .where((seat) => seat.type == SeatType.selected)
-                                .length;
+                                .toList();
                           });
                         }),
                     itemCount: totalExecutves,
@@ -64,7 +68,16 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
               ],
             ),
           ),
-          Text("Selected Seats : $selectedSheets")
+          Text("Seat : ${selectedSheets.length}"),
+          Padding(
+            padding: const EdgeInsets.all(kPadding),
+            child: CustomButton(
+                text: "Continue",
+                constraints: const BoxConstraints.expand(height: 50),
+                onPressed: () {
+                  openSheetConfirmation(context);
+                }),
+          )
         ],
       ),
     );
@@ -84,7 +97,7 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                 onPressed: currentExecutive != 0
                     ? () {
                         pageController.previousPage(
-                            duration: const Duration(milliseconds: 100),
+                            duration: const Duration(milliseconds: 500),
                             curve: Curves.easeIn);
                       }
                     : null,
@@ -104,7 +117,7 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                 onPressed: currentExecutive + 1 != totalExecutves
                     ? () {
                         pageController.nextPage(
-                            duration: const Duration(milliseconds: 100),
+                            duration: const Duration(milliseconds: 500),
                             curve: Curves.easeIn);
                       }
                     : null,

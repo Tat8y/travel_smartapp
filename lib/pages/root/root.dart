@@ -22,7 +22,7 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   final controllerCity = TextEditingController();
 
-  int currentIndex = 2;
+  int currentIndex = 0;
   final screens = [
     const HomePage(),
     const MapScreen(),
