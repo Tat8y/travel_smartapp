@@ -9,7 +9,7 @@ class BookingService
   BookingService(this.provider);
 
   factory BookingService.firebase() => BookingService(
-        FirebaseCloudProvider(usersCollection),
+        FirebaseCloudProvider(bookingsCollection),
       );
 
   @override

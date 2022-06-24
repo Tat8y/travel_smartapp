@@ -5,6 +5,7 @@ import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/api/seat_generator.dart';
 import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/controllers.dart';
+import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
@@ -70,7 +71,15 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                         text: "Continue",
                         constraints: const BoxConstraints.expand(height: 50),
                         onPressed: () {
-                          openSheetConfirmation(context);
+                          openSheetConfirmation(
+                              context,
+                              TrainBooking(
+                                  date: DateTime.now(),
+                                  arrivalTime: DateTime.now(),
+                                  seats: Provider.of<BookingProvider>(context,
+                                          listen: false)
+                                      .selectedSeats,
+                                  route: widget.travelRoute));
                         }),
                   )
                 ],
