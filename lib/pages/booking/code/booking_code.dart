@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:barcode/barcode.dart';
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
@@ -20,6 +24,62 @@ class BookingCode extends StatelessWidget {
               style:
                   TextStyle(fontSize: kFontSize, fontWeight: FontWeight.w500),
             ),
+          ),
+          Row(
+            children: [
+              Expanded(
+                child: Column(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Text1"),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Text1"),
+                    )
+                  ],
+                ),
+              ),
+              Column(
+                children: [
+                  Container(
+                    width: 10,
+                    height: 10,
+                    decoration: const BoxDecoration(
+                        color: Colors.orange, shape: BoxShape.circle),
+                  ),
+                  const SizedBox(
+                    height: 50,
+                    child: VerticalDivider(
+                      thickness: 1.0,
+                      width: 10,
+                      color: Colors.black12,
+                    ),
+                  ),
+                  Container(
+                    width: 10,
+                    height: 10,
+                    decoration: const BoxDecoration(
+                        color: Colors.orange, shape: BoxShape.circle),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Column(
+                  children: const [
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Text1"),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text("Text1"),
+                    )
+                  ],
+                ),
+              )
+            ],
           )
         ],
       ),
@@ -50,7 +110,14 @@ class BookingCode extends StatelessWidget {
               padding: EdgeInsets.only(bottom: kPadding * 0.5),
               child: Text("Booking Code    XXXXXXXX"),
             ),
-            Container(height: 48, color: Colors.black)
+            Container(
+              height: 48,
+              child: BarcodeWidget(
+                barcode: Barcode.code128(),
+                data: 'Hello Flutter',
+                drawText: false,
+              ),
+            )
           ],
         ),
       ),

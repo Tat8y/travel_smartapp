@@ -58,6 +58,8 @@ dependencies:
   intl: ^0.17.0
   provider: ^6.0.3
   shared_preferences: ^2.0.15
+  barcode: ^2.2.1
+  barcode_widget: ^2.0.2
 
 dev_dependencies:
   flutter_lints: ^1.0.0

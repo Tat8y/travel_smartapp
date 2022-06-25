@@ -36,7 +36,7 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
                 CustomButton(
                   text: "Checkout",
                   onPressed: () {
-                    createBookingTicket(trainBooking);
+                    //createBookingTicket(trainBooking);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
