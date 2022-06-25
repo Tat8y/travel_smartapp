@@ -34,10 +34,10 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final bookingProvider = Provider.of<BookingProvider>(context);
     return ChangeNotifierProvider(
         create: (context) => BookingProvider(),
         builder: (context, child) {
+          final bookingProvider = Provider.of<BookingProvider>(context);
           return Scaffold(
               appBar: customAppBar(
                 title: "Select Sheet",

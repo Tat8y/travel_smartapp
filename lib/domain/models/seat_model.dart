@@ -42,6 +42,7 @@ class Seat {
         bookingIDFeild: bookingID,
       };
 
+  /// Update [Seat]
   Seat copyWith({SeatType? seatType, String? bookingID, int? executive}) =>
       Seat(
         id: id,

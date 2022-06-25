@@ -31,10 +31,29 @@ class _HomePageState extends State<HomePage> {
 
     try {
       // Validation Stations
-      ValidateTravelRoute.instance.validateData(
+      await ValidateTravelRoute.instance
+          .validateData(
         depature: depatureController.text,
-        destination: depatureController.text,
-      );
+        destination: destinationController.text,
+      )
+          .then((value) {
+        // Creating Travel Route
+        final TravelRoute travelRoute = TravelRoute(
+          from: depatureController.text,
+          to: destinationController.text,
+          date: date,
+        );
+
+        setState(() => buttonLoading = false);
+
+        // Navigating to SelectSeatPage
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (builder) => SelectSeatPage(travelRoute: travelRoute),
+          ),
+        );
+      });
     } on TravelRouteNotFoundExceptions {
       setState(() => buttonLoading = false);
       showErrorDialog(
@@ -47,23 +66,6 @@ class _HomePageState extends State<HomePage> {
         context,
         message:
             "You Have Entered Similar Station. Please Select Different Station",
-      );
-    } finally {
-      // Creating Travel Route
-      final TravelRoute travelRoute = TravelRoute(
-        from: depatureController.text,
-        to: destinationController.text,
-        date: date,
-      );
-
-      setState(() => buttonLoading = false);
-
-      // Navigating to SelectSeatPage
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (builder) => SelectSeatPage(travelRoute: travelRoute),
-        ),
       );
     }
   }

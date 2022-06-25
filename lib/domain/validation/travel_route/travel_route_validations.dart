@@ -8,7 +8,7 @@ class ValidateTravelRoute {
 
   SuggestionApi suggestionApi = SuggestionApi.instance;
 
-  void validateData({
+  Future<void> validateData({
     required String depature,
     required String destination,
   }) async {
