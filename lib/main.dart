@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
     // Getting PreferenceProvider from Build Context
     final provider = Provider.of<PrefernceProvider>(context);
 
-    return GetMaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TravelSmart',
       theme: provider.darkMode ? darkTheme : lightTheme,

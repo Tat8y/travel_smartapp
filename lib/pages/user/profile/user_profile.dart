@@ -8,7 +8,9 @@ import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
 import 'package:travel_smartapp/extentions/context/themes.dart';
+import 'package:travel_smartapp/pages/user/profile/edit_user_profile.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
+import 'package:travel_smartapp/widgets/text_feild/form_text_feild.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -18,16 +20,14 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  UserModel? user;
-
   @override
   void initState() {
-    String uid = FirebaseAuth.instance.currentUser!.uid;
-    UserService.firebase().readDocFuture(uid).then((value) {
-      setState(() {
-        user = value;
-      });
-    });
+    // String uid = FirebaseAuth.instance.currentUser!.uid;
+    // UserService.firebase().readDocFuture(uid).then((value) {
+    //   setState(() {
+    //     user = value;
+    //   });
+    // });
 
     super.initState();
   }
@@ -56,97 +56,118 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   : const Icon(Icons.light_mode_rounded),
             )
           ]),
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Transform.translate(
-            offset: const Offset(0.0, 100),
-            child: Container(
-              decoration: BoxDecoration(
-                color: context.themes.scaffoldBackgroundColor,
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(kBorderRadius * 1.5),
+      body: StreamBuilder<UserModel>(
+          stream: UserService.firebase()
+              .readDoc(FirebaseAuth.instance.currentUser!.uid),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const SizedBox();
+            }
+            UserModel? user = snapshot.data;
+
+            return Stack(
+              fit: StackFit.expand,
+              children: [
+                Transform.translate(
+                  offset: const Offset(0.0, 100),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: context.themes.scaffoldBackgroundColor,
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(kBorderRadius),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Transform.translate(
-              offset: const Offset(0.0, 50),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    child: const CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.grey,
-                      foregroundImage:
-                          CachedNetworkImageProvider(kDefaultAvatar),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: Transform.translate(
+                    offset: const Offset(0.0, 50),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          child: const CircleAvatar(
+                            radius: 50,
+                            backgroundColor: Colors.grey,
+                            foregroundImage:
+                                CachedNetworkImageProvider(kDefaultAvatar),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: kPadding * .5),
+                          child: Text(
+                              "${user?.firstName ?? ""} ${user?.secondName ?? ""}",
+                              style: const TextStyle(
+                                fontSize: kFontSize * .9,
+                                fontWeight: FontWeight.w500,
+                              )),
+                        ),
+                        Text(user?.email ?? "Wating ...",
+                            style: const TextStyle(
+                              fontSize: kFontSize * .7,
+                            )),
+                        const SizedBox(height: kPadding),
+                        CustomButton(
+                          text: "Past Travels",
+                          onPressed: () {},
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width -
+                                kPadding * 2,
+                            minHeight: 50,
+                          ),
+                        ),
+                        const SizedBox(height: kPadding * .5),
+                        CustomButton(
+                          text: "Points",
+                          onPressed: () {},
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width -
+                                kPadding * 2,
+                            minHeight: 50,
+                          ),
+                        ),
+                        const SizedBox(height: kPadding * .5),
+                        CustomButton(
+                          text: "Edit Profile",
+                          onPressed: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: (context) =>
+                                  EditProfileContent(user: user),
+                              isScrollControlled: true,
+                              enableDrag: true,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(kBorderRadius))),
+                            );
+                          },
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width -
+                                kPadding * 2,
+                            minHeight: 50,
+                          ),
+                        ),
+                        const SizedBox(height: kPadding * .5),
+                        CustomButton(
+                          text: "Logout",
+                          onPressed: authService.logout,
+                          constraints: BoxConstraints(
+                            minWidth: MediaQuery.of(context).size.width -
+                                kPadding * 2,
+                            minHeight: 50,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: kPadding * .5),
-                    child: Text(
-                        "${user?.firstName ?? ""} ${user?.secondName ?? ""}",
-                        style: const TextStyle(
-                          fontSize: kFontSize * .9,
-                          fontWeight: FontWeight.w500,
-                        )),
-                  ),
-                  Text(user?.email ?? "Wating ...",
-                      style: const TextStyle(
-                        fontSize: kFontSize * .7,
-                      )),
-                  const SizedBox(height: kPadding),
-                  CustomButton(
-                    text: "Edit Profile",
-                    onPressed: () {},
-                    constraints: BoxConstraints(
-                      minWidth:
-                          MediaQuery.of(context).size.width - kPadding * 2,
-                      minHeight: 50,
-                    ),
-                  ),
-                  const SizedBox(height: kPadding * .5),
-                  CustomButton(
-                    text: "Points",
-                    onPressed: () {},
-                    constraints: BoxConstraints(
-                      minWidth:
-                          MediaQuery.of(context).size.width - kPadding * 2,
-                      minHeight: 50,
-                    ),
-                  ),
-                  const SizedBox(height: kPadding * .5),
-                  CustomButton(
-                    text: "Past Travels",
-                    onPressed: () {},
-                    constraints: BoxConstraints(
-                      minWidth:
-                          MediaQuery.of(context).size.width - kPadding * 2,
-                      minHeight: 50,
-                    ),
-                  ),
-                  const SizedBox(height: kPadding * .5),
-                  CustomButton(
-                    text: "Logout",
-                    onPressed: authService.logout,
-                    constraints: BoxConstraints(
-                      minWidth:
-                          MediaQuery.of(context).size.width - kPadding * 2,
-                      minHeight: 50,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
+                ),
+              ],
+            );
+          }),
     );
   }
 }

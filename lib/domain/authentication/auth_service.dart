@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:travel_smartapp/domain/authentication/auth_exceptions.dart';
+import 'package:travel_smartapp/domain/models/user_model.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -33,6 +35,8 @@ class AuthService {
       throw SignUpErrorException();
     }
   }
+
+  void changePassword() async {}
 
   // Logout User
   Future<void> logout() async {

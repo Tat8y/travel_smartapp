@@ -28,4 +28,11 @@ class UserModel {
       'secondName': secondName,
     };
   }
+
+  UserModel copyWith({String? firstName, String? secondName}) => UserModel(
+        uid: uid,
+        email: email,
+        firstName: firstName ?? this.firstName,
+        secondName: secondName ?? this.secondName,
+      );
 }
