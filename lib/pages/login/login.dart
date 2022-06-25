@@ -37,7 +37,6 @@ class _LoginPageState extends State<LoginPage> {
         }
         return null;
       },
-      //VALIDATOR: () {},
       onSaved: (value) {
         emailController.text = value!;
       },

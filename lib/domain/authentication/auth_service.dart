@@ -4,6 +4,7 @@ import 'package:travel_smartapp/domain/authentication/auth_exceptions.dart';
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  // User Sign In with Email and Password
   Future<UserCredential> signInWithEmailAndPassword({
     required String email,
     required String password,
@@ -18,6 +19,7 @@ class AuthService {
     }
   }
 
+  // User Sign Up with Email and Password
   Future<UserCredential> signUpWithEmailAndPassword({
     required String email,
     required String password,
@@ -32,11 +34,12 @@ class AuthService {
     }
   }
 
+  // Logout User
   Future<void> logout() async {
     await _firebaseAuth.signOut();
   }
 
-  Stream<User?> get currentUser => _firebaseAuth.authStateChanges();
+  Stream<User?> get authStateChange => _firebaseAuth.authStateChanges();
 
-  User? get user => _firebaseAuth.currentUser;
+  User? get currentUser => _firebaseAuth.currentUser;
 }

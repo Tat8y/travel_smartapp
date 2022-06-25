@@ -4,6 +4,7 @@ import 'package:travel_smartapp/domain/cloud_services/booking_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
+import 'package:travel_smartapp/domain/strings.dart';
 import 'package:travel_smartapp/pages/booking/code/booking_code.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
@@ -24,38 +25,23 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
                 cardConfirmationDetailsRow(
                   title: "Your Seat",
                   value:
-                      "Exec 1 - ${trainBooking.seats.map((e) => e.row.toString() + e.column).join(' / ')}",
+                      "Exec 1 - ${generateSeatNumberFromList(trainBooking.seats)}",
                 ),
                 const SizedBox(height: kPadding * .5),
                 cardConfirmationDetailsRow(
                   title: "Total Price",
-                  value: "${trainBooking.seats.length * 250} LKR",
+                  value: "${calculatePrice(trainBooking.seats)} LKR",
                 ),
                 const SizedBox(height: kPadding),
                 CustomButton(
                   text: "Checkout",
                   onPressed: () {
-                    print("uploading");
-                    BookingService.firebase()
-                        .create(trainBooking.toMap())
-                        .then((booking) async {
-                      print(booking.id);
-                      for (var element in trainBooking.seats) {
-                        await SeatService.firebase()
-                            .update(
-                                id: element.id!,
-                                json: element
-                                    .update(bookingID: booking.id)
-                                    .toMap())
-                            .then((value) => print("Updated"));
-                      }
-                    });
-
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (builder) => const BookingCode()),
-                    // );
+                    createBookingTicket(trainBooking);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => const BookingCode()),
+                    );
                   },
                   constraints: const BoxConstraints.expand(height: 50),
                 )
@@ -70,4 +56,24 @@ Widget cardConfirmationDetailsRow(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [Text(title), Text(value)],
   );
+}
+
+void createBookingTicket(TrainBooking trainBooking) async {
+  await BookingService.firebase()
+      .create(trainBooking.toMap())
+      .then((booking) async {
+    for (Seat seat in trainBooking.seats) {
+      await SeatService.firebase()
+          .update(
+            id: seat.id!,
+            json: seat.copyWith(bookingID: booking.id).toMap(),
+          )
+          .then((value) => print("Updated"));
+    }
+  });
+}
+
+double calculatePrice(List<Seat> seats) {
+  double seatPrice = 250.0;
+  return seatPrice * seats.length;
 }

@@ -1,21 +1,18 @@
-import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
-import 'package:travel_smartapp/enums/train/seat.dart';
 
-/// { 'A':{1:SeatType, 2:SeatType} } TODO:
-Map<String, Map<int, SeatType>> generateSheets() {
-  Map<String, Map<int, SeatType>> retVal = {};
-  final row = List.generate(10, (index) => index + 1);
-  final columns = ['A', 'B', 'C', 'D'];
-  for (String seatColumn in columns) {
-    final rowIDs = <int, SeatType>{};
-    for (int seatID in row) {
-      rowIDs[seatID] = SeatType.available;
-    }
-    retVal[seatColumn] = rowIDs;
-  }
-  return retVal;
-}
+// Map<String, Map<int, SeatType>> generateSheets() {
+//   Map<String, Map<int, SeatType>> retVal = {};
+//   final row = List.generate(10, (index) => index + 1);
+//   final columns = ['A', 'B', 'C', 'D'];
+//   for (String seatColumn in columns) {
+//     final rowIDs = <int, SeatType>{};
+//     for (int seatID in row) {
+//       rowIDs[seatID] = SeatType.available;
+//     }
+//     retVal[seatColumn] = rowIDs;
+//   }
+//   return retVal;
+// }
 
 // List<SeatBox> kGenerateSeats() {
 //   List<SeatBox> retVal = [];
@@ -32,11 +29,11 @@ Map<String, Map<int, SeatType>> generateSheets() {
 //   return retVal;
 // }
 
-List<Seat> kGenerateSeats() {
-  List<Seat> retVal = [];
-  SeatService.firebase().readCollection().map((seats) => retVal = seats);
-  return retVal;
-}
+// List<Seat> kGenerateSeats() {
+//   List<Seat> retVal = [];
+//   SeatService.firebase().readCollection().map((seats) => retVal = seats);
+//   return retVal;
+// }
 
 List<String> getColumns(List<Seat> seats) {
   return seats.map<String>((seat) => seat.column).toSet().toList();

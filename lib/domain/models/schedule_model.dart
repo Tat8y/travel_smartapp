@@ -23,6 +23,7 @@ class TrainSchedule {
     this.destinationTime,
   });
 
+  /// TrainSchedule Data from [FirebaseFirestore] Server.
   factory TrainSchedule.fromMap(DocumentSnapshot map) => TrainSchedule(
         id: map.id,
         trainID: map[trainIDFeild],
@@ -34,6 +35,7 @@ class TrainSchedule {
             DateTime.fromMillisecondsSinceEpoch(map[destinationTimeFeild]),
       );
 
+  /// TrainSchedule Data to [FirebaseFirestore] Server
   Map<String, dynamic> toMap() => {
         trainIDFeild: trainID,
         depatureFeild: depature,

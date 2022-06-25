@@ -24,6 +24,7 @@ class Seat {
     this.bookingID,
   });
 
+  /// Seat Data from [FirebaseFirestore] Server.
   factory Seat.fromMap(DocumentSnapshot map) => Seat(
         id: map.id,
         column: map[columnFeild] as String,
@@ -32,6 +33,7 @@ class Seat {
         bookingID: map[bookingIDFeild],
       );
 
+  /// Seat Data to [FirebaseFirestore] Server.
   Map<String, dynamic> toMap() => {
         columnFeild: column,
         rowFeild: row,
@@ -40,33 +42,13 @@ class Seat {
         bookingIDFeild: bookingID,
       };
 
-  Seat update({SeatType? seatType, String? bookingID, int? executive}) => Seat(
+  Seat copyWith({SeatType? seatType, String? bookingID, int? executive}) =>
+      Seat(
         id: id,
         column: column,
         row: row,
         seatType: seatType ?? this.seatType,
         executive: executive ?? this.executive,
         bookingID: bookingID ?? this.bookingID,
-      );
-}
-
-// Support Model
-class SeatBox {
-  final String column;
-  final int row;
-  final SeatType type;
-  final int executive;
-
-  SeatBox(
-      {required this.column,
-      required this.row,
-      required this.type,
-      required this.executive});
-
-  SeatBox update({SeatType? type, int? executive}) => SeatBox(
-        column: column,
-        row: row,
-        type: type ?? this.type,
-        executive: executive ?? this.executive,
       );
 }

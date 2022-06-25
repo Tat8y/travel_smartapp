@@ -5,12 +5,11 @@ import 'package:travel_smartapp/domain/api/seat_generator.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
 import 'package:travel_smartapp/extentions/list/filter.dart';
+import 'package:travel_smartapp/pages/booking/select_sheet/select_seat_constants.dart';
 
 class ExectiveWidget extends StatefulWidget {
   final List<Seat> data;
-  final Function(List<Seat>) onTap;
-  const ExectiveWidget({Key? key, required this.data, required this.onTap})
-      : super(key: key);
+  const ExectiveWidget({Key? key, required this.data}) : super(key: key);
 
   @override
   State<ExectiveWidget> createState() => _ExectiveWidgetState();
@@ -19,6 +18,8 @@ class ExectiveWidget extends StatefulWidget {
 class _ExectiveWidgetState extends State<ExectiveWidget> {
   switchSeat(Seat seat) {
     final provider = context.read<BookingProvider>();
+
+    // Add or Remove seat from booking provider
     setState(() {
       if (!provider.selectedSeats.seatContains(seat)) {
         provider.addSeat(seat);
@@ -78,7 +79,7 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
 
     if (seatBox.bookingID != null) {
       // Unavailable
-      icon = Icons.disabled_by_default_rounded;
+      icon = unavailabelIcon;
       color = Colors.grey;
     } else {
       // Get Selected Seats from Booking Provider
@@ -86,10 +87,10 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
 
       if (selctedSeats.seatContains(seatBox)) {
         // Selected
-        icon = Icons.check_box;
+        icon = selectedIcon;
       } else {
         // Availabel
-        icon = Icons.check_box_outline_blank_outlined;
+        icon = availabelIcon;
       }
     }
     return Container(

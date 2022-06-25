@@ -12,16 +12,22 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get AuthService Provider from Build Context
     final authService = Provider.of<AuthService>(context);
 
     return StreamBuilder<User?>(
-      stream: authService.currentUser,
+      stream: authService.authStateChange,
       builder: (context, snapshot) {
+        // Check App is Running First Time
         if (context.read<PrefernceProvider>().firstTime) {
           return const LanguageSelectPage();
         }
+
         if (snapshot.connectionState == ConnectionState.active) {
+          // Get Current Firebase User? from Snapshot
           final User? user = snapshot.data;
+
+          // If User is Not Empty navigate to RootPage and User is Empty Navigate to LoginPage
           return user != null ? const RootPage() : const LoginPage();
         } else {
           return const LoadingScreen();

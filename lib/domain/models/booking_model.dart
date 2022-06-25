@@ -22,6 +22,7 @@ class TrainBooking {
     required this.route,
   });
 
+  // TrainBooking Data from Server
   factory TrainBooking.fromMap(DocumentSnapshot map) => TrainBooking(
         id: map.id,
         date: DateTime.fromMillisecondsSinceEpoch(map[dateFeild]),
@@ -30,6 +31,7 @@ class TrainBooking {
         route: TravelRoute.fromMap(map[routeFeild]),
       );
 
+  // TrainBooking Data to Server
   Map<String, dynamic> toMap() => {
         dateFeild: date.millisecondsSinceEpoch,
         arrivalTimeFeild: arrivalTime.millisecondsSinceEpoch,

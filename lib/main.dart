@@ -14,12 +14,19 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  // Create a SharedPreferences Instance
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+
+  // Add Instance to MultiProvider
   runApp(MultiProvider(
       providers: [
+        // Auth Service Provider
         Provider<AuthService>(
           create: (context) => AuthService(),
         ),
+
+        // Add Prefrence Provider
         ChangeNotifierProvider<PrefernceProvider>(
           create: (context) => PrefernceProvider(sharedPreferences),
         ),
@@ -35,13 +42,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Getting PreferenceProvider from Build Context
     final provider = Provider.of<PrefernceProvider>(context);
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TravelSmart',
       theme: lightTheme,
-      locale: provider.locale,
+      locale: provider.locale, // Set Locale from Shared Preference
       supportedLocales: L10n.all,
       localizationsDelegates: const [
         AppLocalizations.delegate,

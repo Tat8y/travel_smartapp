@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
@@ -8,7 +7,6 @@ import 'package:travel_smartapp/pages/home/home.dart';
 import 'package:travel_smartapp/pages/location/location_controller.dart';
 import 'package:travel_smartapp/pages/location/train_location.dart';
 import 'package:travel_smartapp/pages/user/profile/user_profile.dart';
-import 'package:travel_smartapp/home/from_data.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({
@@ -44,7 +42,7 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     Get.put(LocationController());
     return Scaffold(
-// BOTTOM NAVIGATION BAR
+      // BOTTOM NAVIGATION BAR
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
@@ -72,19 +70,19 @@ class _RootPageState extends State<RootPage> {
     );
   }
 
-  Widget buildCity() => TypeAheadFormField<String?>(
-        textFieldConfiguration: TextFieldConfiguration(
-          controller: controllerCity,
-          decoration: const InputDecoration(
-            labelText: 'From',
-            border: OutlineInputBorder(),
-          ),
-        ),
-        suggestionsCallback: FromData.getSuggestions,
-        itemBuilder: (context, String? suggestion) => ListTile(
-          title: Text(suggestion!),
-        ),
-        onSuggestionSelected: (String? suggestion) =>
-            controllerCity.text = suggestion!,
-      );
+  // Widget buildCity() => TypeAheadFormField<String?>(
+  //       textFieldConfiguration: TextFieldConfiguration(
+  //         controller: controllerCity,
+  //         decoration: const InputDecoration(
+  //           labelText: 'From',
+  //           border: OutlineInputBorder(),
+  //         ),
+  //       ),
+  //       suggestionsCallback: FromData.getSuggestions,
+  //       itemBuilder: (context, String? suggestion) => ListTile(
+  //         title: Text(suggestion!),
+  //       ),
+  //       onSuggestionSelected: (String? suggestion) =>
+  //           controllerCity.text = suggestion!,
+  //     );
 }

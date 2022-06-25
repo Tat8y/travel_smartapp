@@ -1,42 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
-import 'package:travel_smartapp/domain/api/seat_generator.dart';
 import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
-import 'package:travel_smartapp/domain/controllers.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
-import 'package:travel_smartapp/enums/train/seat.dart';
+import 'package:travel_smartapp/domain/strings.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/executive_container.dart';
+import 'package:travel_smartapp/pages/booking/select_sheet/select_seat_constants.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/sheet_confirmation.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
-class SelectSheetPage extends StatefulWidget {
+class SelectSeatPage extends StatefulWidget {
   final TravelRoute travelRoute;
-  const SelectSheetPage({Key? key, required this.travelRoute})
-      : super(key: key);
+  const SelectSeatPage({Key? key, required this.travelRoute}) : super(key: key);
 
   @override
-  State<SelectSheetPage> createState() => _SelectSheetPageState();
+  State<SelectSeatPage> createState() => _SelectSeatPageState();
 }
 
-class _SelectSheetPageState extends State<SelectSheetPage> {
+class _SelectSeatPageState extends State<SelectSeatPage> {
   final PageController pageController = PageController();
   int totalExecutves = 2;
   int currentExecutive = 0;
-  List<Seat> selectedSheets = [];
-  //final data = kGenerateSeats();
-  late SeatController seatController;
-
-  @override
-  void initState() {
-    seatController = Get.put(SeatController());
-    super.initState();
-  }
 
   void currentExecutivePageChanged(int index) {
     setState(() {
@@ -46,6 +34,7 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
 
   @override
   Widget build(BuildContext context) {
+    final bookingProvider = Provider.of<BookingProvider>(context);
     return ChangeNotifierProvider(
         create: (context) => BookingProvider(),
         builder: (context, child) {
@@ -63,7 +52,8 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                   buildExecutives(),
                   Consumer(
                     builder: (context, value, child) => Text(
-                        "Seat : ${Provider.of<BookingProvider>(context).selectedSeats.map((e) => e.column + e.row.toString())}"),
+                      "Seat : ${generateSeatNumberFromList(bookingProvider.selectedSeats)}",
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(kPadding),
@@ -72,14 +62,16 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                         constraints: const BoxConstraints.expand(height: 50),
                         onPressed: () {
                           openSheetConfirmation(
-                              context,
-                              TrainBooking(
-                                  date: DateTime.now(),
-                                  arrivalTime: DateTime.now(),
-                                  seats: Provider.of<BookingProvider>(context,
-                                          listen: false)
-                                      .selectedSeats,
-                                  route: widget.travelRoute));
+                            context,
+                            TrainBooking(
+                              date: DateTime.now(),
+                              arrivalTime: DateTime.now(),
+                              seats: Provider.of<BookingProvider>(context,
+                                      listen: false)
+                                  .selectedSeats,
+                              route: widget.travelRoute,
+                            ),
+                          );
                         }),
                   )
                 ],
@@ -98,8 +90,8 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                   Expanded(
                     child: PageView.builder(
                       controller: pageController,
-                      itemBuilder: (context, index) => ExectiveWidget(
-                          data: snapshot.data!, onTap: (seats) {}),
+                      itemBuilder: (context, index) =>
+                          ExectiveWidget(data: snapshot.data!),
                       itemCount: totalExecutves,
                       scrollDirection: Axis.vertical,
                       onPageChanged: currentExecutivePageChanged,
@@ -125,18 +117,10 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(
-                onPressed: currentExecutive != 0
-                    ? () {
-                        pageController.previousPage(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeIn);
-                      }
-                    : null,
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  size: 18,
-                )),
+            _navigateContainerButton(
+              Icons.arrow_back_ios_rounded,
+              currentExecutive != 0,
+            ),
             ElevatedButton(
               onPressed: () {},
               child: Text("Executive ${currentExecutive + 1}"),
@@ -145,22 +129,28 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
                 primary: kPrimaryColor,
               ),
             ),
-            IconButton(
-                onPressed: currentExecutive + 1 != totalExecutves
-                    ? () {
-                        pageController.nextPage(
-                            duration: const Duration(milliseconds: 500),
-                            curve: Curves.easeIn);
-                      }
-                    : null,
-                icon: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 18,
-                )),
+            _navigateContainerButton(Icons.arrow_forward_ios_rounded,
+                currentExecutive + 1 != totalExecutves),
           ],
         ),
       ),
     );
+  }
+
+  IconButton _navigateContainerButton(IconData icon, bool statement) {
+    return IconButton(
+        onPressed: statement
+            ? () {
+                pageController.previousPage(
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeOut,
+                );
+              }
+            : null,
+        icon: Icon(
+          icon,
+          size: 18,
+        ));
   }
 
   Widget buildSheetMapMenu() {
@@ -174,19 +164,19 @@ class _SelectSheetPageState extends State<SelectSheetPage> {
           Expanded(
             child: _sheetMapMenuItem(
               text: "Available",
-              icon: Icons.check_box_outline_blank_outlined,
+              icon: availabelIcon,
             ),
           ),
           Expanded(
             child: _sheetMapMenuItem(
               text: "Selected",
-              icon: Icons.check_box_rounded,
+              icon: selectedIcon,
             ),
           ),
           Expanded(
             child: _sheetMapMenuItem(
               text: "Unavailable",
-              icon: Icons.disabled_by_default_rounded,
+              icon: unavailabelIcon,
               color: Colors.grey,
             ),
           ),

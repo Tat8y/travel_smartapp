@@ -13,12 +13,14 @@ class TravelRoute {
     required this.date,
   });
 
+  // Travel Route Data to Map
   Map<String, dynamic> toMap() => {
         fromFeild: from,
         toFeild: to,
         dateFeild: date.millisecondsSinceEpoch,
       };
 
+  // Travel Route Data from Map
   static TravelRoute fromMap(map) => TravelRoute(
         from: map['from'],
         to: map['to'],
