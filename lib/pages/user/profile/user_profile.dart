@@ -6,6 +6,8 @@ import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
+import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
+import 'package:travel_smartapp/extentions/context/themes.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -33,6 +35,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
   @override
   Widget build(BuildContext context) {
     final AuthService authService = Provider.of<AuthService>(context);
+    final PrefernceProvider prefernceProvider =
+        Provider.of<PrefernceProvider>(context);
 
     return Scaffold(
       backgroundColor: kPrimaryColor,
@@ -44,7 +48,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
           iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.white),
           actions: [
             IconButton(
-                onPressed: authService.logout, icon: const Icon(Icons.logout))
+              onPressed: () {
+                prefernceProvider.darkMode = !prefernceProvider.darkMode;
+              },
+              icon: prefernceProvider.darkMode
+                  ? const Icon(Icons.dark_mode_rounded, color: kSecondaryColor)
+                  : const Icon(Icons.light_mode_rounded),
+            )
           ]),
       body: Stack(
         fit: StackFit.expand,
@@ -52,9 +62,9 @@ class _UserProfilePageState extends State<UserProfilePage> {
           Transform.translate(
             offset: const Offset(0.0, 100),
             child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(
+              decoration: BoxDecoration(
+                color: context.themes.scaffoldBackgroundColor,
+                borderRadius: const BorderRadius.vertical(
                   top: Radius.circular(kBorderRadius * 1.5),
                 ),
               ),
@@ -115,6 +125,16 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   CustomButton(
                     text: "Past Travels",
                     onPressed: () {},
+                    constraints: BoxConstraints(
+                      minWidth:
+                          MediaQuery.of(context).size.width - kPadding * 2,
+                      minHeight: 50,
+                    ),
+                  ),
+                  const SizedBox(height: kPadding * .5),
+                  CustomButton(
+                    text: "Logout",
+                    onPressed: authService.logout,
                     constraints: BoxConstraints(
                       minWidth:
                           MediaQuery.of(context).size.width - kPadding * 2,

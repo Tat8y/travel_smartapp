@@ -48,7 +48,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'TravelSmart',
-      theme: lightTheme,
+      theme: provider.darkMode ? darkTheme : lightTheme,
+      darkTheme: darkTheme,
       locale: provider.locale, // Set Locale from Shared Preference
       supportedLocales: L10n.all,
       localizationsDelegates: const [

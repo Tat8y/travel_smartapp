@@ -21,11 +21,12 @@ class CustomTextFeild extends StatelessWidget {
       focusNode: focusNode,
       onEditingComplete: onEditingComplete,
       decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(kPadding * 0.5),
-          isDense: true,
-          hintText: hint,
-          border: InputBorder.none,
-          label: Text(hint)),
+        contentPadding: const EdgeInsets.all(kPadding * 0.5),
+        isDense: true,
+        hintText: hint,
+        border: InputBorder.none,
+        label: Text(hint),
+      ),
     );
   }
 }

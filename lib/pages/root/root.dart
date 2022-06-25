@@ -1,8 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
+import 'package:travel_smartapp/extentions/context/themes.dart';
 import 'package:travel_smartapp/pages/home/home.dart';
 import 'package:travel_smartapp/pages/location/location_controller.dart';
 import 'package:travel_smartapp/pages/location/train_location.dart';
@@ -46,25 +48,26 @@ class _RootPageState extends State<RootPage> {
       body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color.fromARGB(255, 228, 227, 227),
+        backgroundColor: context.themes.bottomAppBarColor,
         iconSize: 28,
         // showSelectedLabels: false,
+        fixedColor: kSecondaryColor,
         showUnselectedLabels: false,
         currentIndex: currentIndex,
         onTap: (index) => setState(() => currentIndex = index),
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-              backgroundColor: Colors.orange),
+            icon: Icon(Icons.home_outlined),
+            label: 'Home',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.my_location),
-              label: 'Location',
-              backgroundColor: Colors.orange),
+            icon: Icon(Icons.person_pin_circle_outlined),
+            label: 'Location',
+          ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'User Profile',
-              backgroundColor: Colors.orange),
+            icon: Icon(Icons.person_outlined),
+            label: 'Account',
+          ),
         ],
       ),
     );

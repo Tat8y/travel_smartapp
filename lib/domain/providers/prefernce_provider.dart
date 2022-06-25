@@ -37,6 +37,7 @@ class PrefernceProvider extends ChangeNotifier {
 
   void _setLocalePref(Locale locale) {
     preferences.setString(_keyLocale, locale.languageCode);
+    notifyListeners();
   }
 
   bool _getDarkModePref() {
@@ -45,6 +46,7 @@ class PrefernceProvider extends ChangeNotifier {
 
   void _setDarkModePref(bool state) {
     preferences.setBool(_keyDarkMode, state);
+    notifyListeners();
   }
 
   bool _getFirstTimePref() {
@@ -53,9 +55,11 @@ class PrefernceProvider extends ChangeNotifier {
 
   void _setFirstTimePref(bool state) {
     preferences.setBool(_keyFirstTime, state);
+    notifyListeners();
   }
 
   void clear() async {
     await preferences.clear();
+    notifyListeners();
   }
 }
