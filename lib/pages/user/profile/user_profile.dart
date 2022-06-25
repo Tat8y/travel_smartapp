@@ -10,7 +10,6 @@ import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
 import 'package:travel_smartapp/extentions/context/themes.dart';
 import 'package:travel_smartapp/pages/user/profile/edit_user_profile.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
-import 'package:travel_smartapp/widgets/text_feild/form_text_feild.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -20,18 +19,6 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  @override
-  void initState() {
-    // String uid = FirebaseAuth.instance.currentUser!.uid;
-    // UserService.firebase().readDocFuture(uid).then((value) {
-    //   setState(() {
-    //     user = value;
-    //   });
-    // });
-
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final AuthService authService = Provider.of<AuthService>(context);

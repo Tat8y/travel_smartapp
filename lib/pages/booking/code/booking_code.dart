@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:barcode/barcode.dart';
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
@@ -110,7 +107,7 @@ class BookingCode extends StatelessWidget {
               padding: EdgeInsets.only(bottom: kPadding * 0.5),
               child: Text("Booking Code    XXXXXXXX"),
             ),
-            Container(
+            SizedBox(
               height: 48,
               child: BarcodeWidget(
                 barcode: Barcode.code128(),
