@@ -1,10 +1,10 @@
 import 'package:travel_smartapp/domain/cloud/cloud_constatnts.dart';
 import 'package:travel_smartapp/domain/cloud/cloud_provider.dart';
 import 'package:travel_smartapp/domain/cloud/firebase_service.dart';
-import 'package:travel_smartapp/domain/models/booking_schedule_model.dart';
+import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 
 class TrainScheduleService
-    implements CloudProvider<BookingSchedule, List<BookingSchedule>> {
+    implements CloudProvider<TrainSchedule, List<TrainSchedule>> {
   final CloudProvider provider;
   TrainScheduleService(this.provider);
 
@@ -13,8 +13,8 @@ class TrainScheduleService
       );
 
   @override
-  Future<BookingSchedule> create(Map<String, dynamic> map) async {
-    return BookingSchedule.fromMap(await provider.create(map));
+  Future<TrainSchedule> create(Map<String, dynamic> map) async {
+    return TrainSchedule.fromMap(await provider.create(map));
   }
 
   @override
@@ -29,14 +29,14 @@ class TrainScheduleService
   }
 
   @override
-  Stream<List<BookingSchedule>> readCollection() {
+  Stream<List<TrainSchedule>> readCollection() {
     final snapshots = provider.readCollection() as Stream<CollectionRef>;
 
     return snapshots.map((snapshot) {
-      List<BookingSchedule> retVal = [];
+      List<TrainSchedule> retVal = [];
 
       for (var element in snapshot.docs) {
-        retVal.add(BookingSchedule.fromMap(element));
+        retVal.add(TrainSchedule.fromMap(element));
       }
 
       return retVal;
@@ -44,7 +44,7 @@ class TrainScheduleService
   }
 
   @override
-  Stream<List<BookingSchedule>> readCollectionByFilter({
+  Stream<List<TrainSchedule>> readCollectionByFilter({
     required String field,
     required String isEqualTo,
   }) {
@@ -52,10 +52,10 @@ class TrainScheduleService
         field: field, isEqualTo: isEqualTo) as Stream<CollectionRef>;
 
     return snapshots.map((snapshot) {
-      List<BookingSchedule> retVal = [];
+      List<TrainSchedule> retVal = [];
 
       for (var element in snapshot.docs) {
-        retVal.add(BookingSchedule.fromMap(element));
+        retVal.add(TrainSchedule.fromMap(element));
       }
 
       return retVal;
@@ -63,14 +63,14 @@ class TrainScheduleService
   }
 
   @override
-  Stream<List<BookingSchedule>> readCollectionByOrder(String field) {
+  Stream<List<TrainSchedule>> readCollectionByOrder(String field) {
     final snapshots =
         provider.readCollectionByOrder(field) as Stream<CollectionRef>;
     return snapshots.map((snapshot) {
-      List<BookingSchedule> retVal = [];
+      List<TrainSchedule> retVal = [];
 
       for (var element in snapshot.docs) {
-        retVal.add(BookingSchedule.fromMap(element));
+        retVal.add(TrainSchedule.fromMap(element));
       }
 
       return retVal;
@@ -78,14 +78,14 @@ class TrainScheduleService
   }
 
   @override
-  Stream<BookingSchedule> readDoc(String id) {
+  Stream<TrainSchedule> readDoc(String id) {
     final ref = provider.readDoc(id) as Stream<DocumentRef>;
-    return ref.map((value) => BookingSchedule.fromMap(value));
+    return ref.map((value) => TrainSchedule.fromMap(value));
   }
 
   @override
-  Future<BookingSchedule> readDocFuture(String id) async {
-    return BookingSchedule.fromMap(await provider.readDocFuture(id));
+  Future<TrainSchedule> readDocFuture(String id) async {
+    return TrainSchedule.fromMap(await provider.readDocFuture(id));
   }
 
   @override
