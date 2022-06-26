@@ -117,7 +117,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            _navigateContainerButton(
+            _navigateContainerButtonPrev(
               Icons.arrow_back_ios_rounded,
               currentExecutive != 0,
             ),
@@ -129,7 +129,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
                 primary: kPrimaryColor,
               ),
             ),
-            _navigateContainerButton(Icons.arrow_forward_ios_rounded,
+            _navigateContainerButtonNext(Icons.arrow_forward_ios_rounded,
                 currentExecutive + 1 != totalExecutves),
           ],
         ),
@@ -137,11 +137,27 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
     );
   }
 
-  IconButton _navigateContainerButton(IconData icon, bool statement) {
+  IconButton _navigateContainerButtonPrev(IconData icon, bool statement) {
     return IconButton(
         onPressed: statement
             ? () {
                 pageController.previousPage(
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeOut,
+                );
+              }
+            : null,
+        icon: Icon(
+          icon,
+          size: 18,
+        ));
+  }
+
+  IconButton _navigateContainerButtonNext(IconData icon, bool statement) {
+    return IconButton(
+        onPressed: statement
+            ? () {
+                pageController.nextPage(
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeOut,
                 );

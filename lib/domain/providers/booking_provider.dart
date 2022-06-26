@@ -15,7 +15,7 @@ class BookingProvider extends ChangeNotifier {
   }
 
   void removeSeat(Seat seat) {
-    _selectedSeats.remove(seat);
+    _selectedSeats.removeWhere((item) => item.id == seat.id);
     notifyListeners();
   }
 

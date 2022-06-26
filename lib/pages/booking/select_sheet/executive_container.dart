@@ -16,8 +16,8 @@ class ExectiveWidget extends StatefulWidget {
 }
 
 class _ExectiveWidgetState extends State<ExectiveWidget> {
-  switchSeat(Seat seat) {
-    final provider = context.read<BookingProvider>();
+  void switchSeat(Seat seat) {
+    final provider = Provider.of<BookingProvider>(context, listen: false);
 
     // Add or Remove seat from booking provider
     setState(() {
@@ -27,6 +27,7 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
         provider.removeSeat(seat);
       }
     });
+    print(provider.selectedSeats.length);
   }
 
   @override
