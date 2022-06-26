@@ -27,7 +27,6 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
         provider.removeSeat(seat);
       }
     });
-    print(provider.selectedSeats.length);
   }
 
   @override
