@@ -1,8 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
-import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
@@ -122,24 +120,24 @@ class _EditProfileContentState extends State<EditProfileContent> {
                   enabled: false,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: kPadding, vertical: kPadding / 2),
-                child: CustomFormTextFeild(
-                  controller: newPassEditingController,
-                  hint: "New Password",
-                  obscureText: true,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: kPadding, vertical: kPadding / 2),
-                child: CustomFormTextFeild(
-                  controller: confirmPassEditingColler,
-                  hint: "Confirm Password",
-                  obscureText: true,
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(
+              //       horizontal: kPadding, vertical: kPadding / 2),
+              //   child: CustomFormTextFeild(
+              //     controller: newPassEditingController,
+              //     hint: "New Password",
+              //     obscureText: true,
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(
+              //       horizontal: kPadding, vertical: kPadding / 2),
+              //   child: CustomFormTextFeild(
+              //     controller: confirmPassEditingColler,
+              //     hint: "Confirm Password",
+              //     obscureText: true,
+              //   ),
+              // ),
               const SizedBox(height: kPadding / 2),
               CustomButton(
                 text: "Update",

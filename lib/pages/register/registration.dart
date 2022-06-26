@@ -6,6 +6,7 @@ import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
+import 'package:travel_smartapp/extentions/context/localization.dart';
 import 'package:travel_smartapp/pages/root/root.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -39,10 +40,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
       validator: (value) {
         RegExp regex = RegExp(r'^.{3,}$');
         if (value!.isEmpty) {
-          return ("First Name cannot be empty");
+          return (context.loc?.cannot_be_empty(context.loc!.first_name_label));
         }
         if (!regex.hasMatch(value)) {
-          return ("Please Enter Valid name(Min. 8 Characters");
+          return (context.loc
+              ?.please_enter_valid_feild(context.loc!.first_name_label));
         }
         return null;
       },
@@ -56,7 +58,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         prefixIcon: const Icon(Icons.account_circle,
             color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "First Name",
+        hintText: context.loc?.first_name_label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -70,7 +72,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       keyboardType: TextInputType.name,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Second Name cannot be empty");
+          return (context.loc?.cannot_be_empty(context.loc!.last_name_label));
         }
         return null;
       },
@@ -84,7 +86,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         prefixIcon: const Icon(Icons.account_circle,
             color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Second Name",
+        hintText: context.loc?.last_name_label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -103,7 +105,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
         }
         //Reg expression for email validation
         if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-          return ("Please Enter a valid email");
+          return (context.loc
+              ?.please_enter_valid_feild(context.loc!.email_label));
         }
         return null;
       },
@@ -117,7 +120,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         prefixIcon:
             const Icon(Icons.mail, color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Email",
+        hintText: context.loc?.email_label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -133,10 +136,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
       validator: (value) {
         RegExp regex = RegExp(r'^.{8,}$');
         if (value!.isEmpty) {
-          return ("Password is required for login");
+          return (context.loc
+              ?.feild_requried(context.loc!.password, context.loc!.register));
         }
         if (!regex.hasMatch(value)) {
-          return ("Please Enter Valid password(Min. 8 Characters)");
+          return (context.loc?.please_enter_valid_feild(context.loc!.password));
         }
         return null;
       },
@@ -150,7 +154,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         prefixIcon: const Icon(Icons.vpn_key,
             color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Password",
+        hintText: context.loc?.password,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -165,7 +169,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       validator: (value) {
         if (passwordEditingController.text.length > 8 &&
             passwordEditingController.text != value) {
-          return "Password don't match";
+          return context.loc?.password_dont_match;
         }
         return null;
       },
@@ -179,7 +183,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
         prefixIcon: const Icon(Icons.vpn_key,
             color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-        hintText: "Confirm Password",
+        hintText: context.loc?.confrim_password,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -198,10 +202,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
           onPressed: () {
             signUp(emailEditingController.text, passwordEditingController.text);
           },
-          child: const Text(
-            "Sign up",
+          child: Text(
+            context.loc!.sign_up,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 17, color: Colors.black, fontWeight: FontWeight.bold),
           )),
     );

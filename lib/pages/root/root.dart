@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
+import 'package:travel_smartapp/extentions/context/localization.dart';
 import 'package:travel_smartapp/extentions/context/themes.dart';
 import 'package:travel_smartapp/pages/home/home.dart';
 import 'package:travel_smartapp/pages/location/location_controller.dart';
@@ -55,18 +56,18 @@ class _RootPageState extends State<RootPage> {
         showUnselectedLabels: false,
         currentIndex: currentIndex,
         onTap: (index) => setState(() => currentIndex = index),
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            label: context.loc?.home,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_pin_circle_outlined),
-            label: 'Location',
+            icon: const Icon(Icons.person_pin_circle_outlined),
+            label: context.loc?.location,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person_outlined),
-            label: 'Account',
+            icon: const Icon(Icons.person_outlined),
+            label: context.loc?.account,
           ),
         ],
       ),

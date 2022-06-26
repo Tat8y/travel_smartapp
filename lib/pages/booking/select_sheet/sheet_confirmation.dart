@@ -5,7 +5,7 @@ import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/strings.dart';
-import 'package:travel_smartapp/pages/booking/code/booking_code.dart';
+import 'package:travel_smartapp/pages/checkout/payment_confirmation/paymnet_confrimation.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
 void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
@@ -36,11 +36,11 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
                 CustomButton(
                   text: "Checkout",
                   onPressed: () {
-                    //createBookingTicket(trainBooking);
+                    createBookingTicket(trainBooking);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (builder) => const BookingCode()),
+                          builder: (builder) => const PaymentConfirmation()),
                     );
                   },
                   constraints: const BoxConstraints.expand(height: 50),

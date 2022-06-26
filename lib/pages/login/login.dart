@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
+import 'package:travel_smartapp/extentions/context/localization.dart';
 import 'package:travel_smartapp/pages/root/root.dart';
 import 'package:travel_smartapp/pages/register/registration.dart';
 
@@ -29,11 +30,13 @@ class _LoginPageState extends State<LoginPage> {
       keyboardType: TextInputType.emailAddress,
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Please Enter Your Email");
+          return (context.loc
+              ?.please_enter_valid_feild(context.loc!.email_label));
         }
         //Reg expression for email validation
         if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
-          return ("Please Enter a valid email");
+          return (context.loc
+              ?.please_enter_valid_feild(context.loc!.email_label));
         }
         return null;
       },
@@ -47,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
         prefixIcon:
             const Icon(Icons.mail, color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
-        hintText: "Email",
+        hintText: context.loc!.email_label,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -62,10 +65,11 @@ class _LoginPageState extends State<LoginPage> {
       validator: (value) {
         RegExp regex = RegExp(r'^.{8,}$');
         if (value!.isEmpty) {
-          return ("Please enter password to login");
+          return (context.loc
+              ?.feild_requried(context.loc!.password, context.loc!.login));
         }
         if (!regex.hasMatch(value)) {
-          return ("Please Enter Valid Password(Min. 8 Characters)");
+          return (context.loc?.please_enter_valid_feild(context.loc!.password));
         }
         return null;
       },
@@ -79,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
         prefixIcon: const Icon(Icons.vpn_key,
             color: Color.fromARGB(255, 155, 157, 158)),
         contentPadding: const EdgeInsets.fromLTRB(20, 18, 20, 18),
-        hintText: "Password",
+        hintText: context.loc!.password,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -98,10 +102,10 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () {
             signIn(emailController.text, passwordController.text);
           },
-          child: const Text(
-            "Login",
+          child: Text(
+            context.loc!.login,
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
                 fontSize: 17, color: Colors.black, fontWeight: FontWeight.bold),
           )),
     );
@@ -136,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        const Text("Don't have an account yet?"),
+                        Text(context.loc!.dont_have_an_account),
                         GestureDetector(
                             onTap: () {
                               Navigator.push(
@@ -145,8 +149,8 @@ class _LoginPageState extends State<LoginPage> {
                                       builder: (context) =>
                                           const RegistrationPage()));
                             },
-                            child: const Text(
-                              "  Sign up now",
+                            child: Text(
+                              context.loc!.sign_up,
                               style: TextStyle(
                                   color: Colors.orange,
                                   fontWeight: FontWeight.bold,
@@ -172,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
       await authService
           .signInWithEmailAndPassword(email: email, password: password)
           .then((uid) => {
-                Fluttertoast.showToast(msg: "Login Successful"),
+                Fluttertoast.showToast(msg: context.loc!.login_successful),
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => const RootPage()))
               })
