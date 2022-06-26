@@ -76,6 +76,24 @@ class StationService
     });
   }
 
+  Future<List<TrainStation>> readCollectionByFilterFuture({
+    required String field,
+    required String isEqualTo,
+  }) {
+    final snapshots = provider.readCollectionByFilterFuture(
+        field: field, isEqualTo: isEqualTo);
+
+    return snapshots.then((snapshot) {
+      List<TrainStation> retVal = [];
+
+      for (var element in snapshot.docs) {
+        retVal.add(TrainStation.fromMap(element));
+      }
+
+      return retVal;
+    });
+  }
+
   @override
   Stream<List<TrainStation>> readCollectionByOrder(String field) {
     final snapshots = provider.readCollectionByOrder(field);

@@ -30,6 +30,13 @@ class FirebaseCloudProvider
           .where(field, isEqualTo: isEqualTo)
           .snapshots();
 
+  Future<CollectionRef> readCollectionByFilterFuture(
+          {required String field, required String isEqualTo}) =>
+      _firebaseFirestore
+          .collection(collection)
+          .where(field, isEqualTo: isEqualTo)
+          .get();
+
   @override
   Stream<CollectionRef> readCollectionByOrder(String field) =>
       _firebaseFirestore.collection(collection).orderBy(field).snapshots();

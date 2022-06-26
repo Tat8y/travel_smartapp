@@ -4,7 +4,7 @@ import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
-import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
+import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
 import 'package:travel_smartapp/domain/strings.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/executive_container.dart';
@@ -14,8 +14,8 @@ import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
 class SelectSeatPage extends StatefulWidget {
-  final TravelRoute travelRoute;
-  const SelectSeatPage({Key? key, required this.travelRoute}) : super(key: key);
+  final TrainSchedule schedule;
+  const SelectSeatPage({Key? key, required this.schedule}) : super(key: key);
 
   @override
   State<SelectSeatPage> createState() => _SelectSeatPageState();
@@ -25,6 +25,12 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
   final PageController pageController = PageController();
   int totalExecutves = 2;
   int currentExecutive = 0;
+
+  @override
+  void initState() {
+    print(widget.schedule.toMap());
+    super.initState();
+  }
 
   void currentExecutivePageChanged(int index) {
     setState(() {
@@ -69,7 +75,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
                               seats: Provider.of<BookingProvider>(context,
                                       listen: false)
                                   .selectedSeats,
-                              route: widget.travelRoute,
+                              route: widget.schedule.id!,
                             ),
                           );
                         }),

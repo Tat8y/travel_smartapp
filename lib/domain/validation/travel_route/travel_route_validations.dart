@@ -29,5 +29,8 @@ class ValidateTravelRoute {
     if (!depValidate) throw TravelRouteNotFoundExceptions();
     if (!destValidate) throw TravelRouteNotFoundExceptions();
     if (!checkSimilarData) throw TravelRouteSimilarExceptions();
+    if (depature.isEmpty || destination.isEmpty) {
+      throw TravelRouteEmptyException();
+    }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
+import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 
 class TrainBooking {
   static const String dateFeild = 'date';
@@ -12,7 +13,7 @@ class TrainBooking {
   DateTime date;
   DateTime arrivalTime;
   List<Seat> seats;
-  TravelRoute route;
+  String route;
 
   TrainBooking({
     this.id,
@@ -28,7 +29,7 @@ class TrainBooking {
         date: DateTime.fromMillisecondsSinceEpoch(map[dateFeild]),
         arrivalTime: DateTime.fromMillisecondsSinceEpoch(map[arrivalTimeFeild]),
         seats: [],
-        route: TravelRoute.fromMap(map[routeFeild]),
+        route: map[routeFeild],
       );
 
   // TrainBooking Data to Server
@@ -36,6 +37,6 @@ class TrainBooking {
         dateFeild: date.millisecondsSinceEpoch,
         arrivalTimeFeild: arrivalTime.millisecondsSinceEpoch,
         seatFeild: seats.map((e) => e.id).toList(),
-        routeFeild: route.toMap(),
+        routeFeild: route,
       };
 }
