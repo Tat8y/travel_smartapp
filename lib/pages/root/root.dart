@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
@@ -9,6 +10,7 @@ import 'package:travel_smartapp/extentions/context/themes.dart';
 import 'package:travel_smartapp/pages/home/home.dart';
 import 'package:travel_smartapp/pages/location/location_controller.dart';
 import 'package:travel_smartapp/pages/location/train_location.dart';
+import 'package:travel_smartapp/pages/tickets/tickets.dart';
 import 'package:travel_smartapp/pages/user/profile/user_profile.dart';
 
 class RootPage extends StatefulWidget {
@@ -26,7 +28,8 @@ class _RootPageState extends State<RootPage> {
   int currentIndex = 0;
   final screens = [
     const HomePage(),
-    const MapScreen(),
+    //const MapScreen(),
+    const TicketsPage(),
     const UserProfilePage(),
   ];
 
@@ -62,8 +65,8 @@ class _RootPageState extends State<RootPage> {
             label: context.loc?.home,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.person_pin_circle_outlined),
-            label: context.loc?.location,
+            icon: const Icon(FontAwesomeIcons.ticket),
+            label: context.loc?.tickets,
           ),
           BottomNavigationBarItem(
             icon: const Icon(Icons.person_outlined),
