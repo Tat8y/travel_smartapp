@@ -8,12 +8,14 @@ import 'package:travel_smartapp/config/style/theme.dart';
 import 'package:travel_smartapp/demo/demo_data.dart';
 import 'package:travel_smartapp/demo_data.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
+import 'package:travel_smartapp/domain/payment/payment_service.dart';
 import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
 import 'package:travel_smartapp/l10n/l10n.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  PaymentService.init();
   await Firebase.initializeApp();
 
   // Create a SharedPreferences Instance
