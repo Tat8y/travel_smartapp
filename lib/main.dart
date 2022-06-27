@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_smartapp/app.dart';
 import 'package:travel_smartapp/config/style/theme.dart';
+import 'package:travel_smartapp/demo/demo_data.dart';
 import 'package:travel_smartapp/demo_data.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //addTrainScheduls();
+    //addTrains();
     // Getting PreferenceProvider from Build Context
     final provider = Provider.of<PrefernceProvider>(context);
 

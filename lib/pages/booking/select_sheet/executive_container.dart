@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/api/seat_generator.dart';
+import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
+import 'package:travel_smartapp/domain/controllers.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
 import 'package:travel_smartapp/extentions/list/filter.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/select_seat_constants.dart';
 
 class ExectiveWidget extends StatefulWidget {
-  final List<Seat> data;
-  const ExectiveWidget({Key? key, required this.data}) : super(key: key);
+  final List<String> seats;
+  const ExectiveWidget({Key? key, required this.seats}) : super(key: key);
 
   @override
   State<ExectiveWidget> createState() => _ExectiveWidgetState();
 }
 
 class _ExectiveWidgetState extends State<ExectiveWidget> {
+  final SeatController seatController = Get.put(SeatController());
   void switchSeat(Seat seat) {
     final provider = Provider.of<BookingProvider>(context, listen: false);
 
@@ -57,20 +62,33 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
     );
   }
 
-  Column buildExecutiveRow(String column) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          width: 30,
-          height: 30,
-          child: Center(child: Text(column)),
-        ),
-        ...getSeatsByColumn(widget.data, column)
-            .map((e) => _buildSeatButton(seatBox: e, group: column))
-            .toList()
-      ],
-    );
+  Widget buildExecutiveRow(String column) {
+    return GetX<SeatController>(builder: (controller) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 30,
+            height: 30,
+            child: Center(child: Text(column)),
+          ),
+
+          ...getSeatsByColumn(controller.items.filter(widget.seats), column)
+              .map((e) => _buildSeatButton(seatBox: e, group: column))
+              .toList()
+
+          // ...widget.seats
+          //     .map((e) => StreamBuilder<Seat>(
+          //         stream: SeatService.firebase().readDoc(e),
+          //         builder: (context, snapshot) {
+          //           if (!snapshot.hasData) return SizedBox();
+          //           return _buildSeatButton(
+          //               group: column, seatBox: snapshot.data!);
+          //         }))
+          //     .toList()
+        ],
+      );
+    });
   }
 
   Widget _buildSeatButton({required String group, required Seat seatBox}) {

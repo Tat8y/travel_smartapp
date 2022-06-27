@@ -35,13 +35,17 @@ class UserModel {
       emailFeild: email,
       fnameFeild: firstName,
       lnameFeild: secondName,
+      bookingsFeild: bookings,
     };
   }
 
-  UserModel copyWith({String? firstName, String? secondName}) => UserModel(
+  UserModel copyWith(
+          {String? firstName, String? secondName, List<String>? bookings}) =>
+      UserModel(
         uid: uid,
         email: email,
         firstName: firstName ?? this.firstName,
         secondName: secondName ?? this.secondName,
+        bookings: bookings ?? this.bookings,
       );
 }

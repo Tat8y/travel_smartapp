@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/booking_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
+import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/strings.dart';
@@ -70,6 +72,15 @@ void createBookingTicket(TrainBooking trainBooking) async {
           )
           .then((value) => print("Updated"));
     }
+
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    await UserService.firebase().readDocFuture(uid).then((user) async {
+      user.bookings?.add(booking.id!);
+      return await UserService.firebase().update(
+        id: user.uid!,
+        json: user.toMap(),
+      );
+    });
   });
 }
 

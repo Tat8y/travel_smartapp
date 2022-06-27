@@ -1,3 +1,4 @@
+import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 
 // Map<String, Map<int, SeatType>> generateSheets() {
@@ -43,4 +44,23 @@ List<Seat> getSeatsByColumn(List<Seat> seats, String key) {
   final list = seats.where((seat) => seat.column == key).toList();
   list.sort((a, b) => a.row.compareTo(b.row));
   return list;
+}
+
+// Future<List<Seat>> getColumnsFromSeats(List<String> seats, String key) async {
+//   List<Seat> retVal = [];
+//   for (String seat in seats) {
+//     await SeatService.firebase()
+//         .readDocFuture(seat)
+//         .then((value) => retVal.add(value));
+//   }
+
+//   final list = seats.where((seat) => seat == key).toList();
+//   list.sort((a, b) => a.compareTo(b));
+//   return list;
+// }
+
+extension Filter on List<Seat> {
+  List<Seat> filter(List<String> seats) {
+    return where((element) => seats.contains(element.id)).toList();
+  }
 }
