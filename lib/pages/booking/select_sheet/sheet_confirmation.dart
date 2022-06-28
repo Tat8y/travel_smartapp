@@ -42,7 +42,10 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (builder) => const PaymentConfirmation()),
+                        builder: (builder) => PaymentConfirmation(
+                          trainBooking: trainBooking,
+                        ),
+                      ),
                     );
                   },
                   constraints: const BoxConstraints.expand(height: 50),
