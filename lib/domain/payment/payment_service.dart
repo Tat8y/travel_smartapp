@@ -20,7 +20,7 @@ class PaymentService {
   }
 
   Future<void> makePayment({
-    required String amount,
+    required double amount,
     String currency = 'USD',
   }) async {
     _paymentIntentData = await _createPaymentIntent(amount, currency);
@@ -54,7 +54,7 @@ class PaymentService {
   }
 
   Future<Map<String, dynamic>> _createPaymentIntent(
-      String amount, String currency) async {
+      double amount, String currency) async {
     try {
       Map<String, dynamic> body = {
         'amount': calculateAmount(amount),
@@ -73,8 +73,8 @@ class PaymentService {
     }
   }
 
-  String calculateAmount(String amount) {
-    final a = (int.parse(amount)) * 100;
-    return a.toString();
+  String calculateAmount(double amount) {
+    final a = amount * 100;
+    return a.toInt().toString();
   }
 }

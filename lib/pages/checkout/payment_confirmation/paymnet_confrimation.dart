@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/station_service.dart';
@@ -10,6 +9,8 @@ import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/payment/payment_exception.dart';
 import 'package:travel_smartapp/domain/payment/payment_service.dart';
 import 'package:travel_smartapp/pages/booking/code/booking_code.dart';
+import 'package:travel_smartapp/pages/checkout/payment_status/payment_cancel.dart';
+import 'package:travel_smartapp/pages/checkout/payment_status/payment_complete.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
@@ -18,18 +19,19 @@ class PaymentConfirmation extends StatelessWidget {
   const PaymentConfirmation({Key? key, required this.trainBooking})
       : super(key: key);
 
-  void checkout(BuildContext context, double amount) async {
+  Future<void> checkout(BuildContext context, double amount) async {
     try {
-      await PaymentService.instance.makePayment(amount: '250').then((value) {
-        Navigator.push(context, MaterialPageRoute(builder: (_) {
-          return const BookingCode();
-        }));
+      await PaymentService.instance
+          .makePayment(amount: amount)
+          .then((value) async {
+        await openPaymentComplete(context).then((value) {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return const BookingCode();
+          }));
+        });
       });
     } on PaymentCancelException {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text("Payment Canceled"),
-        duration: Duration(seconds: 1),
-      ));
+      await openPaymentCancelled(context);
     } catch (e) {
       log(e.toString());
     }
@@ -41,14 +43,17 @@ class PaymentConfirmation extends StatelessWidget {
       appBar: customAppBar(title: "Confirm Order"),
       body: Column(
         children: [
-          Container(
+          Padding(
             padding: const EdgeInsets.all(kPadding),
-            margin: const EdgeInsets.all(kPadding),
-            decoration: BoxDecoration(
-              color: kPrimaryColor,
-              borderRadius: BorderRadius.circular(kBorderRadius * .8),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              padding: const EdgeInsets.all(kPadding),
+              decoration: BoxDecoration(
+                color: kPrimaryColor,
+                borderRadius: BorderRadius.circular(kBorderRadius * .8),
+              ),
+              child: buildTicketContent(),
             ),
-            child: buildTicketContent(),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: kPadding * .8),
@@ -63,8 +68,8 @@ class PaymentConfirmation extends StatelessWidget {
           Center(
             child: CustomButton(
               text: "Confirm Order",
-              onPressed: () =>
-                  checkout(context, trainBooking.seats.length * 120),
+              onPressed: () async =>
+                  await checkout(context, trainBooking.seats.length * 120),
             ),
           ),
         ],
@@ -83,6 +88,7 @@ class PaymentConfirmation extends StatelessWidget {
             ),
           ),
           buildRoute(),
+          const Divider(color: Colors.white),
           ...buildDetails(),
         ],
       );
@@ -193,7 +199,36 @@ class PaymentConfirmation extends StatelessWidget {
   }
 }
 
+class DolDurmaClipper extends CustomClipper<Path> {
+  DolDurmaClipper({required this.top, required this.holeRadius});
 
-// Number of Tickets
-// Coupen Code
-// Discount
+  final double top;
+  final double holeRadius;
+
+  @override
+  Path getClip(Size size) {
+    final path = Path()
+      ..moveTo(0, 0)
+      ..lineTo(0.0, size.height - top - holeRadius)
+      ..arcToPoint(
+        Offset(0, size.height - top),
+        clockwise: true,
+        radius: const Radius.circular(1),
+      )
+      ..lineTo(0.0, size.height)
+      ..lineTo(size.width, size.height)
+      ..lineTo(size.width, size.height - top)
+      ..arcToPoint(
+        Offset(size.width, size.height - top - holeRadius),
+        clockwise: true,
+        radius: const Radius.circular(1),
+      );
+
+    path.lineTo(size.width, 0.0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(DolDurmaClipper oldClipper) => true;
+}
