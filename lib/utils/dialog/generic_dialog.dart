@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
+import 'package:travel_smartapp/extentions/context/themes.dart';
 
 typedef DialogCallBackOptions<T> = Map<GenericDialogButton, T> Function();
 
@@ -57,7 +58,7 @@ class _GenericDialog<T> extends StatelessWidget {
           const SizedBox(height: kPadding * .4),
           buildThumbIcon(),
           buildHeader(),
-          buildContent(),
+          buildContent(context),
           const SizedBox(height: kPadding * .7),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -102,11 +103,13 @@ class _GenericDialog<T> extends StatelessWidget {
     );
   }
 
-  Text buildContent() {
+  Text buildContent(BuildContext context) {
     return Text(
       content,
       textAlign: TextAlign.center,
-      style: const TextStyle(color: Colors.black54),
+      style: TextStyle(
+        color: context.themes.textTheme.bodyText1?.color?.withOpacity(0.8),
+      ),
     );
   }
 

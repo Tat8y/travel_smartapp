@@ -198,37 +198,3 @@ class PaymentConfirmation extends StatelessWidget {
     );
   }
 }
-
-class DolDurmaClipper extends CustomClipper<Path> {
-  DolDurmaClipper({required this.top, required this.holeRadius});
-
-  final double top;
-  final double holeRadius;
-
-  @override
-  Path getClip(Size size) {
-    final path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(0.0, size.height - top - holeRadius)
-      ..arcToPoint(
-        Offset(0, size.height - top),
-        clockwise: true,
-        radius: const Radius.circular(1),
-      )
-      ..lineTo(0.0, size.height)
-      ..lineTo(size.width, size.height)
-      ..lineTo(size.width, size.height - top)
-      ..arcToPoint(
-        Offset(size.width, size.height - top - holeRadius),
-        clockwise: true,
-        radius: const Radius.circular(1),
-      );
-
-    path.lineTo(size.width, 0.0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(DolDurmaClipper oldClipper) => true;
-}
