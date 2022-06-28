@@ -25,9 +25,13 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
               children: [
                 const SizedBox(height: kPadding * .5),
                 cardConfirmationDetailsRow(
+                  title: "Your Executive",
+                  value: "Exec 1",
+                ),
+                const SizedBox(height: kPadding * .5),
+                cardConfirmationDetailsRow(
                   title: "Your Seat",
-                  value:
-                      "Exec 1 - ${generateSeatNumberFromList(trainBooking.seats)}",
+                  value: generateSeatNumberFromList(trainBooking.seats),
                 ),
                 const SizedBox(height: kPadding * .5),
                 cardConfirmationDetailsRow(
@@ -38,7 +42,7 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
                 CustomButton(
                   text: "Checkout",
                   onPressed: () {
-                    createBookingTicket(trainBooking);
+                    //createBookingTicket(trainBooking);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -61,30 +65,6 @@ Widget cardConfirmationDetailsRow(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [Text(title), Text(value)],
   );
-}
-
-void createBookingTicket(TrainBooking trainBooking) async {
-  await BookingService.firebase()
-      .create(trainBooking.toMap())
-      .then((booking) async {
-    for (Seat seat in trainBooking.seats) {
-      await SeatService.firebase()
-          .update(
-            id: seat.id!,
-            json: seat.copyWith(bookingID: booking.id).toMap(),
-          )
-          .then((value) => print("Updated"));
-    }
-
-    String uid = FirebaseAuth.instance.currentUser!.uid;
-    await UserService.firebase().readDocFuture(uid).then((user) async {
-      user.bookings?.add(booking.id!);
-      return await UserService.firebase().update(
-        id: user.uid!,
-        json: user.toMap(),
-      );
-    });
-  });
 }
 
 double calculatePrice(List<Seat> seats) {

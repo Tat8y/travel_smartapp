@@ -1,9 +1,14 @@
 import 'dart:developer';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
+import 'package:travel_smartapp/domain/cloud_services/booking_service.dart';
+import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/station_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_schedule_service.dart';
+import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
+import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/station_mode.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/payment/payment_exception.dart';
@@ -19,14 +24,40 @@ class PaymentConfirmation extends StatelessWidget {
   const PaymentConfirmation({Key? key, required this.trainBooking})
       : super(key: key);
 
+  Future<TrainBooking> createBookingTicket(TrainBooking trainBooking) async {
+    return await BookingService.firebase()
+        .create(trainBooking.toMap())
+        .then((booking) async {
+      for (Seat seat in trainBooking.seats) {
+        await SeatService.firebase()
+            .update(
+              id: seat.id!,
+              json: seat.copyWith(bookingID: booking.id).toMap(),
+            )
+            .then((value) => print("Updated"));
+      }
+
+      String uid = FirebaseAuth.instance.currentUser!.uid;
+      await UserService.firebase().readDocFuture(uid).then((user) async {
+        user.bookings?.add(booking.id!);
+        return await UserService.firebase().update(
+          id: user.uid!,
+          json: user.toMap(),
+        );
+      });
+      return booking;
+    });
+  }
+
   Future<void> checkout(BuildContext context, double amount) async {
     try {
       await PaymentService.instance
           .makePayment(amount: amount)
           .then((value) async {
+        TrainBooking booking = await createBookingTicket(trainBooking);
         await openPaymentComplete(context).then((value) {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return const BookingCode();
+            return BookingCode(booking: booking);
           }));
         });
       });

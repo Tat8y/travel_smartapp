@@ -1,87 +1,22 @@
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
-import 'package:travel_smartapp/domain/cloud_services/station_service.dart';
-import 'package:travel_smartapp/domain/models/station_mode.dart';
-import 'package:travel_smartapp/extentions/context/themes.dart';
+import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 import 'package:travel_smartapp/widgets/divider/dashed_divider.dart';
 
 class BookingCode extends StatelessWidget {
-  const BookingCode({Key? key}) : super(key: key);
+  final TrainBooking booking;
+  const BookingCode({Key? key, required this.booking}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "ID 743650898"),
+      appBar: customAppBar(title: "ID ${booking.id}"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildBookingCard(context),
-          // const Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: kPadding),
-          //   child: Text(
-          //     "Train Route",
-          //     style:
-          //         TextStyle(fontSize: kFontSize, fontWeight: FontWeight.w500),
-          //   ),
-          // ),
-          // Row(
-          //   children: [
-          //     Expanded(
-          //       child: Column(
-          //         children: const [
-          //           Padding(
-          //             padding: EdgeInsets.all(8.0),
-          //             child: Text("Text1"),
-          //           ),
-          //           Padding(
-          //             padding: EdgeInsets.all(8.0),
-          //             child: Text("Text1"),
-          //           )
-          //         ],
-          //       ),
-          //     ),
-          //     Column(
-          //       children: [
-          //         Container(
-          //           width: 10,
-          //           height: 10,
-          //           decoration: const BoxDecoration(
-          //               color: Colors.orange, shape: BoxShape.circle),
-          //         ),
-          //         const SizedBox(
-          //           height: 50,
-          //           child: VerticalDivider(
-          //             thickness: 1.0,
-          //             width: 10,
-          //             color: Colors.black12,
-          //           ),
-          //         ),
-          //         Container(
-          //           width: 10,
-          //           height: 10,
-          //           decoration: const BoxDecoration(
-          //               color: Colors.orange, shape: BoxShape.circle),
-          //         ),
-          //       ],
-          //     ),
-          //     Expanded(
-          //       child: Column(
-          //         children: const [
-          //           Padding(
-          //             padding: EdgeInsets.all(8.0),
-          //             child: Text("Text1"),
-          //           ),
-          //           Padding(
-          //             padding: EdgeInsets.all(8.0),
-          //             child: Text("Text1"),
-          //           )
-          //         ],
-          //       ),
-          //     )
-          //   ],
-          // )
         ],
       ),
     );
@@ -117,7 +52,6 @@ class BookingCode extends StatelessWidget {
                     color: Colors.black54,
                   )),
               buildRoute(),
-              //const SizedBox(height: kPadding),
               ...{
                 "Full Name": "Alwis Gunarathne",
                 "Date": "18 April",
@@ -136,7 +70,7 @@ class BookingCode extends StatelessWidget {
                 height: 70,
                 child: BarcodeWidget(
                   barcode: Barcode.code128(),
-                  data: '743650898',
+                  data: booking.id!,
                 ),
               )
             ],
@@ -183,7 +117,6 @@ class BookingCode extends StatelessWidget {
 
   Container _buildRouteStation({required String label, required String text}) {
     return Container(
-      // alignment: Alignment.center,
       padding: const EdgeInsets.all(kPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
