@@ -69,10 +69,12 @@ dev_dependencies:
     sdk: flutter
 
 flutter_native_splash:
+  android: true
+  ios: false
   image: assets/images/splashLogo.png
   color: "#F6F6F6"
-  height: 1064 px
-  width: 1296 px
+  # height: 1064 px
+  # width: 1296 px
 
 # The "flutter_lints" package below contains a set of recommended lints to
 # encourage good coding practices. The lint set provided by the package is
