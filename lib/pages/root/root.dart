@@ -5,8 +5,9 @@ import 'package:get/get.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
-import 'package:travel_smartapp/extentions/context/localization.dart';
-import 'package:travel_smartapp/extentions/context/themes.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
+import 'package:travel_smartapp/extension/context/themes.dart';
+
 import 'package:travel_smartapp/pages/home/home.dart';
 import 'package:travel_smartapp/pages/location/location_controller.dart';
 import 'package:travel_smartapp/pages/location/train_location.dart';

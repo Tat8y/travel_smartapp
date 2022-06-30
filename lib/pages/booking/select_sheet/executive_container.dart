@@ -6,7 +6,7 @@ import 'package:travel_smartapp/domain/api/seat_generator.dart';
 import 'package:travel_smartapp/domain/controllers.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
-import 'package:travel_smartapp/extentions/list/filter.dart';
+import 'package:travel_smartapp/extension/list/filter.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/select_seat_constants.dart';
 
 class ExectiveWidget extends StatefulWidget {

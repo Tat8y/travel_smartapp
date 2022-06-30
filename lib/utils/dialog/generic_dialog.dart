@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
-import 'package:travel_smartapp/extentions/context/themes.dart';
+import 'package:travel_smartapp/extension/context/themes.dart';
 
 typedef DialogCallBackOptions<T> = Map<GenericDialogButton, T> Function();
 

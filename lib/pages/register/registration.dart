@@ -6,7 +6,7 @@ import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
-import 'package:travel_smartapp/extentions/context/localization.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/pages/root/root.dart';
 
 class RegistrationPage extends StatefulWidget {

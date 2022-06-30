@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
-import 'package:travel_smartapp/extentions/context/localization.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/pages/root/root.dart';
 import 'package:travel_smartapp/pages/register/registration.dart';
 
