@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:travel_smartapp/.env.dart';
-
 import 'payment_exception.dart';
 
 class PaymentService {

@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             child: Text(
                               context.loc!.sign_up,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.orange,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14),

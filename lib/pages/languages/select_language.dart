@@ -38,8 +38,8 @@ class _LanguageSelectPageState extends State<LanguageSelectPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text("Choose Your Preferred Langugage",
-                  style: const TextStyle(
+              const Text("Choose Your Preferred Langugage",
+                  style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: kFontSize * .8,
                   )),
