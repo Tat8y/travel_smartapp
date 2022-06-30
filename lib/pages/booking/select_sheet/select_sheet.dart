@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
-import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
-import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
@@ -27,12 +25,6 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
   final PageController pageController = PageController();
   int totalExecutves = 2;
   int currentExecutive = 0;
-
-  @override
-  void initState() {
-    print(widget.schedule.toMap());
-    super.initState();
-  }
 
   void currentExecutivePageChanged(int index) {
     setState(() {
@@ -72,8 +64,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
                           openSheetConfirmation(
                             context,
                             TrainBooking(
-                              date: DateTime.now(),
-                              arrivalTime: DateTime.now(),
+                              time: DateTime.now(),
                               seats: Provider.of<BookingProvider>(context,
                                       listen: false)
                                   .selectedSeats,

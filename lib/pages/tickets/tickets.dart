@@ -1,10 +1,6 @@
-import 'dart:ui';
-
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/booking_service.dart';
@@ -19,7 +15,6 @@ import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/enums/ticket/tag.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
-import 'package:travel_smartapp/widgets/clipper/custom_ticket_cliper.dart';
 import 'package:travel_smartapp/widgets/clipper/custom_ticket_cliper_horizontal.dart';
 import 'package:travel_smartapp/widgets/divider/dashed_divider_verticle.dart';
 
@@ -84,10 +79,13 @@ class TicketsPage extends StatelessWidget {
                                 snapshot.data![1] as TrainStation;
                             TrainStation endStation =
                                 snapshot.data![2] as TrainStation;
+                            TrainSchedule schedule =
+                                snapshot.data![3] as TrainSchedule;
+
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _ticketTopBar(booking.arrivalTime),
+                                _ticketTopBar(schedule.arrivalTime),
                                 const SizedBox(height: kPadding * .4),
                                 _trainName(train.name!),
                                 _trainType(train.type!),
@@ -116,6 +114,8 @@ class TicketsPage extends StatelessWidget {
             StationService.firebase().readDocFuture(schedule.startStation),
             //End Station
             StationService.firebase().readDocFuture(schedule.endStation),
+            //Train Schedule
+            Future.value(schedule),
           ]),
         );
   }

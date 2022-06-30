@@ -28,7 +28,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
-          title: Text("User Profile"),
+          title: const Text("User Profile"),
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,

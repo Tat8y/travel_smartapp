@@ -12,7 +12,6 @@ import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_service.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
-import 'package:travel_smartapp/enums/train/seat.dart';
 
 final demoTrains = [
   Train(

@@ -1,4 +1,3 @@
-import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 
 // Map<String, Map<int, SeatType>> generateSheets() {

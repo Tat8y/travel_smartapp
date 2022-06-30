@@ -10,7 +10,6 @@ Future<void> openPaymentCancelled(BuildContext context) async {
     content: "Payment Error Body",
     callBack: () => {
       GenericDialogButton(text: "CLOSE", primary: true): null,
-      GenericDialogButton(text: "OK"): null,
     },
   );
 }

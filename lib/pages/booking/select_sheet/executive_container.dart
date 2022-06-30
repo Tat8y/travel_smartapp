@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/api/seat_generator.dart';
-import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/controllers.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
