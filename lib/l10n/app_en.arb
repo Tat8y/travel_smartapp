@@ -61,6 +61,22 @@
                 "type": "String"
             }
         }
-    }
+    },
+
+    "congratulations": "Congratulations",
+    "your_e_ticket": "Your E- Ticket",
+    "goto_home": "Goto Home",
+    "full_name": "Full Name",
+    "arrival_time": "Arrival Time",
+    "seat": "Seat",
+    "from": "From",
+    "to": "To",
+
+    "select_seat": "Select Seat",
+    "continue_label": "Continue",
+    "please_select_seat": "Please Select Seat",
+    "available": "Available",
+    "selected": "Selected",
+    "unavailable": "Unavailable"
 
 }

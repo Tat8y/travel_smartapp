@@ -7,6 +7,7 @@ import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/extension/context/themes.dart';
 import 'package:travel_smartapp/pages/tickets/tickets.dart';
 import 'package:travel_smartapp/pages/user/points.dart';
@@ -30,7 +31,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       appBar: AppBar(
-          title: const Text("User Profile"),
+          title: Text(context.loc!.user_profile),
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -95,13 +96,13 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                 fontWeight: FontWeight.w500,
                               )),
                         ),
-                        Text(user?.email ?? "Wating ...",
+                        Text(user?.email ?? context.loc!.wating,
                             style: const TextStyle(
                               fontSize: kFontSize * .7,
                             )),
                         const SizedBox(height: kPadding),
                         CustomButton(
-                          text: "Past Travels",
+                          text: context.loc!.past_travels,
                           onPressed: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (_) {
@@ -116,7 +117,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                         const SizedBox(height: kPadding * .5),
                         CustomButton(
-                          text: "Points",
+                          text: context.loc!.points,
                           onPressed: () {
                             showDialog(
                               context: context,
@@ -133,7 +134,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                         const SizedBox(height: kPadding * .5),
                         CustomButton(
-                          text: "Edit Profile",
+                          text: context.loc!.edit_profile,
                           onPressed: () {
                             showModalBottomSheet(
                               context: context,
@@ -154,7 +155,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         ),
                         const SizedBox(height: kPadding * .5),
                         CustomButton(
-                          text: "Logout",
+                          text: context.loc!.logout,
                           onPressed: authService.logout,
                           constraints: BoxConstraints(
                             minWidth: MediaQuery.of(context).size.width -

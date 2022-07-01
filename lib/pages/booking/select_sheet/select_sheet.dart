@@ -7,6 +7,7 @@ import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/executive_container.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/select_seat_constants.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/sheet_confirmation.dart';
@@ -41,7 +42,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
           return Scaffold(
               appBar: customAppBar(
                 context,
-                title: "Select Sheet",
+                title: context.loc!.select_seat,
                 leading: IconButton(
                     onPressed: Navigator.of(context).pop,
                     icon: const Icon(Icons.arrow_back_ios_new_rounded)),
@@ -54,7 +55,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
                   Padding(
                     padding: const EdgeInsets.all(kPadding),
                     child: CustomButton(
-                        text: "Continue",
+                        text: context.loc!.continue_label,
                         constraints: const BoxConstraints.expand(height: 50),
                         onPressed: () {
                           final _seats = Provider.of<BookingProvider>(context,
@@ -71,7 +72,8 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
                               ),
                             );
                           } else {
-                            Fluttertoast.showToast(msg: "Please Select Seat");
+                            Fluttertoast.showToast(
+                                msg: context.loc!.please_select_seat);
                           }
                         }),
                   )
@@ -104,19 +106,19 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
         children: [
           Expanded(
             child: _sheetMapMenuItem(
-              text: "Available",
+              text: context.loc!.available,
               icon: availabelIcon,
             ),
           ),
           Expanded(
             child: _sheetMapMenuItem(
-              text: "Selected",
+              text: context.loc!.selected,
               icon: selectedIcon,
             ),
           ),
           Expanded(
             child: _sheetMapMenuItem(
-              text: "Unavailable",
+              text: context.loc!.unavailable,
               icon: unavailabelIcon,
               color: Colors.grey,
             ),

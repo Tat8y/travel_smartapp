@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 import 'package:travel_smartapp/widgets/text_feild/form_text_feild.dart';
 
@@ -100,7 +101,7 @@ class _EditProfileContentState extends State<EditProfileContent> {
                     horizontal: kPadding, vertical: kPadding / 2),
                 child: CustomFormTextFeild(
                   controller: fnameEditingController,
-                  hint: "First Name",
+                  hint: context.loc!.first_name_label,
                 ),
               ),
               Padding(
@@ -108,7 +109,7 @@ class _EditProfileContentState extends State<EditProfileContent> {
                     horizontal: kPadding, vertical: kPadding / 2),
                 child: CustomFormTextFeild(
                   controller: lnameEditingController,
-                  hint: "Last Name",
+                  hint: context.loc!.last_name_label,
                 ),
               ),
               Padding(
@@ -116,7 +117,7 @@ class _EditProfileContentState extends State<EditProfileContent> {
                     horizontal: kPadding, vertical: kPadding / 2),
                 child: CustomFormTextFeild(
                   controller: emailEditingController,
-                  hint: "Email",
+                  hint: context.loc!.email_label,
                   enabled: false,
                 ),
               ),
@@ -140,7 +141,7 @@ class _EditProfileContentState extends State<EditProfileContent> {
               // ),
               const SizedBox(height: kPadding / 2),
               CustomButton(
-                text: "Update",
+                text: context.loc!.update,
                 onPressed: updateUser,
                 constraints: BoxConstraints(
                   minWidth: MediaQuery.of(context).size.width - kPadding * 2,
