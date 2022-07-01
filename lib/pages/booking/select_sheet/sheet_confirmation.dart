@@ -39,7 +39,7 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
                   text: "Checkout",
                   onPressed: () {
                     //createBookingTicket(trainBooking);
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (builder) => PaymentConfirmation(

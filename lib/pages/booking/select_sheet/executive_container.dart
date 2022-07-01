@@ -18,6 +18,7 @@ class ExectiveWidget extends StatefulWidget {
 }
 
 class _ExectiveWidgetState extends State<ExectiveWidget> {
+  double seatSize = 35.0;
   final SeatController seatController = Get.put(SeatController());
   void switchSeat(Seat seat) {
     final provider = Provider.of<BookingProvider>(context, listen: false);
@@ -66,24 +67,13 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            width: 30,
-            height: 30,
+            width: seatSize,
+            height: seatSize,
             child: Center(child: Text(column)),
           ),
-
           ...getSeatsByColumn(controller.items.filter(widget.seats), column)
               .map((e) => _buildSeatButton(seatBox: e, group: column))
               .toList()
-
-          // ...widget.seats
-          //     .map((e) => StreamBuilder<Seat>(
-          //         stream: SeatService.firebase().readDoc(e),
-          //         builder: (context, snapshot) {
-          //           if (!snapshot.hasData) return SizedBox();
-          //           return _buildSeatButton(
-          //               group: column, seatBox: snapshot.data!);
-          //         }))
-          //     .toList()
         ],
       );
     });
@@ -125,9 +115,13 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
             }
           },
           child: SizedBox(
-            width: 30,
-            height: 30,
-            child: Icon(icon, color: color),
+            width: seatSize,
+            height: seatSize,
+            child: Icon(
+              icon,
+              color: color,
+              size: seatSize * .9,
+            ),
           ),
         ),
       ),
@@ -138,12 +132,12 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: 30),
+        SizedBox(height: 30),
         ...List.generate(
             10,
             (index) => SizedBox(
-                  width: 30,
-                  height: 30,
+                  width: seatSize,
+                  height: seatSize,
                   child: Center(
                     child: Text((index + 1).toString(),
                         textAlign: TextAlign.center),

@@ -27,13 +27,15 @@ class PaymentService {
     await Stripe.instance
         .initPaymentSheet(
           paymentSheetParameters: SetupPaymentSheetParameters(
-              paymentIntentClientSecret: _paymentIntentData!['client_secret'],
-              applePay: true,
-              googlePay: true,
-              testEnv: true,
-              style: ThemeMode.dark,
-              merchantCountryCode: 'US',
-              merchantDisplayName: 'ANNIE'),
+            paymentIntentClientSecret: _paymentIntentData!['client_secret'],
+            applePay: true,
+            googlePay: true,
+            testEnv: true,
+            style: ThemeMode.dark,
+            currencyCode: "LKR",
+            merchantCountryCode: 'LK',
+            merchantDisplayName: 'Travel Smart',
+          ),
         )
         .then((value) {});
 

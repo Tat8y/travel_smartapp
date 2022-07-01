@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_service.dart';
@@ -6,7 +7,6 @@ import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/providers/booking_provider.dart';
-import 'package:travel_smartapp/domain/strings.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/executive_container.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/select_seat_constants.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/sheet_confirmation.dart';
@@ -37,7 +37,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
     return ChangeNotifierProvider(
         create: (context) => BookingProvider(),
         builder: (context, child) {
-          final bookingProvider = Provider.of<BookingProvider>(context);
+          // final bookingProvider = Provider.of<BookingProvider>(context);
           return Scaffold(
               appBar: customAppBar(
                 title: "Select Sheet",
@@ -50,27 +50,28 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
                 children: [
                   buildSheetMapMenu(),
                   buildExecutives(),
-                  Consumer(
-                    builder: (context, value, child) => Text(
-                      "Seat : ${generateSeatNumberFromList(bookingProvider.selectedSeats)}",
-                    ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.all(kPadding),
                     child: CustomButton(
                         text: "Continue",
                         constraints: const BoxConstraints.expand(height: 50),
                         onPressed: () {
-                          openSheetConfirmation(
-                            context,
-                            TrainBooking(
-                              time: DateTime.now(),
-                              seats: Provider.of<BookingProvider>(context,
-                                      listen: false)
-                                  .selectedSeats,
-                              route: widget.schedule.id!,
-                            ),
-                          );
+                          final _seats = Provider.of<BookingProvider>(context,
+                                  listen: false)
+                              .selectedSeats;
+
+                          if (_seats.isNotEmpty) {
+                            openSheetConfirmation(
+                              context,
+                              TrainBooking(
+                                time: DateTime.now(),
+                                seats: _seats,
+                                route: widget.schedule.id!,
+                              ),
+                            );
+                          } else {
+                            Fluttertoast.showToast(msg: "Please Select Seat");
+                          }
                         }),
                   )
                 ],
@@ -84,88 +85,12 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return Expanded(
-              child: Row(
-                children: [
-                  Expanded(
-                    child: PageView.builder(
-                      controller: pageController,
-                      itemBuilder: (context, index) =>
-                          ExectiveWidget(seats: snapshot.data!.seats),
-                      itemCount: totalExecutves,
-                      scrollDirection: Axis.vertical,
-                      onPageChanged: currentExecutivePageChanged,
-                    ),
-                  ),
-                  builExecutiveSwicher()
-                ],
-              ),
+              child: ExectiveWidget(seats: snapshot.data!.seats),
             );
           } else {
             return const SizedBox();
           }
         });
-  }
-
-  Widget builExecutiveSwicher() {
-    return Padding(
-      padding: const EdgeInsets.only(right: kPadding),
-      child: RotatedBox(
-        quarterTurns: 1,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            _navigateContainerButtonPrev(
-              Icons.arrow_back_ios_rounded,
-              currentExecutive != 0,
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Text("Executive ${currentExecutive + 1}"),
-              style: ElevatedButton.styleFrom(
-                shape: const StadiumBorder(),
-                primary: kPrimaryColor,
-              ),
-            ),
-            _navigateContainerButtonNext(Icons.arrow_forward_ios_rounded,
-                currentExecutive + 1 != totalExecutves),
-          ],
-        ),
-      ),
-    );
-  }
-
-  IconButton _navigateContainerButtonPrev(IconData icon, bool statement) {
-    return IconButton(
-        onPressed: statement
-            ? () {
-                pageController.previousPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeOut,
-                );
-              }
-            : null,
-        icon: Icon(
-          icon,
-          size: 18,
-        ));
-  }
-
-  IconButton _navigateContainerButtonNext(IconData icon, bool statement) {
-    return IconButton(
-        onPressed: statement
-            ? () {
-                pageController.nextPage(
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.easeOut,
-                );
-              }
-            : null,
-        icon: Icon(
-          icon,
-          size: 18,
-        ));
   }
 
   Widget buildSheetMapMenu() {
