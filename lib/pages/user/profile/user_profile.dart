@@ -8,6 +8,8 @@ import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
 import 'package:travel_smartapp/extension/context/themes.dart';
+import 'package:travel_smartapp/pages/tickets/tickets.dart';
+import 'package:travel_smartapp/pages/user/points.dart';
 import 'package:travel_smartapp/pages/user/profile/edit_user_profile.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
@@ -100,7 +102,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         const SizedBox(height: kPadding),
                         CustomButton(
                           text: "Past Travels",
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) {
+                              return const TicketsPage();
+                            }));
+                          },
                           constraints: BoxConstraints(
                             minWidth: MediaQuery.of(context).size.width -
                                 kPadding * 2,
@@ -110,7 +117,14 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         const SizedBox(height: kPadding * .5),
                         CustomButton(
                           text: "Points",
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => PointsView(
+                                user: user,
+                              ),
+                            );
+                          },
                           constraints: BoxConstraints(
                             minWidth: MediaQuery.of(context).size.width -
                                 kPadding * 2,
