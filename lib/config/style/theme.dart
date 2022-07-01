@@ -4,7 +4,7 @@ import 'package:travel_smartapp/config/constatnts.dart';
 
 ThemeData lightTheme = ThemeData(
   primaryColor: kPrimaryColor,
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: Colors.grey.shade100,
   brightness: Brightness.light,
   appBarTheme: const AppBarTheme(
       iconTheme: IconThemeData(color: Colors.black),

@@ -40,6 +40,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
           // final bookingProvider = Provider.of<BookingProvider>(context);
           return Scaffold(
               appBar: customAppBar(
+                context,
                 title: "Select Sheet",
                 leading: IconButton(
                     onPressed: Navigator.of(context).pop,

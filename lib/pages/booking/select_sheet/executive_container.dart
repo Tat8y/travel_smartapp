@@ -37,14 +37,14 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: kPadding),
-      child: Center(child: buildExecutive()),
+      child: Center(child: buildExecutive(context)),
     );
   }
 
-  Widget buildExecutive() {
+  Widget buildExecutive(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: context.theme.cardColor,
         borderRadius: BorderRadius.circular(kBorderRadius),
       ),
       padding: const EdgeInsets.all(kPadding * 2),

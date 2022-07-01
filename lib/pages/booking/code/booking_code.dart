@@ -56,7 +56,7 @@ class BookingCode extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "Your E - Ticket"),
+      appBar: customAppBar(context, title: "Your E - Ticket"),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -110,6 +110,7 @@ class BookingCode extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: kFontSize,
                           fontWeight: FontWeight.w500,
+                          color: Colors.black,
                         )),
                     Text(train.type!,
                         style: const TextStyle(
@@ -137,6 +138,7 @@ class BookingCode extends StatelessWidget {
                       child: BarcodeWidget(
                         barcode: Barcode.code128(),
                         data: booking.id!,
+                        style: const TextStyle(color: Colors.black87),
                       ),
                     )
                   ],
@@ -159,7 +161,12 @@ class BookingCode extends StatelessWidget {
               style: const TextStyle(color: Colors.black54),
             ),
           ),
-          Expanded(flex: 2, child: Text(traling)),
+          Expanded(
+              flex: 2,
+              child: Text(
+                traling,
+                style: const TextStyle(color: Colors.black54),
+              )),
         ],
       ),
     );
@@ -195,6 +202,7 @@ class BookingCode extends StatelessWidget {
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: kFontSize * .5,
+              color: Colors.black54,
             ),
           ),
           Text(
@@ -203,6 +211,7 @@ class BookingCode extends StatelessWidget {
             style: const TextStyle(
               fontSize: kFontSize,
               fontWeight: FontWeight.w500,
+              color: Colors.black,
             ),
           ),
           // const Padding(

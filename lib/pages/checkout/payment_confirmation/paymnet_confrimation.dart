@@ -76,7 +76,7 @@ class PaymentConfirmation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "Confirm Order"),
+      appBar: customAppBar(context, title: "Confirm Order"),
       body: Column(
         children: [
           Expanded(

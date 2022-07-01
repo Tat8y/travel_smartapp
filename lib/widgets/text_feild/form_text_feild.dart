@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
+import 'package:travel_smartapp/extension/context/themes.dart';
 
 class CustomFormTextFeild extends StatelessWidget {
   final TextEditingController controller;
@@ -33,7 +34,7 @@ class CustomFormTextFeild extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(kPadding),
         filled: true,
-        fillColor: Colors.grey.shade200,
+        fillColor: context.themes.chipTheme.backgroundColor,
         hintText: hint,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(kBorderRadius),

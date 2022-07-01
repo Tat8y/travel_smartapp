@@ -14,6 +14,7 @@ import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/enums/ticket/tag.dart';
+import 'package:travel_smartapp/extension/context/themes.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 import 'package:travel_smartapp/widgets/clipper/custom_ticket_cliper_horizontal.dart';
 import 'package:travel_smartapp/widgets/divider/dashed_divider_verticle.dart';
@@ -24,7 +25,10 @@ class TicketsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(title: "Your Bookings"),
+      backgroundColor: context.themes.brightness == Brightness.light
+          ? Colors.grey.shade100
+          : null,
+      appBar: customAppBar(context, title: "Your Bookings"),
       body: StreamBuilder<UserModel>(
           stream: UserService.firebase()
               .readDoc(FirebaseAuth.instance.currentUser!.uid),
@@ -49,20 +53,22 @@ class TicketsPage extends StatelessWidget {
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const SizedBox();
           TrainBooking trainBooking = snapshot.data!;
-          return buildBookingTicketWidget(trainBooking);
+          return buildBookingTicketWidget(context, booking: trainBooking);
         });
   }
 
-  Padding buildBookingTicketWidget(TrainBooking booking) {
+  Padding buildBookingTicketWidget(BuildContext context,
+      {required TrainBooking booking}) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(kPadding, 0, kPadding, kPadding),
       child: ClipPath(
         clipper: CustomClipperHorizontal(
             right: 50 + kPadding * 2 - 30 / 2, holeRadius: 30),
         child: Container(
+          clipBehavior: Clip.antiAlias,
           height: 150,
           decoration: BoxDecoration(
-            color: Colors.grey.shade100,
+            color: context.themes.cardColor,
             borderRadius: BorderRadius.circular(kBorderRadius * .6),
           ),
           child: Row(
@@ -85,11 +91,15 @@ class TicketsPage extends StatelessWidget {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _ticketTopBar(schedule.arrivalTime),
+                                _ticketTopBar(
+                                  context,
+                                  date: schedule.arrivalTime,
+                                ),
                                 const SizedBox(height: kPadding * .4),
                                 _trainName(train.name!),
                                 _trainType(train.type!),
                                 _trainRoute(
+                                  context,
                                   from: startStation.name!,
                                   to: endStation.name!,
                                 )
@@ -97,7 +107,7 @@ class TicketsPage extends StatelessWidget {
                             );
                           }))),
               const DashedDividerHorizontal(dash: 30, color: Colors.grey),
-              buildTicketCode(booking.id!)
+              buildTicketCode(context, booking: booking.id!)
             ],
           ),
         ),
@@ -120,23 +130,26 @@ class TicketsPage extends StatelessWidget {
         );
   }
 
-  Expanded _trainRoute({required String from, required String to}) {
+  Expanded _trainRoute(BuildContext context,
+      {required String from, required String to}) {
     return Expanded(
       child: Container(
         alignment: Alignment.centerLeft,
         child: Row(
           children: [
-            const Icon(
+            Icon(
               Icons.train_rounded,
               size: kFontSize * .7,
-              color: Colors.black54,
+              color:
+                  context.themes.textTheme.bodyText1?.color?.withOpacity(0.8),
             ),
             const SizedBox(width: kPadding * .4),
             Text(
               "$from to $to",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: kFontSize * .7,
-                color: Colors.black54,
+                color:
+                    context.themes.textTheme.bodyText1?.color?.withOpacity(0.8),
               ),
             ),
           ],
@@ -165,7 +178,7 @@ class TicketsPage extends StatelessWidget {
     );
   }
 
-  Row _ticketTopBar(DateTime date) {
+  Row _ticketTopBar(BuildContext context, {required DateTime date}) {
     return Row(
       children: [
         buildStatusTag(
@@ -174,7 +187,9 @@ class TicketsPage extends StatelessWidget {
         const SizedBox(width: kPadding / 2),
         Text(
           DateFormat("hh:mm").format(date),
-          style: const TextStyle(color: Colors.black87),
+          style: TextStyle(
+            color: context.themes.textTheme.bodyText1?.color?.withOpacity(0.8),
+          ),
         )
       ],
     );
@@ -210,17 +225,18 @@ class TicketsPage extends StatelessWidget {
     );
   }
 
-  RotatedBox buildTicketCode(String booking) {
+  RotatedBox buildTicketCode(BuildContext context, {required String booking}) {
     return RotatedBox(
       quarterTurns: 3,
       child: Container(
-        margin: const EdgeInsets.all(kPadding),
-        height: 50,
+        padding: const EdgeInsets.all(kPadding),
+        color: Colors.white,
         child: BarcodeWidget(
           barcode: Barcode.code128(),
           data: booking,
           style: const TextStyle(
             fontSize: kFontSize * .3,
+            color: Colors.black,
           ),
         ),
       ),
