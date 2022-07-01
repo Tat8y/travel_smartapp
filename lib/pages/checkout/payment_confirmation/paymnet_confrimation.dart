@@ -30,11 +30,13 @@ class PaymentConfirmation extends StatelessWidget {
     return await BookingService.firebase()
         .create(trainBooking.toMap())
         .then((booking) async {
-      for (Seat seat in trainBooking.seats) {
+      for (String seat in trainBooking.seats) {
+        Seat _seat = await SeatService.firebase().readDocFuture(seat);
+
         await SeatService.firebase()
             .update(
-              id: seat.id!,
-              json: seat.copyWith(bookingID: booking.id).toMap(),
+              id: seat,
+              json: _seat.copyWith(bookingID: booking.id).toMap(),
             )
             .then((value) => print("Updated"));
       }

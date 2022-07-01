@@ -4,7 +4,7 @@ import 'package:travel_smartapp/domain/cloud/firebase_service.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 
 class SeatService implements CloudProvider<Seat, List<Seat>> {
-  final CloudProvider provider;
+  final FirebaseCloudProvider provider;
   SeatService(this.provider);
 
   factory SeatService.firebase() => SeatService(
@@ -29,9 +29,23 @@ class SeatService implements CloudProvider<Seat, List<Seat>> {
 
   @override
   Stream<List<Seat>> readCollection() {
-    final snapshots = provider.readCollection() as Stream<CollectionRef>;
+    final snapshots = provider.readCollection();
 
     return snapshots.map((snapshot) {
+      List<Seat> retVal = [];
+
+      for (var element in snapshot.docs) {
+        retVal.add(Seat.fromMap(element));
+      }
+
+      return retVal;
+    });
+  }
+
+  Future<List<Seat>> readCollectionFuture() {
+    final snapshots = provider.readCollectionFuture();
+
+    return snapshots.then((snapshot) {
       List<Seat> retVal = [];
 
       for (var element in snapshot.docs) {
@@ -47,8 +61,8 @@ class SeatService implements CloudProvider<Seat, List<Seat>> {
     required String field,
     required String isEqualTo,
   }) {
-    final snapshots = provider.readCollectionByFilter(
-        field: field, isEqualTo: isEqualTo) as Stream<CollectionRef>;
+    final snapshots =
+        provider.readCollectionByFilter(field: field, isEqualTo: isEqualTo);
 
     return snapshots.map((snapshot) {
       List<Seat> retVal = [];
@@ -63,8 +77,7 @@ class SeatService implements CloudProvider<Seat, List<Seat>> {
 
   @override
   Stream<List<Seat>> readCollectionByOrder(String field) {
-    final snapshots =
-        provider.readCollectionByOrder(field) as Stream<CollectionRef>;
+    final snapshots = provider.readCollectionByOrder(field);
     return snapshots.map((snapshot) {
       List<Seat> retVal = [];
 
@@ -78,7 +91,7 @@ class SeatService implements CloudProvider<Seat, List<Seat>> {
 
   @override
   Stream<Seat> readDoc(String id) {
-    final ref = provider.readDoc(id) as Stream<DocumentRef>;
+    final ref = provider.readDoc(id);
     return ref.map((value) => Seat.fromMap(value));
   }
 

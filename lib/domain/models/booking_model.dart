@@ -10,7 +10,7 @@ class TrainBooking {
   String? id;
   // DateTime date;
   DateTime time;
-  List<Seat> seats;
+  List<String> seats;
   String route;
 
   TrainBooking({
@@ -26,7 +26,7 @@ class TrainBooking {
         id: map.id,
         // date: DateTime.fromMillisecondsSinceEpoch(map[dateFeild]),
         time: DateTime.fromMillisecondsSinceEpoch(map[arrivalTimeFeild]),
-        seats: [],
+        seats: map[seatFeild].map<String>((e) => e.toString()).toList(),
         route: map[routeFeild],
       );
 
@@ -34,7 +34,7 @@ class TrainBooking {
   Map<String, dynamic> toMap() => {
         // dateFeild: date.millisecondsSinceEpoch,
         arrivalTimeFeild: time.millisecondsSinceEpoch,
-        seatFeild: seats.map((e) => e.id).toList(),
+        seatFeild: seats.map((e) => e).toList(),
         routeFeild: route,
       };
 }

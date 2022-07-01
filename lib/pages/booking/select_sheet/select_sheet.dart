@@ -65,7 +65,7 @@ class _SelectSeatPageState extends State<SelectSeatPage> {
                               context,
                               TrainBooking(
                                 time: DateTime.now(),
-                                seats: _seats,
+                                seats: _seats.map((e) => e.id!).toList(),
                                 route: widget.schedule.id!,
                               ),
                             );

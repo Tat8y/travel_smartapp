@@ -3,16 +3,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
+import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/station_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_schedule_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
+import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/station_mode.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
+import 'package:travel_smartapp/domain/strings.dart';
+import 'package:travel_smartapp/extension/list/filter.dart';
+import 'package:travel_smartapp/pages/root/root.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
+import 'package:travel_smartapp/widgets/button/material_button.dart';
 import 'package:travel_smartapp/widgets/clipper/custom_ticket_cliper.dart';
 import 'package:travel_smartapp/widgets/divider/dashed_divider.dart';
 
@@ -40,6 +46,9 @@ class BookingCode extends StatelessWidget {
             .readDocFuture(FirebaseAuth.instance.currentUser!.uid),
 
         Future.value(schedule),
+
+        // Seat Service
+        SeatService.firebase().readCollectionFuture(),
       ]);
     });
   }
@@ -49,10 +58,18 @@ class BookingCode extends StatelessWidget {
     return Scaffold(
       appBar: customAppBar(title: "Your E - Ticket"),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           buildBookingCard(context),
+          CustomButton(
+              text: "Goto Home",
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const RootPage()),
+                );
+              }),
         ],
       ),
     );
@@ -70,6 +87,7 @@ class BookingCode extends StatelessWidget {
           TrainStation endStation = response[2] as TrainStation;
           UserModel user = response[3] as UserModel;
           TrainSchedule schedule = response[4] as TrainSchedule;
+          List<Seat> seats = (response[5] as List<Seat>).filter(booking.seats);
 
           return Container(
             margin: const EdgeInsets.all(kPadding),
@@ -105,7 +123,7 @@ class BookingCode extends StatelessWidget {
                       "Arrival Time": DateFormat.yMEd()
                           .add_jms()
                           .format(schedule.arrivalTime),
-                      "Seat": "8A"
+                      "Seat": generateSeatNumberFromList(seats)
                     }
                         .entries
                         .map((e) => cardInfo(leading: e.key, traling: e.value))

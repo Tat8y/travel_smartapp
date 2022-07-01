@@ -58,8 +58,4 @@ List<Seat> getSeatsByColumn(List<Seat> seats, String key) {
 //   return list;
 // }
 
-extension Filter on List<Seat> {
-  List<Seat> filter(List<String> seats) {
-    return where((element) => seats.contains(element.id)).toList();
-  }
-}
+
