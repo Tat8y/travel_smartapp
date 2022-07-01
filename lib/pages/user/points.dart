@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/extension/context/themes.dart';
 
 class PointsView extends StatelessWidget {
@@ -33,9 +34,9 @@ class PointsView extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: kPadding),
             child: Image.asset(kReward),
           ),
-          const Text(
-            "Congratulations !",
-            style: TextStyle(
+          Text(
+            "${context.loc!.congratulations} !",
+            style: const TextStyle(
               color: Colors.green,
               fontSize: kFontSize,
               fontWeight: FontWeight.w500,

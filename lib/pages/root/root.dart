@@ -75,20 +75,4 @@ class _RootPageState extends State<RootPage> {
       ),
     );
   }
-
-  // Widget buildCity() => TypeAheadFormField<String?>(
-  //       textFieldConfiguration: TextFieldConfiguration(
-  //         controller: controllerCity,
-  //         decoration: const InputDecoration(
-  //           labelText: 'From',
-  //           border: OutlineInputBorder(),
-  //         ),
-  //       ),
-  //       suggestionsCallback: FromData.getSuggestions,
-  //       itemBuilder: (context, String? suggestion) => ListTile(
-  //         title: Text(suggestion!),
-  //       ),
-  //       onSuggestionSelected: (String? suggestion) =>
-  //           controllerCity.text = suggestion!,
-  //     );
 }

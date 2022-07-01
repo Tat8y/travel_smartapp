@@ -22,11 +22,6 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
               mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: kPadding * .5),
-                cardConfirmationDetailsRow(
-                  title: "Your Executive",
-                  value: "Exec 1",
-                ),
-                const SizedBox(height: kPadding * .5),
                 FutureBuilder<List<Seat>>(
                     future: SeatService.firebase().readCollectionFuture(),
                     builder: (context, snapshot) {

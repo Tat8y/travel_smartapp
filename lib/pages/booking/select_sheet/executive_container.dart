@@ -132,7 +132,7 @@ class _ExectiveWidgetState extends State<ExectiveWidget> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(height: 30),
+        const SizedBox(height: 30),
         ...List.generate(
             10,
             (index) => SizedBox(
