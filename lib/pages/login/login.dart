@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
@@ -163,7 +166,9 @@ class _LoginPageState extends State<LoginPage> {
                     // Padding(
                     //   padding: const EdgeInsets.all(8.0),
                     //   child: RawMaterialButton(
-                    //       onPressed: signInGoogle,
+                    //       onPressed: () {
+                    //         GoogleSignIn().signIn();
+                    //       },
                     //       shape: RoundedRectangleBorder(
                     //           borderRadius:
                     //               BorderRadius.circular(kBorderRadius),
@@ -187,16 +192,20 @@ class _LoginPageState extends State<LoginPage> {
     final authService = Provider.of<AuthService>(context, listen: false);
 
     if (_formKey.currentState!.validate()) {
-      await authService
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((uid) => {
-                Fluttertoast.showToast(msg: context.loc!.login_successful),
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const RootPage()))
-              })
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
-      });
+      try {
+        await authService
+            .signInWithEmailAndPassword(email: email, password: password)
+            .then((uid) => {
+                  Fluttertoast.showToast(msg: context.loc!.login_successful),
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const RootPage()))
+                })
+            .catchError((e) {
+          Fluttertoast.showToast(msg: e!.message);
+        });
+      } catch (e) {
+        log(e.toString());
+      }
     }
   }
 

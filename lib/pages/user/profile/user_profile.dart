@@ -9,6 +9,7 @@ import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';
 import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/extension/context/themes.dart';
+import 'package:travel_smartapp/main.dart';
 import 'package:travel_smartapp/pages/tickets/tickets.dart';
 import 'package:travel_smartapp/pages/user/points.dart';
 import 'package:travel_smartapp/pages/user/profile/edit_user_profile.dart';
@@ -161,6 +162,11 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                     listen: false)
                                 .clear();
                             authService.logout();
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (builder) => const MyApp()),
+                                (route) => false);
                           },
                           constraints: BoxConstraints(
                             minWidth: MediaQuery.of(context).size.width -

@@ -49,7 +49,7 @@ class AuthService {
 
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
-      throw SignUpErrorException();
+      rethrow;
     }
   }
 
@@ -57,7 +57,7 @@ class AuthService {
 
   // Logout User
   Future<void> logout() async {
-    await googleSignIn.disconnect();
+    // /await googleSignIn.disconnect();
     await _firebaseAuth.signOut();
   }
 
