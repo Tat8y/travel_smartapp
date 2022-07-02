@@ -168,7 +168,7 @@ class PaymentConfirmation extends StatelessWidget {
   }
 
   Widget buildTicketContent() => FutureBuilder<List<Object>>(
-      future: fetchSchedule(trainBooking.route),
+      future: fetchSchedule(trainBooking.schedule),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox();
         return Column(

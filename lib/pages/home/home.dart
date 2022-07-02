@@ -8,6 +8,7 @@ import 'package:travel_smartapp/domain/cloud_services/train_service.dart';
 import 'package:travel_smartapp/domain/controllers.dart';
 import 'package:travel_smartapp/domain/datetime.dart';
 import 'package:travel_smartapp/domain/models/station_mode.dart';
+import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/extension/context/themes.dart';
@@ -85,13 +86,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   void navigate(TrainSchedule schedule) async {
-    // Navigating to SelectSeatPage
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (builder) => SelectSeatPage(schedule: schedule),
-      ),
-    );
+    if (startStation != null && endStation != null) {
+      // Navigating to SelectSeatPage
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (builder) => SelectSeatPage(
+            route: TravelRoute(
+              from: startStation!,
+              to: endStation!,
+              schedule: schedule,
+            ),
+          ),
+        ),
+      );
+    }
   }
 
   void pickDate() async {

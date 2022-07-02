@@ -29,7 +29,7 @@ class BookingCode extends StatelessWidget {
   Future<List<Object>> ticketFuture(
       {required TrainBooking trainBooking}) async {
     return await TrainScheduleService.firebase()
-        .readDocFuture(trainBooking.route)
+        .readDocFuture(trainBooking.schedule)
         .then((schedule) {
       return Future.wait([
         // Train Service

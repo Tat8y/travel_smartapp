@@ -77,7 +77,7 @@ class TicketsPage extends StatelessWidget {
                   child: Padding(
                       padding: const EdgeInsets.all(kPadding * .8),
                       child: FutureBuilder<List<Object>>(
-                          future: fetchSchedule(booking.route),
+                          future: fetchSchedule(booking.schedule),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) return const SizedBox();
                             Train train = snapshot.data![0] as Train;

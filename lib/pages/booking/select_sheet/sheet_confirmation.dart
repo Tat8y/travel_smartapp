@@ -3,12 +3,15 @@ import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
+import 'package:travel_smartapp/domain/models/support_models/booking_data_model.dart';
+import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/domain/strings.dart';
 import 'package:travel_smartapp/extension/list/filter.dart';
 import 'package:travel_smartapp/pages/checkout/payment_confirmation/paymnet_confrimation.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 
-void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
+void openSheetConfirmation(BuildContext context,
+    {required BookingDataModel bookingData}) {
   showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -29,14 +32,15 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
                       return cardConfirmationDetailsRow(
                         title: "Your Seat",
                         value: generateSeatNumberFromList(
-                          snapshot.data?.filter(trainBooking.seats) ?? [],
+                          snapshot.data?.filter(bookingData.seats) ?? [],
                         ),
                       );
                     }),
                 const SizedBox(height: kPadding * .5),
                 cardConfirmationDetailsRow(
                   title: "Total Price",
-                  value: "${calculatePrice(trainBooking.seats)} LKR",
+                  value:
+                      "${calculatePrice(route: bookingData.route, seats: bookingData.seats)} LKR",
                 ),
                 const SizedBox(height: kPadding),
                 CustomButton(
@@ -47,7 +51,13 @@ void openSheetConfirmation(BuildContext context, TrainBooking trainBooking) {
                       context,
                       MaterialPageRoute(
                         builder: (builder) => PaymentConfirmation(
-                          trainBooking: trainBooking,
+                          trainBooking: TrainBooking(
+                            time: DateTime.now(),
+                            seats: bookingData.seats,
+                            schedule: bookingData.route.schedule.id!,
+                            from: bookingData.route.from,
+                            to: bookingData.route.to,
+                          ),
                         ),
                       ),
                     );
@@ -67,7 +77,9 @@ Widget cardConfirmationDetailsRow(
   );
 }
 
-double calculatePrice(List<String> seats) {
-  double seatPrice = 250.0;
-  return seatPrice * seats.length;
+double calculatePrice(
+    {required TravelRoute route, required List<String> seats}) {
+  double ratio = route.schedule.calculateLengthRatio(route);
+  double seatPrice = 250.0 * ratio;
+  return (seatPrice * seats.length).roundToDouble();
 }

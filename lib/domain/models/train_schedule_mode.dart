@@ -1,6 +1,7 @@
 import 'dart:collection';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 
 class TrainSchedule {
   static const String trainFeild = 'train_id';
@@ -43,9 +44,25 @@ class TrainSchedule {
             stops.map((key, value) => MapEntry(key.toString(), value.toMap())),
       };
 
+  // get the key of station in stops list
   int getStopsKey(String? stationId) {
     return stops.keys
         .firstWhere((k) => stops[k]?.station == stationId, orElse: () => -1);
+  }
+
+  // get length by full length for calculate ticket price
+  double calculateLengthRatio(TravelRoute route) {
+    int fromStationKey = getStopsKey(route.from);
+    int toStationKey = getStopsKey(route.to);
+    if (stops.entries.isNotEmpty &&
+        fromStationKey != -1 &&
+        toStationKey != -1) {
+      double from = stops[fromStationKey]?.distanceFromStart ?? 0;
+      double to = stops[toStationKey]?.distanceFromStart ?? 0;
+      double full = stops.entries.last.value.distanceFromStart;
+      return (to - from) / full;
+    }
+    return 0.0;
   }
 }
 
