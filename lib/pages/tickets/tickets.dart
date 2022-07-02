@@ -43,8 +43,12 @@ class TicketsPage extends StatelessWidget {
                 .readDoc(FirebaseAuth.instance.currentUser!.uid),
             builder: (context, snapshot) {
               if (!snapshot.hasData) return const SizedBox();
-              List<TrainBooking> bookings =
-                  controller.items.filter(snapshot.data!.bookings ?? []);
+              List<TrainBooking> bookings = controller.items
+                  .filter(snapshot.data!.bookings ?? [])
+                  .toList();
+
+              bookings.sort((a, b) => a.time.millisecondsSinceEpoch
+                  .compareTo(b.time.millisecondsSinceEpoch));
 
               return CustomScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -114,7 +118,7 @@ class TicketsPage extends StatelessWidget {
                                     _ticketTopBar(
                                       context,
                                       date: schedule
-                                          .getStopByStation(startStation.name)!
+                                          .getStopByStation(startStation.name)
                                           .arrivalTime,
                                     ),
                                     const SizedBox(height: kPadding * .4),

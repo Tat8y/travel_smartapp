@@ -35,7 +35,7 @@ class UserModel {
       emailFeild: email,
       fnameFeild: firstName,
       lnameFeild: secondName,
-      bookingsFeild: bookings,
+      bookingsFeild: bookings ?? [],
     };
   }
 

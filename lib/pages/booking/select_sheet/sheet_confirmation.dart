@@ -58,6 +58,7 @@ void openSheetConfirmation(BuildContext context,
                             from: bookingData.route.from,
                             to: bookingData.route.to,
                           ),
+                          bookingData: bookingData,
                         ),
                       ),
                     );

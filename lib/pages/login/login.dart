@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/pages/root/root.dart';
@@ -157,7 +158,20 @@ class _LoginPageState extends State<LoginPage> {
                                   fontSize: 14),
                             )),
                       ],
-                    )
+                    ),
+                    // const Divider(),
+                    // Padding(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: RawMaterialButton(
+                    //       onPressed: signInGoogle,
+                    //       shape: RoundedRectangleBorder(
+                    //           borderRadius:
+                    //               BorderRadius.circular(kBorderRadius),
+                    //           side: const BorderSide(
+                    //               width: 1, color: Colors.grey)),
+                    //       constraints: const BoxConstraints.expand(height: 50),
+                    //       child: const Text("Sign in with Google")),
+                    // )
                   ],
                 ),
               ),
@@ -183,6 +197,25 @@ class _LoginPageState extends State<LoginPage> {
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
+    }
+  }
+
+  void signInGoogle() async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+
+    try {
+      await authService
+          .signWithGoogle()
+          .then((uid) => {
+                Fluttertoast.showToast(msg: context.loc!.login_successful),
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const RootPage()))
+              })
+          .catchError((e) {
+        Fluttertoast.showToast(msg: e!.message);
+      });
+    } catch (e) {
+      Fluttertoast.showToast(msg: e.toString());
     }
   }
 }

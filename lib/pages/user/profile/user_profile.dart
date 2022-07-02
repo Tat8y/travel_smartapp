@@ -156,7 +156,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
                         const SizedBox(height: kPadding * .5),
                         CustomButton(
                           text: context.loc!.logout,
-                          onPressed: authService.logout,
+                          onPressed: () {
+                            Provider.of<PrefernceProvider>(context,
+                                    listen: false)
+                                .clear();
+                            authService.logout();
+                          },
                           constraints: BoxConstraints(
                             minWidth: MediaQuery.of(context).size.width -
                                 kPadding * 2,

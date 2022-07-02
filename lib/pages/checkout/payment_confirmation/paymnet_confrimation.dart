@@ -11,6 +11,8 @@ import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/station_mode.dart';
+import 'package:travel_smartapp/domain/models/support_models/booking_data_model.dart';
+import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 import 'package:travel_smartapp/domain/payment/payment_exception.dart';
@@ -24,7 +26,9 @@ import 'package:travel_smartapp/widgets/button/material_button.dart';
 
 class PaymentConfirmation extends StatelessWidget {
   final TrainBooking trainBooking;
-  const PaymentConfirmation({Key? key, required this.trainBooking})
+  final BookingDataModel bookingData;
+  const PaymentConfirmation(
+      {Key? key, required this.trainBooking, required this.bookingData})
       : super(key: key);
 
   Future<TrainBooking> createBookingTicket(TrainBooking trainBooking) async {
@@ -92,7 +96,7 @@ class PaymentConfirmation extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: kPadding * .8),
                     child: Text(
-                      "${trainBooking.seats.length * 120} LKR",
+                      "${calculatePrice(route: bookingData.route, seats: trainBooking.seats)} LKR",
                       style: const TextStyle(
                         fontSize: kFontSize * 2,
                         fontWeight: FontWeight.w600,
@@ -121,8 +125,10 @@ class PaymentConfirmation extends StatelessWidget {
               child: CustomButton(
                 text: "Pay",
                 constraints: const BoxConstraints.expand(height: 50),
-                onPressed: () async =>
-                    await checkout(context, trainBooking.seats.length * 120),
+                onPressed: () async => await checkout(
+                    context,
+                    calculatePrice(
+                        route: bookingData.route, seats: trainBooking.seats)),
               ),
             ),
           ],
@@ -301,4 +307,11 @@ class PaymentConfirmation extends StatelessWidget {
           ]),
         );
   }
+}
+
+double calculatePrice(
+    {required TravelRoute route, required List<String> seats}) {
+  double ratio = route.schedule.calculateLengthRatio(route);
+  double seatPrice = 250.0 * ratio;
+  return (seatPrice * seats.length).roundToDouble();
 }

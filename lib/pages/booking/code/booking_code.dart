@@ -61,7 +61,7 @@ class BookingCode extends StatelessWidget {
       children: [
         buildBookingCard(context),
         CustomButton(
-            text: "Goto Home",
+            text: "Close",
             onPressed: () {
               Navigator.pop(context);
             }),

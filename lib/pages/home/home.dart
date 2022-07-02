@@ -105,11 +105,27 @@ class _HomePageState extends State<HomePage> {
 
   void pickDate() async {
     await showDatePicker(
-            context: context,
-            initialDate: date,
-            firstDate: DateTime.now(),
-            lastDate: DateTime(2050))
-        .then((_date) {
+        context: context,
+        initialDate: date,
+        firstDate: DateTime.now(),
+        lastDate: DateTime(2050),
+        builder: (context, child) {
+          return Theme(
+            data: context.themes.brightness == Brightness.light
+                ? ThemeData(
+                    colorScheme: const ColorScheme.light(
+                      primary: kPrimaryColor,
+                    ),
+                    textButtonTheme: TextButtonThemeData(
+                      style: TextButton.styleFrom(
+                        primary: kPrimaryColor,
+                      ),
+                    ),
+                  )
+                : context.themes,
+            child: child!,
+          );
+        }).then((_date) {
       setState(() {
         if (_date != null) date = _date;
       });
