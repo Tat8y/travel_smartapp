@@ -28,7 +28,7 @@ class _RootPageState extends State<RootPage> {
   final screens = [
     const HomePage(),
     //const MapScreen(),
-    const TicketsPage(),
+    TicketsPage(),
     const UserProfilePage(),
   ];
 

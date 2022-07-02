@@ -1,3 +1,4 @@
+import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 
 // Create Extention for seat contains
@@ -7,6 +8,12 @@ extension Contains on List<Seat> {
 
 extension Filter on List<Seat> {
   List<Seat> filter(List<String> seats) {
+    return where((element) => seats.contains(element.id)).toList();
+  }
+}
+
+extension FilterBooking on List<TrainBooking> {
+  List<TrainBooking> filter(List<String> seats) {
     return where((element) => seats.contains(element.id)).toList();
   }
 }

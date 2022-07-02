@@ -106,7 +106,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
                           onPressed: () {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (_) {
-                              return const TicketsPage();
+                              return TicketsPage();
                             }));
                           },
                           constraints: BoxConstraints(

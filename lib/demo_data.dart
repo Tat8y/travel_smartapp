@@ -1,11 +1,11 @@
 import 'package:travel_smartapp/domain/cloud_services/station_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_schedule_service.dart';
 import 'package:travel_smartapp/domain/models/station_mode.dart';
-import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
 import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_service.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
+import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 
 final demoTrains = [
   Train(

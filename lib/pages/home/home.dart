@@ -10,7 +10,7 @@ import 'package:travel_smartapp/domain/datetime.dart';
 import 'package:travel_smartapp/domain/models/station_mode.dart';
 import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
-import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
+import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 import 'package:travel_smartapp/extension/context/themes.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/select_sheet.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';

@@ -12,7 +12,7 @@ import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/station_mode.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
-import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
+import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/domain/strings.dart';
 import 'package:travel_smartapp/extension/list/filter.dart';
@@ -55,23 +55,17 @@ class BookingCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: customAppBar(context, title: "Your E - Ticket"),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          buildBookingCard(context),
-          CustomButton(
-              text: "Goto Home",
-              onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => const RootPage()),
-                );
-              }),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        buildBookingCard(context),
+        CustomButton(
+            text: "Goto Home",
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+      ],
     );
   }
 
@@ -79,7 +73,9 @@ class BookingCode extends StatelessWidget {
     return FutureBuilder<List<Object>>(
         future: ticketFuture(trainBooking: booking),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const SizedBox();
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          }
           List<Object?> response = snapshot.data!;
 
           Train train = response[0] as Train;
@@ -121,9 +117,8 @@ class BookingCode extends StatelessWidget {
                     buildRoute(from: startStation.name!, to: endStation.name!),
                     ...{
                       "Full Name": "${user.firstName} ${user.secondName}",
-                      "Arrival Time": DateFormat.yMEd()
-                          .add_jms()
-                          .format(DateTime.now()), //TODO
+                      "Arrival Time":
+                          DateFormat.yMEd().add_jms().format(booking.time),
                       "Seat": generateSeatNumberFromList(seats)
                     }
                         .entries
@@ -209,7 +204,7 @@ class BookingCode extends StatelessWidget {
             text,
             textAlign: TextAlign.center,
             style: const TextStyle(
-              fontSize: kFontSize,
+              fontSize: kFontSize * .8,
               fontWeight: FontWeight.w500,
               color: Colors.black,
             ),

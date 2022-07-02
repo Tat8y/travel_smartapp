@@ -1,4 +1,4 @@
-import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
+import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 
 class TravelRoute {
   static const String fromFeild = 'from';

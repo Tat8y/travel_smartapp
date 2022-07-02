@@ -1,7 +1,7 @@
 import 'package:travel_smartapp/domain/cloud/cloud_constatnts.dart';
 import 'package:travel_smartapp/domain/cloud/cloud_provider.dart';
 import 'package:travel_smartapp/domain/cloud/firebase_service.dart';
-import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
+import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 
 class TrainScheduleService
     implements CloudProvider<TrainSchedule, List<TrainSchedule>> {

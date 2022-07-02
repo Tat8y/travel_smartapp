@@ -4,7 +4,7 @@ import 'package:travel_smartapp/domain/cloud_services/seat_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_schedule_service.dart';
 import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
-import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
+import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 
 class TrainScheduleController extends GetxController {
   final items = <TrainSchedule>[].obs;

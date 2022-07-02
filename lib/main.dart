@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:travel_smartapp/app.dart';
 import 'package:travel_smartapp/config/style/theme.dart';
-import 'package:travel_smartapp/demo_data.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/domain/payment/payment_service.dart';
 import 'package:travel_smartapp/domain/providers/prefernce_provider.dart';

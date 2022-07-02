@@ -64,6 +64,14 @@ class TrainSchedule {
     }
     return 0.0;
   }
+
+  TrainScheduleStops getStopByStation(String? station) {
+    int stationKey = getStopsKey(station);
+    if (stationKey != -1) {
+      return stops.entries.elementAt(stationKey).value;
+    }
+    return stops.entries.first.value;
+  }
 }
 
 class TrainScheduleStops {
@@ -104,6 +112,7 @@ class TrainScheduleStops {
         stopTimesFeild: stopTimes,
       };
 
+  // Sort Map by Key
   static Map<int, TrainScheduleStops> stopsFromMap(
       Map<dynamic, dynamic> stopData) {
     Map<int, TrainScheduleStops> retVal = stopData.map<int, TrainScheduleStops>(
