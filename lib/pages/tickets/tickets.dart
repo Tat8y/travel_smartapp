@@ -93,7 +93,7 @@ class TicketsPage extends StatelessWidget {
                               children: [
                                 _ticketTopBar(
                                   context,
-                                  date: schedule.arrivalTime,
+                                  date: DateTime.now(), // TODO
                                 ),
                                 const SizedBox(height: kPadding * .4),
                                 _trainName(train.name!),

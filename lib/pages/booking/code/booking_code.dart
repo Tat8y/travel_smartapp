@@ -123,7 +123,7 @@ class BookingCode extends StatelessWidget {
                       "Full Name": "${user.firstName} ${user.secondName}",
                       "Arrival Time": DateFormat.yMEd()
                           .add_jms()
-                          .format(schedule.arrivalTime),
+                          .format(DateTime.now()), //TODO
                       "Seat": generateSeatNumberFromList(seats)
                     }
                         .entries
