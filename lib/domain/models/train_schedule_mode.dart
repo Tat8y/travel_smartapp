@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class TrainSchedule {
@@ -11,7 +13,7 @@ class TrainSchedule {
   final String train;
   final String startStation;
   final String endStation;
-  final Map<String, TrainScheduleStops> stops;
+  final Map<int, TrainScheduleStops> stops;
   // final DateTime arrivalTime;
 
   TrainSchedule({
@@ -37,8 +39,14 @@ class TrainSchedule {
         startStationFeild: startStation,
         endStationFeild: endStation,
         // arrivalTimeFeild: arrivalTime.millisecondsSinceEpoch,
-        stopsFeild: stops.map((key, value) => MapEntry(key, value.toMap())),
+        stopsFeild:
+            stops.map((key, value) => MapEntry(key.toString(), value.toMap())),
       };
+
+  int getStopsKey(String? stationId) {
+    return stops.keys
+        .firstWhere((k) => stops[k]?.station == stationId, orElse: () => -1);
+  }
 }
 
 class TrainScheduleStops {
@@ -79,9 +87,17 @@ class TrainScheduleStops {
         stopTimesFeild: stopTimes,
       };
 
-  static Map<String, TrainScheduleStops> stopsFromMap(
+  static Map<int, TrainScheduleStops> stopsFromMap(
       Map<dynamic, dynamic> stopData) {
-    return stopData.map<String, TrainScheduleStops>((key, value) =>
-        MapEntry(key.toString(), TrainScheduleStops.fromMap(value)));
+    Map<int, TrainScheduleStops> retVal = stopData.map<int, TrainScheduleStops>(
+        (key, value) =>
+            MapEntry(int.parse(key), TrainScheduleStops.fromMap(value)));
+
+    var sortedKeys = retVal.keys.toList(growable: false)
+      ..sort((k1, k2) => k1.compareTo(k2));
+    LinkedHashMap sortedMap = LinkedHashMap.fromIterable(sortedKeys,
+        key: (k) => k, value: (k) => retVal[k]);
+
+    return sortedMap.map((key, value) => MapEntry(key, value));
   }
 }

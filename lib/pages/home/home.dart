@@ -6,6 +6,7 @@ import 'package:travel_smartapp/domain/api/suggestion_api.dart';
 import 'package:travel_smartapp/domain/cloud_services/station_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/train_service.dart';
 import 'package:travel_smartapp/domain/controllers.dart';
+import 'package:travel_smartapp/domain/datetime.dart';
 import 'package:travel_smartapp/domain/models/station_mode.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_mode.dart';
@@ -36,6 +37,25 @@ class _HomePageState extends State<HomePage> {
     depatureController.addListener(getStartStation);
     destinationController.addListener(getEndtStation);
     super.initState();
+  }
+
+  List<TrainSchedule> trainFilter(List<TrainSchedule> schedules) {
+    return schedules.where((p0) {
+      int startKey = p0.getStopsKey(startStation);
+      int endKey = p0.getStopsKey(endStation);
+      if (startKey != -1 && endKey != -1) {
+        int startKeyIndex = p0.stops.keys.toList().indexOf(startKey);
+        int endKeyIndex = p0.stops.keys.toList().indexOf(endKey);
+
+        bool isDay = p0.stops.entries
+            .where(
+                (e) => isThisDay(dateToCheck: e.value.depature, thisDate: date))
+            .isNotEmpty;
+
+        return startKeyIndex < endKeyIndex && isDay;
+      }
+      return false;
+    }).toList();
   }
 
   void getStartStation() async {
@@ -166,10 +186,8 @@ class _HomePageState extends State<HomePage> {
 
   Widget buildAvailabelTrains() {
     return GetX<TrainScheduleController>(builder: (controller) {
-      List<TrainSchedule> schedules = controller.items
-          .where((p0) =>
-              p0.startStation == startStation && p0.endStation == endStation)
-          .toList();
+      List<TrainSchedule> schedules = trainFilter(controller.items);
+
       if (schedules.isEmpty) return const Center(child: Text("No Data"));
       return CustomScrollView(
         physics: const BouncingScrollPhysics(),
@@ -236,81 +254,75 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Row(
                       children: [
-                        Expanded(
-                          child: FutureBuilder<TrainStation>(
-                              future: StationService.firebase()
-                                  .readDocFuture(schedule.startStation),
-                              builder: (context, snapshot) {
-                                return Container(
-                                  // alignment: Alignment.center,
-                                  padding: const EdgeInsets.all(kPadding),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "From",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: kFontSize * .5,
-                                        ),
-                                      ),
-                                      Text(
-                                        snapshot.data?.name ?? "",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontSize: kFontSize,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }),
-                        ),
-                        Container(
-                          width: 1,
-                          color: Colors.black12,
-                          height: 30,
-                        ),
-                        Expanded(
-                          child: FutureBuilder<TrainStation>(
-                              future: StationService.firebase()
-                                  .readDocFuture(schedule.endStation),
-                              builder: (context, snapshot) {
-                                return Container(
-                                  padding: const EdgeInsets.all(kPadding),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "To",
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: kFontSize * .5,
-                                        ),
-                                      ),
-                                      Text(
-                                        snapshot.data?.name ?? "",
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          fontSize: kFontSize,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }),
-                        ),
+                        _routeStation(
+                            schedule.stops[schedule.getStopsKey(startStation)]!,
+                            tag: "From",
+                            station: startStation!),
+                        Container(width: 1, color: Colors.black12, height: 30),
+                        _routeStation(
+                            schedule.stops[schedule.getStopsKey(endStation)]!,
+                            tag: "To",
+                            station: endStation!),
                       ],
-                    )
+                    ),
+                    // Row(
+                    //   children: schedule.stops.entries
+                    //       .toList()
+                    //       .map((e) => FutureBuilder<TrainStation>(
+                    //           future: StationService.firebase()
+                    //               .readDocFuture(e.value.station),
+                    //           builder: (context, snapshot) {
+                    //             return Text("${snapshot.data?.name}, ");
+                    //           }))
+                    //       .toList(),
+                    // )
                   ],
                 ),
               ),
             ),
           );
         });
+  }
+
+  Expanded _routeStation(TrainScheduleStops stops,
+      {required String tag, required String station}) {
+    return Expanded(
+      child: FutureBuilder<TrainStation>(
+          future: StationService.firebase().readDocFuture(station),
+          builder: (context, snapshot) {
+            return Container(
+              // alignment: Alignment.center,
+              padding: const EdgeInsets.all(kPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    tag,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: kFontSize * .5,
+                    ),
+                  ),
+                  Text(
+                    snapshot.data?.name ?? "",
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: kFontSize * .8,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  Text(
+                    DateFormat("hh:mm a").format(stops.depature),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: kFontSize * .45,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+    );
   }
 }

@@ -100,7 +100,11 @@ void addStations() {
 //   }
 // }
 
-final trains = ['8311', '8320', '8327'];
+final trains = [
+  '8311', // Night Mail
+  '8320', // Samudra Devi
+  '8327', // Galu Kumari
+];
 final stations = [
   '1w0DTYj4CVC9rV7A1YZS', // Ragama
   '8Ydj2FHxbjCgkruhpE7p', // Veyangoda
@@ -116,14 +120,14 @@ final demoTrainSchedules = [
     startStation: stations[0],
     endStation: stations[3],
     stops: {
-      now.millisecondsSinceEpoch.toString(): TrainScheduleStops(
+      now.millisecondsSinceEpoch: TrainScheduleStops(
         depature: now.add(const Duration(minutes: 2)),
         arrivalTime: now,
         station: stations[0],
         stopTimes: 1,
         distanceFromStart: 0,
       ),
-      now.add(const Duration(minutes: 30)).millisecondsSinceEpoch.toString():
+      now.add(const Duration(minutes: 30)).millisecondsSinceEpoch:
           TrainScheduleStops(
         depature: now.add(const Duration(minutes: 33)),
         arrivalTime: now.add(const Duration(minutes: 30)),
@@ -131,7 +135,7 @@ final demoTrainSchedules = [
         distanceFromStart: 27.5,
         stopTimes: 1,
       ),
-      now.add(const Duration(minutes: 45)).millisecondsSinceEpoch.toString():
+      now.add(const Duration(minutes: 45)).millisecondsSinceEpoch:
           TrainScheduleStops(
         depature: now.add(const Duration(minutes: 48)),
         arrivalTime: now.add(const Duration(minutes: 45)),
@@ -139,7 +143,7 @@ final demoTrainSchedules = [
         distanceFromStart: 48,
         stopTimes: 1,
       ),
-      now.add(const Duration(hours: 1)).millisecondsSinceEpoch.toString():
+      now.add(const Duration(hours: 1)).millisecondsSinceEpoch:
           TrainScheduleStops(
         depature: now.add(const Duration(hours: 1, minutes: 10)),
         arrivalTime: now.add(const Duration(hours: 1)),
@@ -154,34 +158,31 @@ final demoTrainSchedules = [
     startStation: stations[3],
     endStation: stations[0],
     stops: {
-      now.millisecondsSinceEpoch.toString(): TrainScheduleStops(
+      now.add(const Duration(hours: 2)).millisecondsSinceEpoch:
+          TrainScheduleStops(
         depature: now.add(const Duration(minutes: 2, hours: 2)),
         arrivalTime: now.add(const Duration(hours: 2)),
         station: stations[3],
         stopTimes: 1,
         distanceFromStart: 0,
       ),
-      now
-          .add(const Duration(minutes: 30, hours: 2))
-          .millisecondsSinceEpoch
-          .toString(): TrainScheduleStops(
+      now.add(const Duration(minutes: 30, hours: 2)).millisecondsSinceEpoch:
+          TrainScheduleStops(
         depature: now.add(const Duration(minutes: 33, hours: 2)),
         arrivalTime: now.add(const Duration(minutes: 30, hours: 2)),
         station: stations[2],
         distanceFromStart: 27.5,
         stopTimes: 1,
       ),
-      now
-          .add(const Duration(minutes: 45, hours: 2))
-          .millisecondsSinceEpoch
-          .toString(): TrainScheduleStops(
+      now.add(const Duration(minutes: 45, hours: 2)).millisecondsSinceEpoch:
+          TrainScheduleStops(
         depature: now.add(const Duration(minutes: 48, hours: 2)),
         arrivalTime: now.add(const Duration(minutes: 45, hours: 2)),
         station: stations[1],
         distanceFromStart: 48,
         stopTimes: 1,
       ),
-      now.add(const Duration(hours: 3)).millisecondsSinceEpoch.toString():
+      now.add(const Duration(hours: 3)).millisecondsSinceEpoch:
           TrainScheduleStops(
         depature: now.add(const Duration(hours: 3, minutes: 10)),
         arrivalTime: now.add(const Duration(hours: 3)),
@@ -198,18 +199,15 @@ final demoTrainSchedules = [
     stops: {
       now
           .add(const Duration(minutes: 30, hours: 2, days: 1))
-          .millisecondsSinceEpoch
-          .toString(): TrainScheduleStops(
+          .millisecondsSinceEpoch: TrainScheduleStops(
         depature: now.add(const Duration(minutes: 33, hours: 2, days: 1)),
         arrivalTime: now.add(const Duration(minutes: 30, hours: 2, days: 1)),
         station: stations[2],
         distanceFromStart: 0,
         stopTimes: 1,
       ),
-      now
-          .add(const Duration(hours: 3, days: 1))
-          .millisecondsSinceEpoch
-          .toString(): TrainScheduleStops(
+      now.add(const Duration(hours: 3, days: 1)).millisecondsSinceEpoch:
+          TrainScheduleStops(
         depature: now.add(const Duration(hours: 3, days: 1, minutes: 10)),
         arrivalTime: now.add(const Duration(hours: 3, days: 1)),
         station: stations[0],
