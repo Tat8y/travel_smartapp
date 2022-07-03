@@ -49,12 +49,13 @@ class _HomePageState extends State<HomePage> {
         int startKeyIndex = p0.stops.keys.toList().indexOf(startKey);
         int endKeyIndex = p0.stops.keys.toList().indexOf(endKey);
 
+        bool isNew = p0.stops[startKey]?.arrivalTime.isAfter(date) ?? false;
         bool isDay = p0.stops.entries
-            .where(
-                (e) => isThisDay(dateToCheck: e.value.depature, thisDate: date))
+            .where((e) =>
+                isThisDay(thisDate: date, dateToCheck: e.value.arrivalTime))
             .isNotEmpty;
 
-        return startKeyIndex < endKeyIndex && isDay;
+        return startKeyIndex < endKeyIndex && isDay && isNew;
       }
       return false;
     }).toList();

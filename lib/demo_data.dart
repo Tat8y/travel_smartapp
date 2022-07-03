@@ -114,114 +114,101 @@
 
 // DateTime now = DateTime.now();
 
-// final demoTrainSchedules = [
-//   TrainSchedule(
-//     train: trains[0],
-//     startStation: stations[0],
-//     endStation: stations[3],
-//     stops: {
-//       now.millisecondsSinceEpoch: TrainScheduleStops(
-//         depature: now.add(const Duration(minutes: 2)),
-//         arrivalTime: now,
-//         station: stations[0],
-//         stopTimes: 1,
-//         distanceFromStart: 0,
-//       ),
-//       now.add(const Duration(minutes: 30)).millisecondsSinceEpoch:
-//           TrainScheduleStops(
-//         depature: now.add(const Duration(minutes: 33)),
-//         arrivalTime: now.add(const Duration(minutes: 30)),
-//         station: stations[1],
-//         distanceFromStart: 27.5,
-//         stopTimes: 1,
-//       ),
-//       now.add(const Duration(minutes: 45)).millisecondsSinceEpoch:
-//           TrainScheduleStops(
-//         depature: now.add(const Duration(minutes: 48)),
-//         arrivalTime: now.add(const Duration(minutes: 45)),
-//         station: stations[2],
-//         distanceFromStart: 48,
-//         stopTimes: 1,
-//       ),
-//       now.add(const Duration(hours: 1)).millisecondsSinceEpoch:
-//           TrainScheduleStops(
-//         depature: now.add(const Duration(hours: 1, minutes: 10)),
-//         arrivalTime: now.add(const Duration(hours: 1)),
-//         station: stations[3],
-//         distanceFromStart: 86,
-//         stopTimes: 1,
-//       ),
-//     },
-//   ),
-//   TrainSchedule(
-//     train: trains[1],
-//     startStation: stations[3],
-//     endStation: stations[0],
-//     stops: {
-//       now.add(const Duration(hours: 2)).millisecondsSinceEpoch:
-//           TrainScheduleStops(
-//         depature: now.add(const Duration(minutes: 2, hours: 2)),
-//         arrivalTime: now.add(const Duration(hours: 2)),
-//         station: stations[3],
-//         stopTimes: 1,
-//         distanceFromStart: 0,
-//       ),
-//       now.add(const Duration(minutes: 30, hours: 2)).millisecondsSinceEpoch:
-//           TrainScheduleStops(
-//         depature: now.add(const Duration(minutes: 33, hours: 2)),
-//         arrivalTime: now.add(const Duration(minutes: 30, hours: 2)),
-//         station: stations[2],
-//         distanceFromStart: 27.5,
-//         stopTimes: 1,
-//       ),
-//       now.add(const Duration(minutes: 45, hours: 2)).millisecondsSinceEpoch:
-//           TrainScheduleStops(
-//         depature: now.add(const Duration(minutes: 48, hours: 2)),
-//         arrivalTime: now.add(const Duration(minutes: 45, hours: 2)),
-//         station: stations[1],
-//         distanceFromStart: 48,
-//         stopTimes: 1,
-//       ),
-//       now.add(const Duration(hours: 3)).millisecondsSinceEpoch:
-//           TrainScheduleStops(
-//         depature: now.add(const Duration(hours: 3, minutes: 10)),
-//         arrivalTime: now.add(const Duration(hours: 3)),
-//         station: stations[0],
-//         distanceFromStart: 86,
-//         stopTimes: 1,
-//       ),
-//     },
-//   ),
-//   TrainSchedule(
-//     train: trains[2],
-//     startStation: stations[2],
-//     endStation: stations[0],
-//     stops: {
-//       now
-//           .add(const Duration(minutes: 30, hours: 2, days: 1))
-//           .millisecondsSinceEpoch: TrainScheduleStops(
-//         depature: now.add(const Duration(minutes: 33, hours: 2, days: 1)),
-//         arrivalTime: now.add(const Duration(minutes: 30, hours: 2, days: 1)),
-//         station: stations[2],
-//         distanceFromStart: 0,
-//         stopTimes: 1,
-//       ),
-//       now.add(const Duration(hours: 3, days: 1)).millisecondsSinceEpoch:
-//           TrainScheduleStops(
-//         depature: now.add(const Duration(hours: 3, days: 1, minutes: 10)),
-//         arrivalTime: now.add(const Duration(hours: 3, days: 1)),
-//         station: stations[0],
-//         distanceFromStart: 60,
-//         stopTimes: 1,
-//       ),
-//     },
-//   ),
+// final stops = [
+//   [stations[0], stations[1], stations[2], stations[3]],
+//   [stations[2], stations[3]],
+//   [stations[0], stations[1], stations[2]]
 // ];
 
-// void addTrainSchedules() async {
-//   for (TrainSchedule schedule in demoTrainSchedules) {
+// List<Map<int, TrainScheduleStops>> generateTrainStops(
+//     {required DateTime date, required Duration delay}) {
+//   List<Map<int, TrainScheduleStops>> retVal = [];
+//   for (List<String> trainStops in stops) {
+//     retVal
+//         .add(_generateSchedule(stopList: trainStops, date: date, delay: delay));
+//     retVal.add(_generateSchedule(
+//         stopList: trainStops.reversed.toList(),
+//         date: date.add(const Duration(hours: 6)),
+//         delay: delay));
+//   }
+
+//   return retVal;
+// }
+
+// List<Map<int, TrainScheduleStops>> generatebyTrainStops({
+//   required List<String> trainStops,
+//   required Duration delay,
+//   required DateTime date,
+// }) {
+//   List<Map<int, TrainScheduleStops>> retVal = [];
+//   retVal.add(_generateSchedule(
+//     stopList: trainStops,
+//     date: date,
+//     delay: delay,
+//   ));
+//   retVal.add(_generateSchedule(
+//     stopList: trainStops.reversed.toList(),
+//     date: date.add(const Duration(hours: 6)),
+//     delay: delay,
+//   ));
+
+//   return retVal;
+// }
+
+// Map<int, TrainScheduleStops> _generateSchedule({
+//   required DateTime date,
+//   required Duration delay,
+//   required List<String> stopList,
+// }) {
+//   Map<int, TrainScheduleStops> retVal = {};
+
+//   for (String station in stopList) {
+//     final time = date
+//         .add(Duration(minutes: delay.inMinutes * stopList.indexOf(station)));
+//     final stop = TrainScheduleStops(
+//       station: station,
+//       stopTimes: 1,
+//       arrivalTime: time,
+//       depature: time.add(const Duration(minutes: 1)),
+//       distanceFromStart: 50.0 * stopList.indexOf(station),
+//     );
+
+//     retVal[time.millisecondsSinceEpoch] = stop;
+//   }
+
+//   return retVal;
+// }
+
+// void addTrainSchedules({
+//   required Duration delayBetweenTowStations,
+//   required DateTime startDate,
+// }) async {
+//   for (TrainSchedule schedule in generateDemoTrainSchedule(
+//       startDate: startDate, delay: delayBetweenTowStations)) {
 //     await TrainScheduleService.firebase().create(schedule.toMap()).then(
 //           (value) => print(value.id),
 //         );
 //   }
+// }
+
+// List<TrainSchedule> generateDemoTrainSchedule({
+//   required Duration delay,
+//   required DateTime startDate,
+// }) {
+//   List<TrainSchedule> retVal = [];
+//   for (String train in trains) {
+//     for (Map<int, TrainScheduleStops> stops in generatebyTrainStops(
+//         trainStops: stops[trains.indexOf(train)],
+//         delay: delay,
+//         date: startDate)) {
+//       retVal.add(TrainSchedule(
+//         stops: stops,
+//         startStation: stops.entries.first.value.station,
+//         endStation: stops.entries.last.value.station,
+//         train: train,
+//       ));
+//     }
+//   }
+
+//   return retVal;
 // }
