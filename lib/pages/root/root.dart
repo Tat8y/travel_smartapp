@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
+import 'package:travel_smartapp/domain/cloud/cloud_constatnts.dart';
+import 'package:travel_smartapp/domain/cloud/firebase_service.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/extension/context/localization.dart';
@@ -35,9 +37,29 @@ class _RootPageState extends State<RootPage> {
   @override
   void initState() {
     super.initState();
-    UserService.firebase()
+    updateUser(user).then((value) => loggedInUser = value);
+  }
+
+  Future<UserModel> updateUser(User? user) async {
+    return await FirebaseCloudProvider(usersCollection)
         .readDocFuture(user!.uid)
-        .then((value) => loggedInUser = value);
+        .then((value) async {
+      if (!value.exists) {
+        UserModel _user = UserModel(
+            uid: user.uid,
+            email: user.email,
+            firstName: user.displayName,
+            secondName: '',
+            bookings: []);
+        await UserService.firebase().createWithId(
+          id: user.uid,
+          map: _user.toMap(),
+        );
+        return _user;
+      } else {
+        return await UserService.firebase().readDocFuture(user.uid);
+      }
+    });
   }
 
   @override

@@ -10,3 +10,4 @@ const kDefaultAvatar =
     "https://static.vecteezy.com/system/resources/previews/001/840/612/non_2x/picture-profile-icon-male-icon-human-or-people-sign-and-symbol-free-vector.jpg";
 const kTrainImage = "assets/images/home.png";
 const kReward = 'assets/images/reward.png';
+const kGoogleIcon = 'assets/icons/google.png';

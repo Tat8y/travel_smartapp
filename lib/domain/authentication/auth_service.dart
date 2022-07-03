@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:travel_smartapp/domain/authentication/auth_exceptions.dart';
@@ -36,20 +37,19 @@ class AuthService {
     }
   }
 
-  Future<UserCredential?> signWithGoogle() async {
+  Future signWithGoogle() async {
     try {
       final googleUser = await googleSignIn.signIn();
-      if (googleUser == null) return null;
+      if (googleUser == null) throw GoogleSignException();
 
       final googleAuth = await googleUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-
-      return await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
-      rethrow;
+      log(e.toString());
     }
   }
 
@@ -57,7 +57,9 @@ class AuthService {
 
   // Logout User
   Future<void> logout() async {
-    // /await googleSignIn.disconnect();
+    if (await googleSignIn.isSignedIn()) {
+      await googleSignIn.disconnect();
+    }
     await _firebaseAuth.signOut();
   }
 

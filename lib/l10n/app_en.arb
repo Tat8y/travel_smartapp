@@ -110,5 +110,6 @@
                 "example": "123"
             }
         }
-    }
+    },
+    "sign_with_google": "Sign with Google"
 }

@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_smartapp/config/constatnts.dart';
+import 'package:travel_smartapp/domain/authentication/auth_exceptions.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/pages/root/root.dart';
@@ -159,21 +161,35 @@ class _LoginPageState extends State<LoginPage> {
                             )),
                       ],
                     ),
-                    // const Divider(),
-                    // Padding(
-                    //   padding: const EdgeInsets.all(8.0),
-                    //   child: RawMaterialButton(
-                    //       onPressed: () {
-                    //         GoogleSignIn().signIn();
-                    //       },
-                    //       shape: RoundedRectangleBorder(
-                    //           borderRadius:
-                    //               BorderRadius.circular(kBorderRadius),
-                    //           side: const BorderSide(
-                    //               width: 1, color: Colors.grey)),
-                    //       constraints: const BoxConstraints.expand(height: 50),
-                    //       child: const Text("Sign in with Google")),
-                    // )
+                    const Divider(height: kPadding * 2),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton.icon(
+                        icon: SizedBox(
+                          height: kFontSize,
+                          width: kFontSize,
+                          child: Image.asset(kGoogleIcon),
+                        ),
+                        onPressed: signInGoogle,
+                        label: Text(
+                          context.loc!.sign_with_google,
+                          style: const TextStyle(fontSize: kFontSize * .6),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.circular(kBorderRadius / 2),
+                              side: const BorderSide(
+                                width: 1,
+                                color: Colors.black45,
+                              )),
+                          minimumSize: const Size.fromHeight(50),
+                          primary: Colors.white,
+                          onPrimary: Colors.black,
+                          elevation: 0.0,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -210,18 +226,15 @@ class _LoginPageState extends State<LoginPage> {
     final authService = Provider.of<AuthService>(context, listen: false);
 
     try {
-      await authService
-          .signWithGoogle()
-          .then((uid) => {
-                Fluttertoast.showToast(msg: context.loc!.login_successful),
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const RootPage()))
-              })
-          .catchError((e) {
-        Fluttertoast.showToast(msg: e!.message);
+      await authService.signWithGoogle().then((userCredential) async {
+        if (userCredential != null) {
+          Fluttertoast.showToast(msg: context.loc!.login_successful);
+        }
       });
+    } on GoogleSignException {
+      Fluttertoast.showToast(msg: "Unable to Sign in");
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      log(e.toString());
     }
   }
 }

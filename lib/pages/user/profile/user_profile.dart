@@ -81,11 +81,12 @@ class _UserProfilePageState extends State<UserProfilePage> {
                       children: [
                         Container(
                           alignment: Alignment.center,
-                          child: const CircleAvatar(
+                          child: CircleAvatar(
                             radius: 50,
                             backgroundColor: Colors.grey,
-                            foregroundImage:
-                                CachedNetworkImageProvider(kDefaultAvatar),
+                            foregroundImage: CachedNetworkImageProvider(
+                                FirebaseAuth.instance.currentUser?.photoURL ??
+                                    kDefaultAvatar),
                           ),
                         ),
                         Padding(

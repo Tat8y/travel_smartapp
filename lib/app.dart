@@ -14,7 +14,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get AuthService Provider from Build Context
     final authService = Provider.of<AuthService>(context);
-
+    //authService.logout();
     return StreamBuilder<User?>(
       stream: authService.authStateChange,
       builder: (context, snapshot) {
