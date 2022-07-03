@@ -11,6 +11,7 @@ import 'package:travel_smartapp/domain/models/station_mode.dart';
 import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/extension/context/themes.dart';
 import 'package:travel_smartapp/pages/booking/select_sheet/select_sheet.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
@@ -135,7 +136,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, title: "Where Do You Want To Go?"),
+      appBar: customAppBar(context, title: context.loc!.home_header),
       body: Padding(
         padding: const EdgeInsets.all(kPadding),
         child: Column(
@@ -153,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                   CustomAutoCompleteTextFeild(
                     suggestionsApi: SuggestionApi.trainSuggestion,
                     controller: depatureController,
-                    hint: "From",
+                    hint: context.loc!.from,
                   ),
 
                   const Divider(),
@@ -162,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                   CustomAutoCompleteTextFeild(
                     suggestionsApi: SuggestionApi.trainSuggestion,
                     controller: destinationController,
-                    hint: "To",
+                    hint: context.loc!.to,
                   ),
                 ],
               ),
@@ -192,10 +193,10 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            const Padding(
+            Padding(
               padding: EdgeInsets.symmetric(vertical: kPadding),
               child: Text(
-                'Available Trains',
+                context.loc!.available_trains,
                 style: TextStyle(
                   fontSize: kFontSize * 0.8,
                   fontWeight: FontWeight.w500,
@@ -213,7 +214,7 @@ class _HomePageState extends State<HomePage> {
     return GetX<TrainScheduleController>(builder: (controller) {
       List<TrainSchedule> schedules = trainFilter(controller.items);
 
-      if (schedules.isEmpty) return const Center(child: Text("No Data"));
+      if (schedules.isEmpty) return Center(child: Text(context.loc!.no_data));
       return CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
@@ -281,12 +282,12 @@ class _HomePageState extends State<HomePage> {
                       children: [
                         _routeStation(
                             schedule.stops[schedule.getStopsKey(startStation)]!,
-                            tag: "From",
+                            tag: context.loc!.from,
                             station: startStation!),
                         Container(width: 1, color: Colors.black12, height: 30),
                         _routeStation(
                             schedule.stops[schedule.getStopsKey(endStation)]!,
-                            tag: "To",
+                            tag: context.loc!.to,
                             station: endStation!),
                       ],
                     ),

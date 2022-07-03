@@ -15,6 +15,7 @@ import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/domain/strings.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/extension/list/filter.dart';
 import 'package:travel_smartapp/pages/root/root.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
@@ -61,7 +62,7 @@ class BookingCode extends StatelessWidget {
       children: [
         buildBookingCard(context),
         CustomButton(
-            text: "Close",
+            text: context.loc!.close,
             onPressed: () {
               Navigator.pop(context);
             }),
@@ -114,12 +115,14 @@ class BookingCode extends StatelessWidget {
                           fontWeight: FontWeight.w400,
                           color: Colors.black54,
                         )),
-                    buildRoute(from: startStation.name!, to: endStation.name!),
+                    buildRoute(context,
+                        from: startStation.name!, to: endStation.name!),
                     ...{
-                      "Full Name": "${user.firstName} ${user.secondName}",
-                      "Arrival Time":
+                      context.loc!.full_name:
+                          "${user.firstName} ${user.secondName}",
+                      context.loc!.arrival_time:
                           DateFormat.yMEd().add_jms().format(booking.time),
-                      "Seat": generateSeatNumberFromList(seats)
+                      context.loc!.seat: generateSeatNumberFromList(seats)
                     }
                         .entries
                         .map((e) => cardInfo(leading: e.key, traling: e.value))
@@ -167,18 +170,19 @@ class BookingCode extends StatelessWidget {
     );
   }
 
-  Widget buildRoute({required String from, required String to}) {
+  Widget buildRoute(BuildContext context,
+      {required String from, required String to}) {
     return Row(
       children: [
         Expanded(
           child: _buildRouteStation(
-            label: "From",
+            label: context.loc!.from,
             text: from,
           ),
         ),
         Expanded(
           child: _buildRouteStation(
-            label: "To",
+            label: context.loc!.to,
             text: to,
           ),
         )

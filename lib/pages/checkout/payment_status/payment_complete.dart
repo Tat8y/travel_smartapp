@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/utils/dialog/generic_dialog.dart';
 
 Future<void> openPaymentComplete(BuildContext context) async {
@@ -6,11 +7,10 @@ Future<void> openPaymentComplete(BuildContext context) async {
     context,
     color: Colors.green,
     icon: Icons.done,
-    header: "Payment Successfull",
-    content:
-        "You Have Successfully Purches Train Seats.Thank you for Using Travel Smart App",
+    header: context.loc!.payment_succesfull_header,
+    content: context.loc!.payment_succesfull_body,
     callBack: () => {
-      GenericDialogButton(text: "OK", primary: true): null,
+      GenericDialogButton(text: context.loc!.ok, primary: true): null,
     },
   );
 }

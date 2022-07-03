@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/utils/dialog/generic_dialog.dart';
 
 Future<void> openPaymentCancelled(BuildContext context) async {
@@ -6,10 +7,10 @@ Future<void> openPaymentCancelled(BuildContext context) async {
     context,
     color: Colors.red,
     icon: Icons.cancel_rounded,
-    header: "Payment Cancelled",
-    content: "Payment Error Body",
+    header: context.loc!.payment_error_header,
+    content: context.loc!.payment_error_body,
     callBack: () => {
-      GenericDialogButton(text: "CLOSE", primary: true): null,
+      GenericDialogButton(text: context.loc!.close, primary: true): null,
     },
   );
 }

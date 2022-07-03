@@ -1,10 +1,7 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/authentication/auth_service.dart';
 import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/pages/root/root.dart';

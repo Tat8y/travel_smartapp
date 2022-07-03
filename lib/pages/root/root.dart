@@ -1,14 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud_services/user_service.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/extension/context/themes.dart';
 import 'package:travel_smartapp/pages/home/home.dart';
-import 'package:travel_smartapp/pages/location/location_controller.dart';
 import 'package:travel_smartapp/pages/tickets/tickets.dart';
 import 'package:travel_smartapp/pages/user/profile/user_profile.dart';
 
@@ -27,7 +25,6 @@ class _RootPageState extends State<RootPage> {
   int currentIndex = 0;
   final screens = [
     const HomePage(),
-    //const MapScreen(),
     TicketsPage(),
     const UserProfilePage(),
   ];
@@ -45,7 +42,6 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(LocationController());
     return Scaffold(
       // BOTTOM NAVIGATION BAR
       body: screens[currentIndex],

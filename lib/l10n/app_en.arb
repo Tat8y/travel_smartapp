@@ -24,6 +24,7 @@
     
     "login_successful": "Login Successful",
     "dont_have_an_account": "Dont have an Account Yet? ",
+    "account_created": "Your account has been created successfully!",
 
     "cannot_be_empty" : "{feild} cannot be Empty",
     "@cannot_be_empty": {
@@ -70,6 +71,8 @@
     "available": "Available",
     "selected": "Selected",
     "unavailable": "Unavailable",
+    "upcoming": "Upcoming",
+    "expired": "Expired", 
 
     "your_seat": "Your Seat",
     "total_price": "Total Price",
@@ -84,7 +87,7 @@
     "discount": "Discount",
 
     "payment_error_header": "Payment Cancelled",
-    "payment_error_boy": "Payment Error Body",
+    "payment_error_body": "Payment Error Body",
     "payment_succesfull_header": "Payment Successful",
     "payment_succesfull_body": "Payment Error Body",
 
@@ -102,6 +105,31 @@
 
     "home_header": "Where do you Want to Go?",
     "available_trains": "Available Trains",
-    "no_data": "No Data"
-    
+    "no_data": "No Data",
+
+    "your_bookings": "Your Bookings",
+
+    "from_to_msg": "{from} to {to}",
+    "@from_to_msg": {
+        "placeholders":{
+            "from":{
+                "type": "String"
+            },
+            "to":{
+                "type": "String"
+            }
+        }
+    },
+
+    "point_msg": "You are revarding with 10% discount for the next ride! Please use the code below for your next booking.",
+    "points_count": "{points} Points",
+    "@points_count": {
+        "placeholders":{
+            "points":{
+                "type": "int",
+                "example": "123"
+            }
+        }
+    }
+   
 }

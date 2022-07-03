@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:js';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
@@ -14,10 +15,9 @@ import 'package:travel_smartapp/domain/models/station_mode.dart';
 import 'package:travel_smartapp/domain/models/support_models/booking_data_model.dart';
 import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
-import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 import 'package:travel_smartapp/domain/payment/payment_exception.dart';
 import 'package:travel_smartapp/domain/payment/payment_service.dart';
-import 'package:travel_smartapp/pages/booking/code/booking_code.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/pages/booking/code/booking_code_sheet.dart';
 import 'package:travel_smartapp/pages/checkout/payment_status/payment_cancel.dart';
 import 'package:travel_smartapp/pages/checkout/payment_status/payment_complete.dart';
@@ -43,7 +43,7 @@ class PaymentConfirmation extends StatelessWidget {
               id: seat,
               json: _seat.copyWith(bookingID: booking.id).toMap(),
             )
-            .then((value) => print("Updated"));
+            .then((value) => log("Updated"));
       }
 
       String uid = FirebaseAuth.instance.currentUser!.uid;
@@ -78,7 +78,7 @@ class PaymentConfirmation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(context, title: "Confirm Order"),
+      appBar: customAppBar(context, title: context.loc!.confirm_order),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -87,9 +87,9 @@ class PaymentConfirmation extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
-                    "You need to total pay",
-                    style: TextStyle(
+                  Text(
+                    context.loc!.you_need_to_total_pay,
+                    style: const TextStyle(
                       fontSize: kFontSize * .7,
                     ),
                   ),
@@ -115,15 +115,15 @@ class PaymentConfirmation extends StatelessWidget {
                   color: kPrimaryColor,
                   borderRadius: BorderRadius.circular(kBorderRadius * .8),
                 ),
-                child: buildTicketContent(),
+                child: buildTicketContent(context),
               ),
             ),
-            buildnotice(color: Colors.red.shade400),
+            buildnotice(context, color: Colors.red.shade400),
             Container(
               alignment: Alignment.center,
               padding: const EdgeInsets.all(kPadding),
               child: CustomButton(
-                text: "Pay",
+                text: context.loc!.pay,
                 constraints: const BoxConstraints.expand(height: 50),
                 onPressed: () async => await checkout(
                     context,
@@ -137,7 +137,7 @@ class PaymentConfirmation extends StatelessWidget {
     );
   }
 
-  Container buildnotice({required Color color}) {
+  Container buildnotice(BuildContext context, {required Color color}) {
     return Container(
       padding: const EdgeInsets.all(kPadding),
       margin: const EdgeInsets.symmetric(horizontal: kPadding),
@@ -152,7 +152,7 @@ class PaymentConfirmation extends StatelessWidget {
               Icon(Icons.info, color: color, size: 16),
               const SizedBox(width: 8),
               Text(
-                "Notice",
+                context.loc!.notice,
                 style: TextStyle(
                   fontSize: 16,
                   color: color,
@@ -163,7 +163,7 @@ class PaymentConfirmation extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            "You can do your transactions by credit card or debit card. Completely secure with end-to-end encryption. We do not store your card details and do not give them to third parties.",
+            context.loc!.payment_notice,
             style: TextStyle(
               color: color.withOpacity(.9),
               fontSize: 14,
@@ -174,36 +174,39 @@ class PaymentConfirmation extends StatelessWidget {
     );
   }
 
-  Widget buildTicketContent() => FutureBuilder<List<Object>>(
-      future: fetchSchedule(trainBooking.schedule),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) return const SizedBox();
-        return Column(
-          children: [
-            const Text(
-              "Confirm Order",
-              style: TextStyle(
-                fontSize: kFontSize * .8,
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            buildRoute(
-              from: (snapshot.data![1] as TrainStation).name!,
-              to: (snapshot.data![2] as TrainStation).name!,
-            ),
-            const Divider(color: Colors.white),
-            ...buildDetails(train: (snapshot.data![0] as Train).name!),
-          ],
-        );
-      });
+  Widget buildTicketContent(BuildContext context) =>
+      FutureBuilder<List<Object>>(
+          future: fetchSchedule(trainBooking.schedule),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return const SizedBox();
+            return Column(
+              children: [
+                Text(
+                  context.loc!.confirm_order,
+                  style: const TextStyle(
+                    fontSize: kFontSize * .8,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                buildRoute(
+                  context,
+                  from: (snapshot.data![1] as TrainStation).name!,
+                  to: (snapshot.data![2] as TrainStation).name!,
+                ),
+                const Divider(color: Colors.white),
+                ...buildDetails(context,
+                    train: (snapshot.data![0] as Train).name!),
+              ],
+            );
+          });
 
-  List<Widget> buildDetails({required String train}) {
+  List<Widget> buildDetails(BuildContext context, {required String train}) {
     return {
-      "Train": train,
-      "Number of Seats": '${trainBooking.seats.length}',
-      "Coupen Code": 'TRAVELSMART2022',
-      "Discount": "0 LKR"
+      context.loc!.train: train,
+      context.loc!.number_of_seats: '${trainBooking.seats.length}',
+      context.loc!.coupen_code: 'TRAVELSMART2022',
+      context.loc!.discount: "0 LKR"
     }
         .entries
         .map((e) => buildDetailRow(
@@ -237,18 +240,19 @@ class PaymentConfirmation extends StatelessWidget {
     );
   }
 
-  Widget buildRoute({required String from, required String to}) {
+  Widget buildRoute(BuildContext context,
+      {required String from, required String to}) {
     return Row(
       children: [
         Expanded(
           child: _buildRouteStation(
-            label: "From",
+            label: context.loc!.from,
             text: from,
           ),
         ),
         Expanded(
           child: _buildRouteStation(
-            label: "To",
+            label: context.loc!.to,
             text: to,
           ),
         )
@@ -280,15 +284,15 @@ class PaymentConfirmation extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: kPadding * .3),
-              child: Text(
-                "Wed April 1 12:20",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
+            // const Padding(
+            //   padding: EdgeInsets.only(top: kPadding * .3),
+            //   child: Text(
+            //     "Wed April 1 12:20",
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //     ),
+            //   ),
+            // ),
           ],
         ));
   }

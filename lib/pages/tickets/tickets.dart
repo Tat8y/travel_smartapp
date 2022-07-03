@@ -16,9 +16,9 @@ import 'package:travel_smartapp/domain/models/train_model.dart';
 import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/enums/ticket/tag.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/extension/context/themes.dart';
 import 'package:travel_smartapp/extension/list/filter.dart';
-import 'package:travel_smartapp/pages/booking/code/booking_code.dart';
 import 'package:travel_smartapp/pages/booking/code/booking_code_sheet.dart';
 import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 import 'package:travel_smartapp/widgets/clipper/custom_ticket_cliper_horizontal.dart';
@@ -33,7 +33,7 @@ class TicketsPage extends StatelessWidget {
       backgroundColor: context.themes.brightness == Brightness.light
           ? Colors.grey.shade100
           : null,
-      appBar: customAppBar(context, title: "Your Bookings"),
+      appBar: customAppBar(context, title: context.loc!.your_bookings),
       body: GetX<BookingController>(builder: (controller) {
         if (controller.items.isEmpty) {
           return const Center(child: CircularProgressIndicator());
@@ -173,7 +173,7 @@ class TicketsPage extends StatelessWidget {
             ),
             const SizedBox(width: kPadding * .4),
             Text(
-              "$from to $to",
+              context.loc!.from_to_msg(from, to),
               style: TextStyle(
                 fontSize: kFontSize * .7,
                 color:
@@ -210,7 +210,10 @@ class TicketsPage extends StatelessWidget {
     return Row(
       children: [
         buildStatusTag(
-          date.isAfter(DateTime.now()) ? TicketTag.upcoming : TicketTag.expired,
+          context,
+          tag: date.isAfter(DateTime.now())
+              ? TicketTag.upcoming
+              : TicketTag.expired,
         ),
         const SizedBox(width: kPadding / 2),
         Text(
@@ -223,20 +226,20 @@ class TicketsPage extends StatelessWidget {
     );
   }
 
-  Container buildStatusTag(TicketTag tag) {
+  Container buildStatusTag(BuildContext context, {required TicketTag tag}) {
     String text;
     Color color;
     switch (tag) {
       case TicketTag.upcoming:
-        text = "upcoming";
+        text = context.loc!.upcoming;
         color = Colors.green;
         break;
       case TicketTag.expired:
-        text = "expired";
+        text = context.loc!.expired;
         color = Colors.red;
         break;
       default:
-        text = "unavailable";
+        text = context.loc!.unavailable;
         color = Colors.grey;
         break;
     }

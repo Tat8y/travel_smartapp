@@ -101,7 +101,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
       //VALIDATOR: () {},
       validator: (value) {
         if (value!.isEmpty) {
-          return ("Please Enter Your Email");
+          return (context.loc!
+              .please_enter_valid_feild(context.loc!.email_label));
         }
         //Reg expression for email validation
         if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]").hasMatch(value)) {
@@ -290,7 +291,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     await UserService.firebase()
         .createWithId(id: user.uid, map: userModel.toMap());
 
-    Fluttertoast.showToast(msg: "Your account has been created successfully!");
+    Fluttertoast.showToast(msg: context.loc!.account_created);
 
     Navigator.pushAndRemoveUntil(
         (context),

@@ -6,6 +6,7 @@ import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/support_models/booking_data_model.dart';
 import 'package:travel_smartapp/domain/models/support_models/travel_route.dart';
 import 'package:travel_smartapp/domain/strings.dart';
+import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/extension/list/filter.dart';
 import 'package:travel_smartapp/pages/checkout/payment_confirmation/paymnet_confrimation.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
@@ -30,7 +31,7 @@ void openSheetConfirmation(BuildContext context,
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) return const SizedBox();
                       return cardConfirmationDetailsRow(
-                        title: "Your Seat",
+                        title: context.loc!.your_seat,
                         value: generateSeatNumberFromList(
                           snapshot.data?.filter(bookingData.seats) ?? [],
                         ),
@@ -38,13 +39,13 @@ void openSheetConfirmation(BuildContext context,
                     }),
                 const SizedBox(height: kPadding * .5),
                 cardConfirmationDetailsRow(
-                  title: "Total Price",
+                  title: context.loc!.total_price,
                   value:
                       "${calculatePrice(route: bookingData.route, seats: bookingData.seats)} LKR",
                 ),
                 const SizedBox(height: kPadding),
                 CustomButton(
-                  text: "Checkout",
+                  text: context.loc!.checkout,
                   onPressed: () {
                     //createBookingTicket(trainBooking);
                     Navigator.pushReplacement(

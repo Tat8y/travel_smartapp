@@ -42,20 +42,20 @@ class PointsView extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.all(kPadding / 2),
+           Padding(
+            padding: const EdgeInsets.all(kPadding / 2),
             child: Text(
-              "36 Points",
-              style: TextStyle(
+              context.loc!.points_count(36),
+              style: const TextStyle(
                   fontSize: kFontSize * 1.5,
                   color: Colors.pink,
                   fontWeight: FontWeight.bold),
             ),
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: kPadding / 2),
+           Padding(
+            padding: const EdgeInsets.symmetric(vertical: kPadding / 2),
             child: Text(
-              "You are revarding with 10% discount for the next ride! Please use the code below for your next booking.",
+              context.loc!.point_msg,
               textAlign: TextAlign.center,
             ),
           ),
