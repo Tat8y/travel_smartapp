@@ -167,15 +167,17 @@ class TicketsPage extends StatelessWidget {
           children: [
             Icon(
               Icons.train_rounded,
-              size: kFontSize * .7,
+              size: kFontSize * .5,
               color:
                   context.themes.textTheme.bodyText1?.color?.withOpacity(0.8),
             ),
             const SizedBox(width: kPadding * .4),
             Text(
               context.loc!.from_to_msg(from, to),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
               style: TextStyle(
-                fontSize: kFontSize * .7,
+                fontSize: kFontSize * .5,
                 color:
                     context.themes.textTheme.bodyText1?.color?.withOpacity(0.8),
               ),
