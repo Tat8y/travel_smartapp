@@ -12,13 +12,10 @@ import 'package:travel_smartapp/domain/models/booking_model.dart';
 import 'package:travel_smartapp/domain/models/seat_model.dart';
 import 'package:travel_smartapp/domain/models/station_mode.dart';
 import 'package:travel_smartapp/domain/models/train_model.dart';
-import 'package:travel_smartapp/domain/models/train_schedule_model.dart';
 import 'package:travel_smartapp/domain/models/user_model.dart';
 import 'package:travel_smartapp/domain/strings.dart';
 import 'package:travel_smartapp/extension/context/localization.dart';
 import 'package:travel_smartapp/extension/list/filter.dart';
-import 'package:travel_smartapp/pages/root/root.dart';
-import 'package:travel_smartapp/widgets/appbar/material_appbar.dart';
 import 'package:travel_smartapp/widgets/button/material_button.dart';
 import 'package:travel_smartapp/widgets/clipper/custom_ticket_cliper.dart';
 import 'package:travel_smartapp/widgets/divider/dashed_divider.dart';
@@ -83,7 +80,7 @@ class BookingCode extends StatelessWidget {
           TrainStation startStation = response[1] as TrainStation;
           TrainStation endStation = response[2] as TrainStation;
           UserModel user = response[3] as UserModel;
-          TrainSchedule schedule = response[4] as TrainSchedule;
+          // TrainSchedule schedule = response[4] as TrainSchedule;
           List<Seat> seats = (response[5] as List<Seat>).filter(booking.seats);
 
           return Container(

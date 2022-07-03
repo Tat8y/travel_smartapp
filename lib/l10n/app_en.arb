@@ -1,32 +1,24 @@
 {
-    "choose_prefered_language" : "Choose Your Prefered Language",
-    
-    "home" : "Home",
+    "choose_prefered_language": "Choose Your Prefered Language",
+    "home": "Home",
     "location": "Location",
     "tickets": "Tickets",
-    "account" : "Account",
-
-    "user_profile":"User Profile",
-
+    "account": "Account",
+    "user_profile": "User Profile",
     "first_name_label": "First Name",
     "last_name_label": "Last Name",
     "email_label": "Email Address",
     "password": "Password",
     "confrim_password": "Confirm Password",
-
     "wating": "Waiting",
-
     "past_travels": "Past Travels",
     "points": "Points",
     "edit_profile": "Edit Profile",
-    
     "password_dont_match": "Password don't match",
-    
     "login_successful": "Login Successful",
     "dont_have_an_account": "Dont have an Account Yet? ",
     "account_created": "Your account has been created successfully!",
-
-    "cannot_be_empty" : "{feild} cannot be Empty",
+    "cannot_be_empty": "{feild} cannot be Empty",
     "@cannot_be_empty": {
         "placeholders": {
             "feild": {
@@ -34,16 +26,14 @@
             }
         }
     },
-
     "please_enter_valid_feild": "Please Enter Valid {feild}",
     "@please_enter_valid_feild": {
         "placeholders": {
-            "feild":{
+            "feild": {
                 "type": "String"
             }
         }
     },
-
     "feild_requried": "{feild} is Requried for {method}",
     "@feild_requried": {
         "placeholders": {
@@ -55,7 +45,6 @@
             }
         }
     },
-
     "congratulations": "Congratulations",
     "your_e_ticket": "Your E- Ticket",
     "goto_home": "Goto Home",
@@ -64,7 +53,6 @@
     "seat": "Seat",
     "from": "From",
     "to": "To",
-
     "select_seat": "Select Seat",
     "continue_label": "Continue",
     "please_select_seat": "Please Select Seat",
@@ -72,28 +60,24 @@
     "selected": "Selected",
     "unavailable": "Unavailable",
     "upcoming": "Upcoming",
-    "expired": "Expired", 
-
+    "expired": "Expired",
     "your_seat": "Your Seat",
     "total_price": "Total Price",
     "confirm_order": "Confirm Order",
     "you_need_to_total_pay": "You Need To Total Pay",
-    
     "notice": "Notice",
     "payment_notice": "You can do your transactions by credit card or debit card. Completely secure with end-to-end encryption. We do not store your card details and do not give them to third parties.",
     "train": "Train",
     "number_of_seats": "Number of Seat",
     "coupen_code": "Coupen Code",
     "discount": "Discount",
-
     "payment_error_header": "Payment Cancelled",
-    "payment_error_body": "Payment Error Body",
+    "payment_error_body": "Your payment could not be processed at this time. Please try again later.",
     "payment_succesfull_header": "Payment Successful",
-    "payment_succesfull_body": "Payment Error Body",
-
+    "payment_succesfull_body": "Your Payment is Successful",
     "close": "CLSOE",
     "ok": "OK",
-    "next" : "Next",
+    "next": "Next",
     "sign_up": "Sign Up",
     "sign_in": "Sign In",
     "login": "Login",
@@ -102,34 +86,29 @@
     "logout": "Logout",
     "checkout": "Checkout",
     "pay": "Pay",
-
     "home_header": "Where do you Want to Go?",
     "available_trains": "Available Trains",
     "no_data": "No Data",
-
     "your_bookings": "Your Bookings",
-
     "from_to_msg": "{from} to {to}",
     "@from_to_msg": {
-        "placeholders":{
-            "from":{
+        "placeholders": {
+            "from": {
                 "type": "String"
             },
-            "to":{
+            "to": {
                 "type": "String"
             }
         }
     },
-
-    "point_msg": "You are revarding with 10% discount for the next ride! Please use the code below for your next booking.",
+    "point_msg": "You are rewarding with 10% discount for the next ride! Please use the code below for your next booking.",
     "points_count": "{points} Points",
     "@points_count": {
-        "placeholders":{
-            "points":{
+        "placeholders": {
+            "points": {
                 "type": "int",
                 "example": "123"
             }
         }
     }
-   
 }

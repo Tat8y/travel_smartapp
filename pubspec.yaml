@@ -27,12 +27,12 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  animated_splash_screen: null
+  # animated_splash_screen: null
   cached_network_image: ^3.2.1
   cloud_firestore: ^3.1.17
   cupertino_icons: ^1.0.2
 
-  faker: ^2.0.0
+  # faker: ^2.0.0
   
   firebase_auth: null
   firebase_core: ^1.17.1
@@ -42,19 +42,19 @@ dependencies:
   flutter_localizations: 
     sdk: flutter         
 
-  flutter_google_places: ^0.3.0
+  # flutter_google_places: ^0.3.0
   flutter_typeahead: ^4.0.0
   fluttertoast: ^8.0.9
   font_awesome_flutter: null
-  geocoding: ^2.0.4
-  geolocator: ^8.2.1
+  # geocoding: ^2.0.4
+  # geolocator: ^8.2.1
   get: ^4.6.5
   getwidget: ^3.0.1
   google_fonts: null
-  google_maps_flutter: ^2.1.8
+  # google_maps_flutter: ^2.1.8
   google_sign_in: null
   http: any
-  image_gallery_saver: ^1.7.1
+  # image_gallery_saver: ^1.7.1
   intl: ^0.17.0
   provider: ^6.0.3
   shared_preferences: ^2.0.15

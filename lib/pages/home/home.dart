@@ -194,10 +194,10 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: kPadding),
+              padding: const EdgeInsets.symmetric(vertical: kPadding),
               child: Text(
                 context.loc!.available_trains,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: kFontSize * 0.8,
                   fontWeight: FontWeight.w500,
                 ),
