@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:travel_smartapp/config/constatnts.dart';
 import 'package:travel_smartapp/domain/cloud/cloud_constatnts.dart';
@@ -70,7 +73,7 @@ class _RootPageState extends State<RootPage> {
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: context.themes.bottomAppBarColor,
-        iconSize: 28,
+        iconSize: 24,
         // showSelectedLabels: false,
         fixedColor: kSecondaryColor,
         showUnselectedLabels: false,
@@ -78,15 +81,15 @@ class _RootPageState extends State<RootPage> {
         onTap: (index) => setState(() => currentIndex = index),
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.home_outlined),
+            icon: const Icon(CupertinoIcons.home),
             label: context.loc?.home,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(FontAwesomeIcons.ticket),
+            icon: const Icon(CupertinoIcons.tickets),
             label: context.loc?.tickets,
           ),
           BottomNavigationBarItem(
-            icon: const Icon(Icons.person_outlined),
+            icon: const Icon(CupertinoIcons.person_alt_circle),
             label: context.loc?.account,
           ),
         ],

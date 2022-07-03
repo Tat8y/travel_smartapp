@@ -11,3 +11,8 @@ const kDefaultAvatar =
 const kTrainImage = "assets/images/home.png";
 const kReward = 'assets/images/reward.png';
 const kGoogleIcon = 'assets/icons/google.png';
+
+//Icons
+const kHomeIcon = 'assets/icons/home.svg';
+const kTicketIcon = 'assets/icons/ticket.svg';
+const kAccountIcon = 'assets/icons/account.svg';
