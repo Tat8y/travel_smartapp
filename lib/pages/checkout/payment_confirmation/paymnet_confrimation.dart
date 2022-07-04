@@ -60,7 +60,7 @@ class PaymentConfirmation extends StatelessWidget {
   Future<void> checkout(BuildContext context, double amount) async {
     try {
       await PaymentService.instance
-          .makePayment(amount: amount)
+          .makePayment(amount: amount, currency: "LKR")
           .then((value) async {
         TrainBooking booking = await createBookingTicket(trainBooking);
         await openPaymentComplete(context).then((value) {
@@ -315,6 +315,6 @@ class PaymentConfirmation extends StatelessWidget {
 double calculatePrice(
     {required TravelRoute route, required List<String> seats}) {
   double ratio = route.schedule.calculateLengthRatio(route);
-  double seatPrice = 250.0 * ratio;
+  double seatPrice = 1000.0 * ratio;
   return (seatPrice * seats.length).roundToDouble();
 }
